@@ -1,55 +1,36 @@
+// main.cpp
+#include "structify.h"
 #include <iostream>
 
-using namespace std;
-class Menu{ 
-    private:
-    void studentMenu(){
-        cout << "User is student\n";
+int main() {
+    clearScreen();
+    std::cout << "===== Welcome to Structify =====\n";
+    int userType;
+    std::cout << "Select User Type:\n";
+    std::cout << "[1] Guest (Student)\n";
+    std::cout << "[2] Admin (Instructor)\n";
+    std::cout << "Enter choice: ";
+    std::cin >> userType;
 
-    }
-    void instructorMenu(){
-        cout << "User is instructor\n";
-    }
-    void checkRole(int choice){
-        if(choice == 1){
-            isStudent = true;
-            studentMenu();
-        }
-        else if(choice == 2){
-            isInstructor = true;
-            instructorMenu();
-        }
-        else{
-            cout<<"Invalid choice!\n";
-            return;
-        }
-    }
-    public:
-    bool isStudent, isInstructor;
+    std::string name;
+    std::cout << "Enter your name: ";
+    std::cin >> name;
 
-    void runLogin(){
-        int choice;
-        do{
-            cout<<"   -Login System-     \n";
-            cout<<"[1] Student\n";
-            cout<<"[2] Instructor\n";
-            cout<<"[3] Exit Program\n";
-            cout<<"Enter choice:\n";
-            cout << ">> ";
-            cin >> choice;
-            if(choice == 3){
-                cout<<"We hope you learn something! Thank you for using Structify\n";
-                break;
-            }
-            checkRole(choice);
-            break;
-        }while(choice != 3);
+    User* user = nullptr;
 
+    if (userType == 1) {
+        user = new Guest();
+    } else if (userType == 2) {
+        user = new Admin();
+    } else {
+        std::cout << "Invalid user type. Exiting...\n";
+        return 1;
     }
 
-};
-int main(){
-    Menu login;
-    login.runLogin();
+    user->setUsername(name);
+    user->dashboard();
+
+    delete user;
+    std::cout << "Thank you for using Structify!\n";
     return 0;
 }
