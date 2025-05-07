@@ -6,6 +6,10 @@
 #include <string>
 #include <fstream>
 
+using namespace std;
+//==== Menu UI ====
+int showMenu(const string& title, const vector<string>& options);
+
 // ==== Base Class ====
 class User {
 protected:

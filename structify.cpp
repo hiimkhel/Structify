@@ -1,6 +1,35 @@
 // structify.cpp
 #include "structify.h"
 #include <iomanip>
+#include <conio.h>
+#include <windows.h>
+#include<vector>
+#include <iostream>
+
+
+using namespace std;
+
+// ==== Menu UI ====
+int showMenu(const string& title, const vector<string>& options){
+    int selected = 0;
+    while(true){
+        clearScreen();
+        cout << title << "\n\n";
+        for(int i = 0; i < options.size(); i++){
+            cout << (i == selected ? " > " : "  ") << options[i] << "\n";
+        }
+
+        int key = _getch();
+        if(key == 224){
+            key = _getch();
+            if(key == 72 && selected > 0) selected --;
+            else if(key == 80 && selected < options.size()) selected++;
+        }else if(key == 13){
+            return selected;
+        }
+
+    }
+}
 
 // ==== User Base Class ====
 void User::setUsername(const std::string& name) {
@@ -10,23 +39,35 @@ void User::setUsername(const std::string& name) {
 // ==== Guest Implementation ====
 void Guest::dashboard() {
     clearScreen();
-    int choice;
-    do{
-        std::cout << "\nWelcome Guest, " << username << "!" << std::endl;
-        std::cout << "\n\n===== Student Menu =====\n\n" << std::endl;
-        std::cout << "[1] Visualize Algorithm\n[2] Visualize Data Structure\n[3] Recursion Visualizer\n[4] Logout\n>> ";
-        std::cin >> choice;
-        switch (choice) {
-            case 1: visualizeAlgorithm(); break;
-            case 2: visualizeDataStructure(); break;
-            case 3: recursionVisualizer(); break;
-            default: std::cout << "Logging out...\n"; break;
-        }
-        system("pause");
+    int choice = 0;
+
+    while (choice != 3) {
         clearScreen();
-    }while(choice != 4);
-    
+        vector<string> options = {
+            "Visualize Algorithm",
+            "Visualize Data Structure",
+            "Recursion Visualizer",
+            "Logout"
+        };
+        
+        choice = showMenu("User Dashboard", options);
+
+
+        clearScreen();
+        switch (choice) {
+            case 0: visualizeAlgorithm(); break;
+            case 1: visualizeDataStructure(); break;
+            case 2: recursionVisualizer(); break;
+            case 3: std::cout << "Logging out...\n"; break;
+        }
+
+        if (choice != 4) {
+            std::cout << "\nPress any key to return to the dashboard...";
+            _getch();
+        }
+    }
 }
+
 
 void Guest::visualizeAlgorithm() {
     std::cout << "\nChoose Algorithm:\n[1] Bubble Sort\n[2] Selection Sort\n>> ";
