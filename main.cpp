@@ -33,7 +33,8 @@ void displayMenu(int highlight){
     cout << "\n\nUse UP/DOWN arrow keys to navigate, ENTER to select.\n\n";
 }
 int main() {
-    
+    int userType;
+
     int key;
 
     while(true){
@@ -51,16 +52,21 @@ int main() {
             system("cls");
             cout << "You selected: " << UserMenuOptions[selected] << endl;
             setColor(7); 
-            if (UserMenuOptions[selected] == "EXIT") break;
+            if (UserMenuOptions[selected] == "Guest (Student)"){
+                userType = 1;
+                break;
+            }else if(UserMenuOptions[selected] == "Admin (Instructor)"){
+                userType = 2;
+                break;
+            }
+            else{
+                break;
+            }
             system("pause");
         }
-
-        
     }
+    
 
-
-
-    /*
     string name;
     cout << "Enter your name: ";
     cin >> name;
@@ -79,7 +85,10 @@ int main() {
     user->setUsername(name);
     user->dashboard();
 
+    cout << "\nPress any key to exit...\n";
+    _getch();
+
     delete user;
-    cout << "Thank you for using Structify!\n"; */
+    cout << "Thank you for using Structify!\n"; 
     return 0;
 }

@@ -10,16 +10,22 @@ void User::setUsername(const std::string& name) {
 // ==== Guest Implementation ====
 void Guest::dashboard() {
     clearScreen();
-    std::cout << "\nWelcome Guest, " << username << "!" << std::endl;
-    std::cout << "[1] Visualize Algorithm\n[2] Visualize Data Structure\n[3] Recursion Visualizer\n[4] Logout\n>> ";
     int choice;
-    std::cin >> choice;
-    switch (choice) {
-        case 1: visualizeAlgorithm(); break;
-        case 2: visualizeDataStructure(); break;
-        case 3: recursionVisualizer(); break;
-        default: std::cout << "Logging out...\n"; break;
-    }
+    do{
+        std::cout << "\nWelcome Guest, " << username << "!" << std::endl;
+        std::cout << "\n\n===== Student Menu =====\n\n" << std::endl;
+        std::cout << "[1] Visualize Algorithm\n[2] Visualize Data Structure\n[3] Recursion Visualizer\n[4] Logout\n>> ";
+        std::cin >> choice;
+        switch (choice) {
+            case 1: visualizeAlgorithm(); break;
+            case 2: visualizeDataStructure(); break;
+            case 3: recursionVisualizer(); break;
+            default: std::cout << "Logging out...\n"; break;
+        }
+        system("pause");
+        clearScreen();
+    }while(choice != 4);
+    
 }
 
 void Guest::visualizeAlgorithm() {
