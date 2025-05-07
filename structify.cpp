@@ -44,10 +44,10 @@ void Guest::dashboard() {
     while (choice != 3) {
         clearScreen();
         vector<string> options = {
-            "Visualize Algorithm",
-            "Visualize Data Structure",
-            "Recursion Visualizer",
-            "Logout"
+            "[1] Visualize Algorithm",
+            "[2] Visualize Data Structure",
+            "[3] Recursion Visualizer",
+            "[4] Logout"
         };
         
         choice = showMenu("User Dashboard", options);
@@ -70,24 +70,32 @@ void Guest::dashboard() {
 
 
 void Guest::visualizeAlgorithm() {
-    std::cout << "\nChoose Algorithm:\n[1] Bubble Sort\n[2] Selection Sort\n>> ";
-    int algChoice;
-    std::cin >> algChoice;
-
-    std::cout << "Use:\n[1] Predefined Data\n[2] Custom Input\n>> ";
-    int dataChoice;
-    std::cin >> dataChoice;
-
+    vector<string> algoOptions ={
+        "[1] Bubble Sort",
+        "[2] Selection Sort",
+        "[3] Return" 
+    };
+    int algChoice = showMenu("Choose Algorithm: ", algoOptions);
+    
+    vector<string> dataOptions = {
+        "[1] Predefined Data",
+        "[2] Custom Input",
+        "[3] Return"
+    };
+    int dataChoice = showMenu("Use: ", dataOptions);
+    cout <<"Algorithm choice: " << algChoice << endl;
+    cout <<"Data input choice: " << dataChoice << endl;
+    
     std::vector<int> data;
-    if (dataChoice == 1) {
+    if (dataChoice == 0) {
         data = loadDataFromFile("data.txt");
     } else {
         data = getUserInputData();
     }
 
     switch (algChoice) {
-        case 1: bubbleSort(data); break;
-        case 2: selectionSort(data); break;
+        case 0: bubbleSort(data); break;
+        case 1: selectionSort(data); break;
         default: std::cout << "Invalid Algorithm Selected\n";
     }
 }
