@@ -16,7 +16,7 @@ int showMenu(const string& title, const vector<string>& options){
         clearScreen();
         cout << title << "\n\n";
         for(int i = 0; i < options.size(); i++){
-            cout << (i == selected ? " > " : "  ") << options[i] << "\n";
+            cout << (i == selected ? "  > " : "  ") << options[i] << "\n";
         }
 
         int key = _getch();
@@ -101,11 +101,16 @@ void Guest::visualizeAlgorithm() {
 }
 
 void Guest::visualizeDataStructure() {
-    std::cout << "\n[1] Stack\n[2] Binary Tree\n>> ";
-    int choice;
-    std::cin >> choice;
-    if (choice == 1) visualizeStack();
-    else if (choice == 2) visualizeBinaryTree();
+    vector<string> structureOptions = {
+        "[1] Stack",
+        "[2] Binary Tree",
+        "[3] Return"
+    };
+
+    int choice = showMenu("Choose Data Structure: ", structureOptions);
+  
+    if (choice == 0) visualizeStack();
+    else if (choice == 1) visualizeBinaryTree();
     else std::cout << "Invalid option\n";
 }
 
@@ -120,12 +125,17 @@ void Guest::recursionVisualizer() {
 void Admin::dashboard() {
     clearScreen();
     std::cout << "\nWelcome Admin, " << username << "!" << std::endl;
-    std::cout << "[1] View System Logs\n[2] Manage Datasets\n[3] Logout\n>> ";
-    int choice;
-    std::cin >> choice;
+    vector<string> adminOptions = {
+        "[1] View System Logs",
+        "[2] Manage Datasets",
+        "[3] Logout",
+    };
+
+    int choice = showMenu("Admin Dashboard", adminOptions);
+
     switch (choice) {
-        case 1: viewSystemLogs(); break;
-        case 2: manageDatasets(); break;
+        case 0: viewSystemLogs(); break;
+        case 1: manageDatasets(); break;
         default: std::cout << "Logging out...\n"; break;
     }
 }
