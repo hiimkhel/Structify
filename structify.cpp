@@ -33,6 +33,34 @@ int showMenu(const string& title, const vector<string>& options){
 
     }
 }
+// ====User Interface Functions ====
+
+//Function for setting color of text
+void setConsoleColor(int color){
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
+}
+
+void printBarChart(const vector<int> data, int highlight1 = -1, int highlight2 = -1){
+    system("cls");
+    cout <<"Current Array State: \n\n";
+
+    for(int i = 0; i < data.size(); ++i){
+        if(i == highlight1 || 1 == highlight2)
+            setConsoleColor(6);
+        else{
+            setConsoleColor(7);
+        }
+        cout << setw(2) << data[i] << " | ";
+        for(int j = 0; j < data[i]; ++j){
+            cout<< "#";
+        }
+        cout << endl;
+    }
+
+    setConsoleColor(7);
+    cout << endl;
+}
+
 
 // ==== User Base Class ====
 void User::setUsername(const std::string& name) {
@@ -190,19 +218,47 @@ void printVector(const std::vector<int>& data) {
 }
 
 // ==== Algorithms Implementation ====
-void bubbleSort(std::vector<int>& data, bool showSteps) {
+void bubbleSort(std::vector<int>& data, bool showSteps, bool manualStep) {
     int n = data.size();
+
     for (int i = 0; i < n - 1; ++i) {
-        for (int j = 0; j < n - i - 1; ++j) {
-            if (data[j] > data[j + 1]) {
-                std::swap(data[j], data[j + 1]);
+        bool swapped = false;
+
+        for(int j = 0; j < n - i - 1; ++j){
+            if(showSteps){
+                printBarChart(data, j, j + 1);
+                cout << "Comparing " << data[j] << " and " << data[j + 1] << "\n";
+                if(manualStep){
+                    cout << "Press any key to continue...\n";
+                    _getch();
+                }else{
+                    Sleep(800);
+                }
+            }
+            if(data[j] > data [j + 1]){
+                swap(data[j], data[j + 1]);
+                swapped = true;
+
+                if(showSteps){
+                    printBarChart(data, j, j + 1);
+                    setConsoleColor(4);
+                    cout << "Swapped";
+                    setConsoleColor(7);
+
+                    if(manualStep){
+                        cout << "Press any key to continue...\n";
+                        _getch();
+                    }else{
+                        Sleep(1000);
+                    }
+                }
             }
         }
-        if (showSteps) {
-            std::cout << "Step " << i + 1 << ": ";
-            printVector(data);
-        }
+        if(!swapped) break;
     }
+    printBarChart(data);
+    setConsoleColor(2);
+    cout << "Array is now sorted!\n";
 }
 
 void selectionSort(std::vector<int>& data, bool showSteps) {

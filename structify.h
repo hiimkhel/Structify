@@ -43,7 +43,7 @@ std::vector<int> getUserInputData();
 void printVector(const std::vector<int>& data);
 
 // ==== Algorithms ====
-void bubbleSort(std::vector<int>& data, bool showSteps = true);
+void bubbleSort(std::vector<int>& data, bool showSteps = true, bool manualSteps = false);
 void selectionSort(std::vector<int>& data, bool showSteps = true);
 
 // ==== Data Structures ====
