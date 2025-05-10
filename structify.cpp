@@ -1,4 +1,6 @@
 // structify.cpp
+#define NOMINMAX
+#define WIN32_LEAN_AND_MEAN
 #include "structify.h"
 #include <iomanip>
 #include <conio.h>
@@ -6,6 +8,7 @@
 #include<vector>
 #include <iostream>
 
+#undef byte
 
 using namespace std;
 
@@ -23,7 +26,7 @@ int showMenu(const string& title, const vector<string>& options){
         if(key == 224){
             key = _getch();
             if(key == 72 && selected > 0) selected --;
-            else if(key == 80 && selected < options.size()) selected++;
+            else if(key == 80 && selected < options.size() - 1) selected++;
         }else if(key == 13){
             return selected;
         }
@@ -94,8 +97,8 @@ void Guest::visualizeAlgorithm() {
     }
 
     switch (algChoice) {
-        case 0: bubbleSort(data); break;
-        case 1: selectionSort(data); break;
+        case 0: bubbleSort(data, true); break;
+        case 1: selectionSort(data, true); break;
         default: std::cout << "Invalid Algorithm Selected\n";
     }
 }

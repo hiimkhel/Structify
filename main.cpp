@@ -1,8 +1,12 @@
 // main.cpp
+#define NOMINMAX
+#define WIN32_LEAN_AND_MEAN
+
 #include "structify.h"
 #include <iostream>
 #include <conio.h>
 #include <windows.h>
+#undef byte
 
 using namespace std;
 
