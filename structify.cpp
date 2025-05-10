@@ -219,7 +219,7 @@ void printVector(const std::vector<int>& data) {
 }
 
 // ==== Algorithms Implementation ====
-void bubbleSort(std::vector<int>& data, bool showSteps, bool manualStep) {
+void bubbleSort(std::vector<int>& data, bool showSteps, bool manualSteps) {
     int n = data.size();
 
     for (int i = 0; i < n - 1; ++i) {
@@ -229,7 +229,7 @@ void bubbleSort(std::vector<int>& data, bool showSteps, bool manualStep) {
             if(showSteps){
                 printBarChart(data, j, j + 1);
                 cout << "Comparing " << data[j] << " and " << data[j + 1] << "\n";
-                if(manualStep){
+                if(manualSteps){
                     cout << "Press any key to continue...\n";
                     _getch();
                 }else{
@@ -246,7 +246,7 @@ void bubbleSort(std::vector<int>& data, bool showSteps, bool manualStep) {
                     cout << "Swapped";
                     setConsoleColor(7);
 
-                    if(manualStep){
+                    if(manualSteps){
                         cout << "Press any key to continue...\n";
                         _getch();
                     }else{
@@ -264,8 +264,9 @@ void bubbleSort(std::vector<int>& data, bool showSteps, bool manualStep) {
 
 }
 
-void selectionSort(std::vector<int>& data, bool showSteps) {
+void selectionSort(std::vector<int>& data, bool showSteps, bool manualSteps) {
     int n = data.size();
+
     for (int i = 0; i < n - 1; ++i) {
         int minIndex = i;
         for (int j = i + 1; j < n; ++j) {
@@ -273,12 +274,24 @@ void selectionSort(std::vector<int>& data, bool showSteps) {
                 minIndex = j;
             }
         }
-        std::swap(data[i], data[minIndex]);
+        swap(data[i], data[minIndex]);
         if (showSteps) {
-            std::cout << "Step " << i + 1 << ": ";
-            printVector(data);
+            printBarChart(data, i, minIndex);
+            setConsoleColor(4);
+            cout << "Swapped " << data[i] << " and " << data[minIndex] << endl;
+            setConsoleColor(7);
+            if(manualSteps){
+                cout << "Press any key to continue...\n";
+            }else{
+                Sleep(800);
+            }
         }
     }
+    setConsoleColor(2);
+    printBarChart(data);
+    cout << "Array is now sorted!\n";
+    
+    setConsoleColor(7);
 }
 
 // ==== Data Structures Visuals ====
