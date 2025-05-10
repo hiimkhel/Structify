@@ -94,6 +94,7 @@ void Guest::dashboard() {
 
         if (choice != 4) {
             std::cout << "\nPress any key to return to the dashboard...";
+            setConsoleColor(7);
             _getch();
         }
     }
@@ -261,7 +262,6 @@ void bubbleSort(std::vector<int>& data, bool showSteps, bool manualStep) {
    
     cout << "Array is now sorted!\n";
 
-    setConsoleColor(7); //back to default color
 }
 
 void selectionSort(std::vector<int>& data, bool showSteps) {
