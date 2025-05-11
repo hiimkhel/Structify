@@ -6,6 +6,8 @@
 #include <iostream>
 #include <conio.h>
 #include <windows.h>
+#include <iomanip>
+#include <string>
 #undef byte
 
 using namespace std;
@@ -20,23 +22,36 @@ void setColor(int color) {
 
 void displayMenu(int highlight){
     system("cls");
-    cout << "===== Welcome to Structify =====\n";
-    for(int i = 0; i < optionCount; i++){
-        if(i == highlight){
-            setColor(15);
-            cout << " > " << UserMenuOptions[i] << endl;
-        }
-        else{
-            setColor(8); 
-            cout << "  " << UserMenuOptions[i] << endl;
-        }
-        
-        
+    cout << "\n\n\n\n";
+    cout << "\t\t\t\tx────────────────────────────────────────────x\n";
+    cout << "\t\t\t\t│                                            │\n";
+    cout << "\t\t\t\t│             WELCOME TO STRUCTIFY           │\n";
+    cout << "\t\t\t\t│                                            │\n";
+    cout << "\t\t\t\tx─────────────────Main Menu──────────────────x\n";
+    
+    const int menuWidth = 41; 
+
+    for(int i = 0; i < optionCount; i++) {
+    string item = UserMenuOptions[i];
+    string arrow = (i == highlight) ? ">" : " ";
+    
+    if (i == highlight) {
+        setColor(FOREGROUND_GREEN); // White text on blue bg
+    } else {
+        setColor(7); // Default gray
+    }
+
+    // Print the full line including left and right borders and padding
+    cout << "\t\t\t\t│ " << arrow << " " 
+         << left << setw(menuWidth) << item 
+         << "│" << endl;
     }
     setColor(7); 
-    cout << "\n\nUse UP/DOWN arrow keys to navigate, ENTER to select.\n\n";
+    cout << "\t\t\t\tx────────────────────────────────────────────x\n";
+    cout << "\n\t\t\t\tNavigate with UP/DOWN key, ENTER to select.\n\n";
 }
 int main() {
+    system("chcp 65001 > nul"); //To enable UTF-8 on Windows CMD
     int userType;
 
     int key;
