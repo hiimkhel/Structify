@@ -49,6 +49,7 @@ void selectionSort(std::vector<int>& data, bool showSteps = true, bool manualSte
 // ==== Data Structures ====
 void visualizeBinaryTree();
 void visualizeStack();
+void visualizeLinkedList();
 
 // ==== Recursion ====
 void visualizeFactorial(int n, int depth = 0);

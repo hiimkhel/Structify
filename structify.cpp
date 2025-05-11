@@ -6,6 +6,7 @@
 #include <conio.h>
 #include <windows.h>
 #include<vector>
+#include <fstream>
 #include <iostream>
 
 #undef byte
@@ -45,7 +46,7 @@ void printBarChart(const vector<int> data, int highlight1 = -1, int highlight2 =
     cout <<"Current Array State: \n\n";
 
     for(int i = 0; i < data.size(); ++i){
-        if(i == highlight1 || 1 == highlight2)
+        if(i == highlight1 || i == highlight2)
             setConsoleColor(6);
         else{
             setConsoleColor(7);
@@ -71,8 +72,7 @@ void User::setUsername(const std::string& name) {
 void Guest::dashboard() {
     clearScreen();
     int choice = 0;
-
-    while (choice != 3) {
+    do{
         clearScreen();
         vector<string> options = {
             "[1] Visualize Algorithm",
@@ -97,38 +97,47 @@ void Guest::dashboard() {
             setConsoleColor(7);
             _getch();
         }
-    }
+    }while(choice != 3);
+    
 }
 
 
 void Guest::visualizeAlgorithm() {
-    vector<string> algoOptions ={
-        "[1] Bubble Sort",
-        "[2] Selection Sort",
-        "[3] Return" 
-    };
-    int algChoice = showMenu("Choose Algorithm: ", algoOptions);
-    
-    vector<string> dataOptions = {
-        "[1] Predefined Data",
-        "[2] Custom Input",
-        "[3] Return"
-    };
-    int dataChoice = showMenu("Use: ", dataOptions);
-    cout <<"Algorithm choice: " << algChoice << endl;
-    cout <<"Data input choice: " << dataChoice << endl;
-    
-    std::vector<int> data;
-    if (dataChoice == 0) {
-        data = loadDataFromFile("data.txt");
-    } else {
-        data = getUserInputData();
-    }
+     while (true) {
+        vector<string> algoOptions ={
+            "[1] Bubble Sort",
+            "[2] Selection Sort",
+            "[3] Return" 
+        };
+        int algChoice = showMenu("Choose Algorithm: ", algoOptions);
+        if (algChoice == 2) return; 
 
-    switch (algChoice) {
-        case 0: bubbleSort(data, true); break;
-        case 1: selectionSort(data, true); break;
-        default: std::cout << "Invalid Algorithm Selected\n";
+        vector<string> dataOptions = {
+            "[1] Predefined Data",
+            "[2] Custom Input",
+            "[3] Return"
+        };
+        int dataChoice = showMenu("Use: ", dataOptions);
+
+        if (dataChoice == 2) continue; 
+
+        vector<int> data;
+        if (dataChoice == 0) {
+            data = loadDataFromFile("data.txt");
+        } else if (dataChoice == 1) {
+            data = getUserInputData();
+        }
+
+        bool manualMode = (showMenu("Choose Step Mode:", {"[1] Manual", "[2] Automatic"}) == 0);
+
+        switch (algChoice) {
+            case 0: bubbleSort(data, true, manualMode); break;
+            case 1: selectionSort(data, true, manualMode); break;
+            default: std::cout << "Invalid Algorithm Selected\n";
+        }
+
+        std::cout << "\nPress any key to choose another algorithm or return...\n";
+        _getch();
     }
 }
 
@@ -136,13 +145,35 @@ void Guest::visualizeDataStructure() {
     vector<string> structureOptions = {
         "[1] Stack",
         "[2] Binary Tree",
+        "[3] Linked List",
+        "[4] Return"
+    };
+    
+    int choice = showMenu("Choose Data Structure: ", structureOptions);
+
+    if(choice == 3) return;
+    
+     vector<string> dataOptions = {
+        "[1] Predefined Data",
+        "[2] Custom Input",
         "[3] Return"
     };
+    int dataChoice = showMenu("Use: ", dataOptions);
 
-    int choice = showMenu("Choose Data Structure: ", structureOptions);
+    
+    vector<int> data;
+    if (dataChoice == 0) {
+        data = loadDataFromFile("data.txt");
+    } else if(dataChoice == 1) {
+        data = getUserInputData();
+    }else{
+        return;
+    }
+
   
     if (choice == 0) visualizeStack();
     else if (choice == 1) visualizeBinaryTree();
+    else if(choice == 2) visualizeLinkedList();
     else std::cout << "Invalid option\n";
 }
 
@@ -187,29 +218,27 @@ void clearScreen() {
     std::cout << "\033[2J\033[1;1H";
 }
 
-std::vector<int> loadDataFromFile(const std::string& filename) {
-    std::vector<int> data;
-    std::ifstream file(filename);
+vector<int> loadDataFromFile(const std::string& filename) {
+    vector<int> data;
+    ifstream file(filename);
+
+    if (!file) {
+        cerr << "Error: Could not open file " << filename << "\n";
+        return data;
+    }
+
     int value;
     while (file >> value) {
         data.push_back(value);
     }
+
+    if (data.empty()) {
+        cerr << "Error: No valid data found in file.\n";
+    }
+
     return data;
 }
 
-std::vector<int> getUserInputData() {
-    std::vector<int> data;
-    int n;
-    std::cout << "Enter number of elements: ";
-    std::cin >> n;
-    std::cout << "Enter " << n << " integers: ";
-    for (int i = 0; i < n; ++i) {
-        int val;
-        std::cin >> val;
-        data.push_back(val);
-    }
-    return data;
-}
 
 void printVector(const std::vector<int>& data) {
     for (int val : data) {
@@ -243,14 +272,14 @@ void bubbleSort(std::vector<int>& data, bool showSteps, bool manualSteps) {
                 if(showSteps){
                     printBarChart(data, j, j + 1);
                     setConsoleColor(4);
-                    cout << "Swapped";
+                    cout << "Swapped\n";
                     setConsoleColor(7);
 
                     if(manualSteps){
                         cout << "Press any key to continue...\n";
                         _getch();
                     }else{
-                        Sleep(1000);
+                        Sleep(400);
                     }
                 }
             }
@@ -302,7 +331,12 @@ void visualizeBinaryTree() {
 void visualizeStack() {
     std::cout << "\nStack Top\n--------\n|  3  |\n|  2  |\n|  1  |\n--------\n";
 }
-
+void visualizeLinkedList(){
+     system("cls");
+    cout << "\n[10] -> [20] -> [30] -> NULL\n\n";
+    cout << "Press any key to go back...";
+    _getch();
+}
 // ==== Recursion Implementation ====
 void visualizeFactorial(int n, int depth) {
     for (int i = 0; i < depth; ++i) std::cout << "  ";
@@ -315,4 +349,36 @@ void visualizeFactorial(int n, int depth) {
         for (int i = 0; i < depth; ++i) std::cout << "  ";
         std::cout << "= " << n << " * factorial(" << n - 1 << ")\n";
     }
+}
+
+//==== Helper Functions ====
+vector<int> getUserInputData() {
+    vector<int> data;
+    int n;
+    cout << "Enter number of elements: ";
+
+    while(!(cin >> n) || n <= 0){
+        cin.clear();
+        cin.ignore(10000, '\n'); //discard invalid input
+        cout << "Invalid input. Enter a positive number of elements: ";
+    }
+
+    cout << "Enter " << n << " integers: ";
+    for (int i = 0; i < n; ++i) {
+        int val;
+        while(!(cin >> val)){
+            cin.clear();
+            cin.ignore(10000, '\n');
+            cout << "Invalid input. Please enter an integer: ";
+        }
+
+        data.push_back(val);
+    }
+    return data;
+}
+
+vector<int> randomDataGenerator(int n, int max = 50){
+    vector<int> data(n);
+    for(int& x: data) x = rand() % max + 1;
+    return data;
 }

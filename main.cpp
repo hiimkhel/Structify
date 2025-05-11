@@ -95,7 +95,7 @@ int main() {
         }
     }
     
-    if(userType = 3){
+    if(userType == 3){
         cout << "Thank you for using Structify!\n"; 
         system("pause");
         return 1;
