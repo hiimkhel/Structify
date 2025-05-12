@@ -40,7 +40,34 @@ int showMenu(const string& title, const vector<string>& options){
 
     }
 }
-// ==== DSA Helper Functions ====
+//Function for setting color of text
+void setConsoleColor(int color){
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
+}
+
+void printBarChart(const vector<int> data, int highlight1 = -1, int highlight2 = -1){
+    system("cls");
+    cout <<"Current Array State: \n\n";
+
+    for(int i = 0; i < data.size(); ++i){
+        if(i == highlight1 || i == highlight2)
+            setConsoleColor(6);
+        else{
+            setConsoleColor(7);
+        }
+        cout << setw(2) << data[i] << " | ";
+        for(int j = 0; j < data[i]; ++j){
+            cout<< "#";
+        }
+        cout << endl;
+    }
+
+    setConsoleColor(7);
+    cout << endl;
+}
+
+// ==== DSA and Algorithms Helper Functions ====
+//Algorithms
 void drawStack(const vector<int>& stackVec, bool showTopLabel = true){
     system("cls");
     cout << " --- Stack Visualization (Top to Bottom) ---\n\n";
@@ -67,6 +94,68 @@ void drawStack(const vector<int>& stackVec, bool showTopLabel = true){
     }
 }
 
+int partition(vector<int>& data, int low, int high) {
+    int pivot = data[high];
+    int i = (low - 1);
+    for (int j = low; j < high; ++j) {
+        if (data[j] <= pivot) {
+            ++i;
+            swap(data[i], data[j]);
+        }
+    }
+    swap(data[i + 1], data[high]);
+    return (i + 1);
+}
+
+void merge(vector<int>& data, int left, int mid, int right, bool showSteps, bool manualSteps) {
+    int n1 = mid - left + 1;
+    int n2 = right - mid;
+    vector<int> leftArr(n1), rightArr(n2);
+    
+    for (int i = 0; i < n1; ++i) leftArr[i] = data[left + i];
+    for (int j = 0; j < n2; ++j) rightArr[j] = data[mid + 1 + j];
+    
+    int i = 0, j = 0, k = left;
+    while (i < n1 && j < n2) {
+        if (leftArr[i] <= rightArr[j]) {
+            data[k] = leftArr[i];
+            ++i;
+        } else {
+            data[k] = rightArr[j];
+            ++j;
+        }
+        ++k;
+        if (showSteps) {
+            printBarChart(data);
+            if (manualSteps) {
+                cout << "Press any key to continue...\n";
+                _getch();
+            } else {
+                Sleep(800);
+            }
+        }
+    }
+    while (i < n1) {
+        data[k] = leftArr[i];
+        ++i;
+        ++k;
+    }
+    while (j < n2) {
+        data[k] = rightArr[j];
+        ++j;
+        ++k;
+    }
+}
+
+void mergeSortHelper(vector<int>& data, int left, int right, bool showSteps, bool manualSteps) {
+    if (left < right) {
+        int mid = left + (right - left) / 2;
+        mergeSortHelper(data, left, mid, showSteps, manualSteps);
+        mergeSortHelper(data, mid + 1, right, showSteps, manualSteps);
+        merge(data, left, mid, right, showSteps, manualSteps);
+    }
+}
+//DSA
 void drawQueue(const vector<int>& queueVec) {
     system("cls");
     cout << "   --- Queue Visualization (Front to Rear) ---\n\n";
@@ -106,31 +195,6 @@ void drawQueue(const vector<int>& queueVec) {
             cout << setw(boxTop.size()) << " " << " ";
     }
     cout << "\n";
-}
-//Function for setting color of text
-void setConsoleColor(int color){
-    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
-}
-
-void printBarChart(const vector<int> data, int highlight1 = -1, int highlight2 = -1){
-    system("cls");
-    cout <<"Current Array State: \n\n";
-
-    for(int i = 0; i < data.size(); ++i){
-        if(i == highlight1 || i == highlight2)
-            setConsoleColor(6);
-        else{
-            setConsoleColor(7);
-        }
-        cout << setw(2) << data[i] << " | ";
-        for(int j = 0; j < data[i]; ++j){
-            cout<< "#";
-        }
-        cout << endl;
-    }
-
-    setConsoleColor(7);
-    cout << endl;
 }
 
 
@@ -178,10 +242,13 @@ void Guest::visualizeAlgorithm() {
         vector<string> algoOptions ={
             "[1] Bubble Sort",
             "[2] Selection Sort",
-            "[3] Return" 
+            "[3] Insertion Sort",
+            "[4] Quick Sort",
+            "[5] Merge Sort",
+            "[6] Return" 
         };
         int algChoice = showMenu("Choose Algorithm: ", algoOptions);
-        if (algChoice == 2) return; 
+        if (algChoice == 5) return; 
 
         vector<string> dataOptions = {
             "[1] Predefined Data",
@@ -204,6 +271,9 @@ void Guest::visualizeAlgorithm() {
         switch (algChoice) {
             case 0: bubbleSort(data, true, manualMode); break;
             case 1: selectionSort(data, true, manualMode); break;
+            case 2: insertionSort(data, true, manualMode); break;
+            case 3: quickSort(data, 0, data.size() - 1, true, manualMode); break;
+            case 4: mergeSort(data, true, manualMode); break;
             default: std::cout << "Invalid Algorithm Selected\n";
         }
 
@@ -406,6 +476,63 @@ void selectionSort(std::vector<int>& data, bool showSteps, bool manualSteps) {
     setConsoleColor(7);
 }
 
+void insertionSort(vector<int>& data, bool showSteps, bool manualSteps) {
+    int n = data.size();
+    for (int i = 1; i < n; ++i) {
+        int key = data[i];
+        int j = i - 1;
+        while (j >= 0 && data[j] > key) {
+            data[j + 1] = data[j];
+            --j;
+            if (showSteps) {
+                printBarChart(data, j, j + 1);
+                if (manualSteps) {
+                    cout << "Press any key to continue...\n";
+                    _getch();
+                } else {
+                    Sleep(800);
+                }
+            }
+        }
+        data[j + 1] = key;
+        if (showSteps) {
+            printBarChart(data);
+            if (manualSteps) {
+                cout << "Press any key to continue...\n";
+                _getch();
+            } else {
+                Sleep(800);
+            }
+        }
+    }
+    setConsoleColor(2);
+    printBarChart(data);
+    cout << "Array is now sorted!\n";
+}
+
+void quickSort(vector<int>& data, int low, int high, bool showSteps, bool manualSteps) {
+    if (low < high) {
+        int pi = partition(data, low, high);  
+
+        if (showSteps) {
+            printBarChart(data, pi, pi);  
+            cout << "Pivot is " << data[pi] << "\n";
+            if (manualSteps) {
+                cout << "Press any key to continue...\n";
+                _getch();
+            } else {
+                Sleep(800);
+            }
+        }
+
+        quickSort(data, low, pi - 1, showSteps, manualSteps);
+        quickSort(data, pi + 1, high, showSteps, manualSteps);
+    }
+}
+
+void mergeSort(vector<int>& data, bool showSteps, bool manualSteps) {
+    mergeSortHelper(data, 0, data.size() - 1, showSteps, manualSteps);
+}
 // ==== Data Structures Visuals ====
 void visualizeQueue(const vector<int>& data){
     vector<int> queueVec;

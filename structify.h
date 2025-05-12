@@ -45,6 +45,9 @@ void printVector(const vector<int>& data);
 // ==== Algorithms ====
 void bubbleSort(vector<int>& data, bool showSteps = true, bool manualSteps = false);
 void selectionSort(vector<int>& data, bool showSteps = true, bool manualSteps = false);
+void insertionSort(vector<int>& data, bool showSteps = true, bool manualSteps = false);
+void quickSort(vector<int>& data,int low, int high, bool showSteps = true, bool manualSteps = false);
+void mergeSort(vector<int>& data, bool showSteps = true, bool manualSteps = false);
 
 // ==== Data Structures ====
 void visualizeQueue(const vector<int>& data);
