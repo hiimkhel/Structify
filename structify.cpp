@@ -42,7 +42,32 @@ int showMenu(const string& title, const vector<string>& options){
 
     }
 }
+// ==== DSA Helper Functions ====
+void drawStack(const vector<int>& stackVec, bool showTopLabel = true){
+    system("cls");
+    cout << " --- Stack Visualization (Top to Bottom) ---\n\n";
 
+    if(stackVec.empty()){
+        cout << "[Empty Stack]\n";
+        return;
+    }
+
+    for(int i = stackVec.size() - 1; i >= 0; --i){
+        cout << "    +--------+\n";
+        cout << "    |   " << stackVec[i];
+
+        if(stackVec[i] < 10) cout << "    ";
+        else if(stackVec[i] < 100 ) cout << "   ";
+        else cout << " ";
+
+        cout << "|";
+
+        if(i == stackVec.size() - 1 && showTopLabel)
+            cout << "  <-- Top";
+        
+        cout << "\n    +--------+\n";
+    }
+}
 
 //Function for setting color of text
 void setConsoleColor(int color){
@@ -346,46 +371,68 @@ void selectionSort(std::vector<int>& data, bool showSteps, bool manualSteps) {
 // ==== Data Structures Visuals ====
 void visualizeQueue(const vector<int>& data){
     queue<int> q;
+    vector<int> queueElements;
 
     cout << "\n --- Queue Visualization ---\n";
-    for(int val : data){
-        cout << " [" << val  << "]\n";
+    cout << "\nEnqueuing (Adding to the Rear):\n";
+
+    for (int val : data) {
         q.push(val);
-        _getch();
+        queueElements.push_back(val);
+        cout << "Added: [" << val << "] -> Rear of the queue\n";
+        _getch(); // pause for visualization
     }
 
-    cout << "\nDequeuing Queue:\n";
-    while(!q.empty()){
-        cout << "Front: " << q.front() << "\n";
-        q.pop();
-        _getch();
+    cout << "\n\nQueue (Front to Rear):\n";
+    for (size_t i = 0; i < queueElements.size(); i++) {
+        if (i == 0)
+            cout << "Front -> ";
+        cout << "[" << queueElements[i] << "]";
+        if (i != queueElements.size() - 1)
+            cout << " -> ";
+        else
+            cout << " <- Rear\n";
     }
+
+    _getch();
+    cout << "\nDequeuing (Removing from the Front):\n";
+    while (!q.empty()) {
+        cout << "Removing Front: [" << q.front() << "]\n";
+        q.pop();
+        _getch(); // pause for step-by-step pop
+    }
+
+    cout << "\nQueue is now emptied.\n";
 }
 void visualizeBinaryTree(const vector<int>& data) {
     cout << "visualize binary Tree\n";
 }
 
 void visualizeStack(const vector<int>& data) {
-    stack<int> q;
-    vector<int> pushedElements; //vector for printing
-    int element = 0;
+    vector<int> q;
+
     cout << "\n --- Stack Visualization ---\n";
-    for(int val : data){
-        q.push(val);
-        pushedElements.push_back(val);
-    }
-    cout << "Stack (Top to Bottom): \n";
-    for(int i = pushedElements.size() - 1; i >=0; --i){
-        cout << i << " ["<<pushedElements[i] << "]\n";
-    }
-    _getch();
-    cout << "\nPopping in Stack:\n";
-    while(!q.empty()){
-        cout << "Removing: " << q.top() << "\n";
-        q.pop();
+     for (size_t i = 0; i < data.size(); ++i) {
+        cout << "Press any key to push " << data[i] << "...\n";
         _getch();
+        q.push_back(data[i]);
+        drawStack(q);
     }
-    cout << "\n\nStack is now emptied.\n";
+
+    cout << "\nAll elements pushed. Press any key to begin popping...\n";
+    _getch();
+
+    // Pop phase with animation
+    while (!q.empty()) {
+        drawStack(q);
+        cout << "\nPress any key to pop top element (" << q.back() << ")...\n";
+        _getch();
+        q.pop_back();
+    }
+
+    // Final state
+    drawStack(q);
+    cout << "\nStack is now emptied.\n";
 }
 void visualizeLinkedList(const vector<int>& data){
     system("cls");
@@ -407,11 +454,11 @@ void visualizeLinkedList(const vector<int>& data){
         }
         _getch();
     }
-
+   
     cout << "\n Traversing Linked List: \n";
     Node* current = head;
     while(current){
-        cout << " [" << current->data << "] -> ";
+        cout << " [" << current->data << "][]-> ";
         current = current->next;
         _getch();
     }
@@ -426,7 +473,7 @@ void visualizeLinkedList(const vector<int>& data){
     }
 
 }
-// ==== Recursion Implementation ====
+// ==== Patterns Implementation ====
 void visualizeFactorial(int n, int depth) {
     for (int i = 0; i < depth; ++i) std::cout << "  ";
     std::cout << "factorial(" << n << ")\n";
@@ -471,4 +518,5 @@ vector<int> randomDataGenerator(int n, int max = 50){
     for(int& x: data) x = rand() % max + 1;
     return data;
 }
+
 
