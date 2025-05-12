@@ -7,11 +7,19 @@
 #include <windows.h>
 #include<vector>
 #include <fstream>
+#include <queue>
+#include <stack>
+#include <cmath>
 #include <iostream>
 
 #undef byte
 
 using namespace std;
+struct Node{
+    int data;
+    Node* next;
+    Node(int val) : data(val), next(nullptr) {}
+};
 
 // ==== Menu UI ====
 int showMenu(const string& title, const vector<string>& options){
@@ -34,7 +42,7 @@ int showMenu(const string& title, const vector<string>& options){
 
     }
 }
-// ====User Interface Functions ====
+
 
 //Function for setting color of text
 void setConsoleColor(int color){
@@ -142,39 +150,52 @@ void Guest::visualizeAlgorithm() {
 }
 
 void Guest::visualizeDataStructure() {
-    vector<string> structureOptions = {
-        "[1] Stack",
-        "[2] Binary Tree",
-        "[3] Linked List",
-        "[4] Return"
-    };
-    
-    int choice = showMenu("Choose Data Structure: ", structureOptions);
+    while (true) {
+        vector<string> structOptions = {
+            "[1] Stack",
+            "[2] Queue",
+            "[3] Linked List",
+            "[4] Binary Tree",
+            "[5] Return"
+        };
+        int structChoice = showMenu("Choose Data Structure: ", structOptions);
+        if (structChoice == 4) return; 
 
-    if(choice == 3) return;
-    
-     vector<string> dataOptions = {
-        "[1] Predefined Data",
-        "[2] Custom Input",
-        "[3] Return"
-    };
-    int dataChoice = showMenu("Use: ", dataOptions);
+        vector<string> dataOptions = {
+            "[1] Predefined Data",
+            "[2] Custom Input",
+            "[3] Return"
+        };
+        int dataChoice = showMenu("Use: ", dataOptions);
+        if (dataChoice == 2) continue; 
 
-    
-    vector<int> data;
-    if (dataChoice == 0) {
-        data = loadDataFromFile("data.txt");
-    } else if(dataChoice == 1) {
-        data = getUserInputData();
-    }else{
-        return;
+        vector<int> data;
+        if (dataChoice == 0) {
+            data = loadDataFromFile("data.txt");
+        } else if (dataChoice == 1) {
+            data = getUserInputData();
+        }
+
+        switch (structChoice) {
+            case 0:
+                visualizeStack(data);
+                break;
+            case 1:
+                visualizeQueue(data);
+                break;
+            case 2:
+                visualizeLinkedList(data);
+                break;
+            case 3:
+                visualizeBinaryTree(data);
+                break;
+            default:
+                std::cout << "Invalid Data Structure Selected\n";
+        }
+
+        std::cout << "\nPress any key to continue...\n";
+        _getch();
     }
-
-  
-    if (choice == 0) visualizeStack();
-    else if (choice == 1) visualizeBinaryTree();
-    else if(choice == 2) visualizeLinkedList();
-    else std::cout << "Invalid option\n";
 }
 
 void Guest::recursionVisualizer() {
@@ -324,18 +345,82 @@ void selectionSort(std::vector<int>& data, bool showSteps, bool manualSteps) {
 }
 
 // ==== Data Structures Visuals ====
-void visualizeBinaryTree() {
-    std::cout << "\n   5\n  / \\\n  3   8\n / \\   \\\n1   4   9\n";
+void visualizeQueue(const vector<int>& data){
+    queue<int> q;
+
+    cout << "\n --- Queue Visualization ---\n";
+    for(int val : data){
+        cout << "Enqueuing: " << val << "\n";
+        q.push(val);
+        _getch();
+    }
+
+    cout << "\nDequeuing Queue:\n";
+    while(!q.empty()){
+        cout << "Front: " << q.front() << "\n";
+        q.pop();
+        _getch();
+    }
+}
+void visualizeBinaryTree(const vector<int>& data) {
+    cout << "visualize binary Tree\n";
 }
 
-void visualizeStack() {
-    std::cout << "\nStack Top\n--------\n|  3  |\n|  2  |\n|  1  |\n--------\n";
+void visualizeStack(const vector<int>& data) {
+    stack<int> q;
+
+    cout << "\n --- Stack Visualization ---\n";
+    for(int val : data){
+        cout << "Pushing: " << val << "\n";
+        q.push(val);
+        _getch();
+    }
+
+    cout << "\nPopping Stack:\n";
+    while(!q.empty()){
+        cout << "Front: " << q.top() << "\n";
+        q.pop();
+        _getch();
+    }
 }
-void visualizeLinkedList(){
-     system("cls");
-    cout << "\n[10] -> [20] -> [30] -> NULL\n\n";
-    cout << "Press any key to go back...";
-    _getch();
+void visualizeLinkedList(const vector<int>& data){
+    system("cls");
+    cout << "\n--- Linked List Visualization\n";
+    
+    //Each node will have two pointer; head and tail
+    Node* head = nullptr;
+    Node* tail = nullptr;
+
+    for(int val : data){
+        cout << "Inserting: " << val << "\n";
+        Node* newNode = new Node(val);
+        if(!head){
+            head = tail = newNode;
+        }
+        else{
+            tail->next = newNode;
+            tail = newNode;
+        }
+        _getch();
+    }
+
+    cout << "\n Traversing Linked List: \n";
+    Node* current = head;
+    while(current){
+        cout << " [" << current->data << "] -> ";
+        current = current->next;
+        _getch();
+    }
+    cout << "NULL\n";
+
+
+    current = head;
+    while(current){
+        Node* temp = current;
+        current = current->next;
+        delete temp;
+    }
+
 }
 // ==== Recursion Implementation ====
 void visualizeFactorial(int n, int depth) {
@@ -382,3 +467,4 @@ vector<int> randomDataGenerator(int n, int max = 50){
     for(int& x: data) x = rand() % max + 1;
     return data;
 }
+

@@ -38,18 +38,20 @@ public:
 
 // ==== Utilities ====
 void clearScreen();
-std::vector<int> loadDataFromFile(const std::string& filename);
+std::vector<int> loadDataFromFile(const string& filename);
 std::vector<int> getUserInputData();
-void printVector(const std::vector<int>& data);
+void printVector(const vector<int>& data);
 
 // ==== Algorithms ====
-void bubbleSort(std::vector<int>& data, bool showSteps = true, bool manualSteps = false);
-void selectionSort(std::vector<int>& data, bool showSteps = true, bool manualSteps = false);
+void bubbleSort(vector<int>& data, bool showSteps = true, bool manualSteps = false);
+void selectionSort(vector<int>& data, bool showSteps = true, bool manualSteps = false);
 
 // ==== Data Structures ====
-void visualizeBinaryTree();
-void visualizeStack();
-void visualizeLinkedList();
+void visualizeQueue(const vector<int>& data);
+void visualizeBinaryTree(const vector<int>& data);
+void visualizeStack(const vector<int>& data);
+void visualizeLinkedList(const vector<int>& data);
+
 
 // ==== Recursion ====
 void visualizeFactorial(int n, int depth = 0);
