@@ -155,11 +155,10 @@ void Guest::visualizeDataStructure() {
             "[1] Stack",
             "[2] Queue",
             "[3] Linked List",
-            "[4] Binary Tree",
-            "[5] Return"
+            "[4] Return"
         };
         int structChoice = showMenu("Choose Data Structure: ", structOptions);
-        if (structChoice == 4) return; 
+        if (structChoice == 3) return; 
 
         vector<string> dataOptions = {
             "[1] Predefined Data",
@@ -350,7 +349,7 @@ void visualizeQueue(const vector<int>& data){
 
     cout << "\n --- Queue Visualization ---\n";
     for(int val : data){
-        cout << "Enqueuing: " << val << "\n";
+        cout << " [" << val  << "]\n";
         q.push(val);
         _getch();
     }
@@ -368,20 +367,25 @@ void visualizeBinaryTree(const vector<int>& data) {
 
 void visualizeStack(const vector<int>& data) {
     stack<int> q;
-
+    vector<int> pushedElements; //vector for printing
+    int element = 0;
     cout << "\n --- Stack Visualization ---\n";
     for(int val : data){
-        cout << "Pushing: " << val << "\n";
         q.push(val);
-        _getch();
+        pushedElements.push_back(val);
     }
-
-    cout << "\nPopping Stack:\n";
+    cout << "Stack (Top to Bottom): \n";
+    for(int i = pushedElements.size() - 1; i >=0; --i){
+        cout << i << " ["<<pushedElements[i] << "]\n";
+    }
+    _getch();
+    cout << "\nPopping in Stack:\n";
     while(!q.empty()){
-        cout << "Front: " << q.top() << "\n";
+        cout << "Removing: " << q.top() << "\n";
         q.pop();
         _getch();
     }
+    cout << "\n\nStack is now emptied.\n";
 }
 void visualizeLinkedList(const vector<int>& data){
     system("cls");
