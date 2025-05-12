@@ -227,7 +227,7 @@ void Guest::dashboard() {
             case 3: std::cout << "Logging out...\n"; break;
         }
 
-        if (choice != 4) {
+        if (choice != 3) {
             std::cout << "\nPress any key to return to the dashboard...";
             setConsoleColor(7);
             _getch();
@@ -532,6 +532,11 @@ void quickSort(vector<int>& data, int low, int high, bool showSteps, bool manual
 
 void mergeSort(vector<int>& data, bool showSteps, bool manualSteps) {
     mergeSortHelper(data, 0, data.size() - 1, showSteps, manualSteps);
+
+    printBarChart(data, -1, -1); 
+    setConsoleColor(10); // Green
+    std::cout << "\nArray successfully sorted using Merge Sort!\n";
+    setConsoleColor(7);  // Reset
 }
 // ==== Data Structures Visuals ====
 void visualizeQueue(const vector<int>& data){
