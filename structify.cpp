@@ -7,8 +7,6 @@
 #include <windows.h>
 #include<vector>
 #include <fstream>
-#include <queue>
-#include <stack>
 #include <cmath>
 #include <iostream>
 
@@ -69,6 +67,46 @@ void drawStack(const vector<int>& stackVec, bool showTopLabel = true){
     }
 }
 
+void drawQueue(const vector<int>& queueVec) {
+    system("cls");
+    cout << "   --- Queue Visualization (Front to Rear) ---\n\n";
+
+    if (queueVec.empty()) {
+        cout << "[Empty Queue]\n";
+        return;
+    }
+
+    const int boxWidth = 8;  // Standard box width for consistent spacing
+    const string boxTop = "+--------+";
+
+    // Top of boxes
+    for (size_t i = 0; i < queueVec.size(); ++i)
+        cout << boxTop << " ";
+    cout << "\n";
+
+    // Contents of boxes
+    for (int val : queueVec) {
+        cout << "|  ";
+        cout << setw(3) << val << "   | ";
+    }
+    cout << "\n";
+
+    // Bottom of boxes
+    for (size_t i = 0; i < queueVec.size(); ++i)
+        cout << boxTop << " ";
+    cout << "\n";
+
+    // Indicator line
+    for (size_t i = 0; i < queueVec.size(); ++i) {
+        if (i == 0)
+            cout << setw(boxTop.size()) << "Front" << " ";
+        else if (i == queueVec.size() - 1)
+            cout << setw(boxTop.size()) << "   Rear" << " ";
+        else
+            cout << setw(boxTop.size()) << " " << " ";
+    }
+    cout << "\n";
+}
 //Function for setting color of text
 void setConsoleColor(int color){
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
@@ -370,38 +408,28 @@ void selectionSort(std::vector<int>& data, bool showSteps, bool manualSteps) {
 
 // ==== Data Structures Visuals ====
 void visualizeQueue(const vector<int>& data){
-    queue<int> q;
-    vector<int> queueElements;
+    vector<int> queueVec;
 
-    cout << "\n --- Queue Visualization ---\n";
-    cout << "\nEnqueuing (Adding to the Rear):\n";
-
-    for (int val : data) {
-        q.push(val);
-        queueElements.push_back(val);
-        cout << "Added: [" << val << "] -> Rear of the queue\n";
-        _getch(); // pause for visualization
+    // Enqueue phase
+    for (size_t i = 0; i < data.size(); ++i) {
+        cout << "Press any key to enqueue " << data[i] << "...\n";
+        Sleep(500);
+        queueVec.push_back(data[i]);
+        drawQueue(queueVec);
     }
 
-    cout << "\n\nQueue (Front to Rear):\n";
-    for (size_t i = 0; i < queueElements.size(); i++) {
-        if (i == 0)
-            cout << "Front -> ";
-        cout << "[" << queueElements[i] << "]";
-        if (i != queueElements.size() - 1)
-            cout << " -> ";
-        else
-            cout << " <- Rear\n";
-    }
-
+    cout << "\nAll elements enqueued. Press any key to begin dequeuing...\n";
     _getch();
-    cout << "\nDequeuing (Removing from the Front):\n";
-    while (!q.empty()) {
-        cout << "Removing Front: [" << q.front() << "]\n";
-        q.pop();
-        _getch(); // pause for step-by-step pop
+
+    // Dequeue phase
+    while (!queueVec.empty()) {
+        drawQueue(queueVec);
+        cout << "\nPress any key to dequeue front element (" << queueVec.front() << ")...\n";
+        Sleep(500);
+        queueVec.erase(queueVec.begin()); 
     }
 
+    drawQueue(queueVec);
     cout << "\nQueue is now emptied.\n";
 }
 void visualizeBinaryTree(const vector<int>& data) {
@@ -414,7 +442,7 @@ void visualizeStack(const vector<int>& data) {
     cout << "\n --- Stack Visualization ---\n";
      for (size_t i = 0; i < data.size(); ++i) {
         cout << "Press any key to push " << data[i] << "...\n";
-        _getch();
+        Sleep(500);
         q.push_back(data[i]);
         drawStack(q);
     }
@@ -426,7 +454,7 @@ void visualizeStack(const vector<int>& data) {
     while (!q.empty()) {
         drawStack(q);
         cout << "\nPress any key to pop top element (" << q.back() << ")...\n";
-        _getch();
+        Sleep(500);
         q.pop_back();
     }
 
@@ -443,7 +471,6 @@ void visualizeLinkedList(const vector<int>& data){
     Node* tail = nullptr;
 
     for(int val : data){
-        cout << "Inserting: " << val << "\n";
         Node* newNode = new Node(val);
         if(!head){
             head = tail = newNode;
@@ -452,7 +479,6 @@ void visualizeLinkedList(const vector<int>& data){
             tail->next = newNode;
             tail = newNode;
         }
-        _getch();
     }
    
     cout << "\n Traversing Linked List: \n";
@@ -460,7 +486,7 @@ void visualizeLinkedList(const vector<int>& data){
     while(current){
         cout << " [" << current->data << "][]-> ";
         current = current->next;
-        _getch();
+        Sleep(500);
     }
     cout << "NULL\n";
 
