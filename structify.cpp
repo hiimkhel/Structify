@@ -66,7 +66,20 @@ void printBarChart(const vector<int> data, int highlight1 = -1, int highlight2 =
     cout << endl;
 }
 
-// ==== DSA and Algorithms Helper Functions ====
+// ==== Helper Functions ====
+// Dataset Options
+vector<string> getAvailableDatasets() {
+    return {
+        "unsorted10.txt",
+        "unsorted20.txt",
+        "unsorted50.txt"
+    };
+}
+string promptDatasetFile() {
+    vector<string> datasets = getAvailableDatasets();
+    int choice = showMenu("Choose a dataset to use:", datasets);
+    return datasets[choice];
+}
 //Algorithms
 void drawStack(const vector<int>& stackVec, bool showTopLabel = true){
     system("cls");
@@ -260,8 +273,9 @@ void Guest::visualizeAlgorithm() {
         if (dataChoice == 2) continue; 
 
         vector<int> data;
+        string filename = promptDatasetFile();
         if (dataChoice == 0) {
-            data = loadDataFromFile("data.txt");
+            data = loadDataFromFile(filename);
         } else if (dataChoice == 1) {
             data = getUserInputData();
         }
@@ -302,8 +316,9 @@ void Guest::visualizeDataStructure() {
         if (dataChoice == 2) continue; 
 
         vector<int> data;
+        string filename = promptDatasetFile();
         if (dataChoice == 0) {
-            data = loadDataFromFile("data.txt");
+            data = loadDataFromFile(filename);
         } else if (dataChoice == 1) {
             data = getUserInputData();
         }
