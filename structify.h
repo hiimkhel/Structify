@@ -25,7 +25,7 @@ public:
     void dashboard() override;
     void visualizeAlgorithm();
     void visualizeDataStructure();
-    void recursionVisualizer();
+    void patternGenerator();
 };
 
 // ==== Admin Class ====
@@ -57,6 +57,6 @@ void visualizeLinkedList(const vector<int>& data);
 
 
 // ==== Recursion ====
-void visualizeFactorial(int n, int depth = 0);
+void patternGenerator();
 
 #endif

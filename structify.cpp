@@ -249,6 +249,47 @@ void drawQueue(const vector<int>& queueVec) {
     cout << "\n";
 }
 
+//Patterns Generator
+int patternDifficultyDashboard(const vector<string> options){
+    int selected = 0;
+    while(true){
+        clearScreen();
+        system("cls");
+    cout << "x───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────x\n";
+    cout << "│                                                    ███████╗████████╗██████╗ ██╗   ██╗██████╗ ████████╗██╗███████╗██╗   ██╗                                            │\n";
+    cout << "│                                                    ██╔════╝╚══██╔══╝██╔══██╗██║   ██║██╔══██╗╚══██╔══╝██║██╔════╝╚██╗ ██╔╝                                            │\n";
+    cout << "│                                                    ███████╗   ██║   ██████╔╝██║   ██║██║        ██║   ██║█████╗   ╚████╔╝                                             │\n";
+    cout << "│                                                    ╚════██║   ██║   ██╔═ ██╝██║   ██║██║  ██╗   ██║   ██║██╔══╝    ╚██╔╝                                              │\n";
+    cout << "│                                                    ███████╗   ██║   ██║  ██╗╚██████╔╝╚██████║   ██║   ██║██║        ██║                                               │\n";
+    cout << "|                                                    ╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚═════╝╝   ╚═╝   ╚═╝╚═╝        ╚═╝                                               │\n";
+    cout << "x──────────────────────────────────────────────────────────────────────────Pattern Generator Menu──────────────────────────────────────────────────────────────────────x\n"; 
+        for(int i = 0; i < options.size(); i++){
+            cout << (i == selected ? " \t\t\t\t > " : "\t\t\t\t ") << options[i] << "\n";
+        }
+
+        int key = _getch();
+        if(key == 224){
+            key = _getch();
+            if(key == 72 && selected > 0) selected --;
+            else if(key == 80 && selected < options.size() - 1) selected++;
+        }else if(key == 13){
+            return selected;
+        }
+
+    }
+}
+//Solid Rectangle, Hollow Rectangle, Right Angled Triangle (Left Aligned), Inverted Right Triangle, Right Angled Triangle (Right Aligned)
+void basicPatterns(){
+
+}
+// Inverted Star Pyramid, Number Pyramid, Floyd's Triangle, Pascal's Triangle, Diamond Pattern, Binary Triangle
+void intermediatePatterns(){
+
+}
+//Palindromic Number Triangle, Hourglass Pattern, Spiral Pattern, Heart Pattern, Box with Diagonals
+void complexPatterns(){
+
+}
 
 // ==== User Base Class ====
 void User::setUsername(const std::string& name) {
@@ -264,7 +305,7 @@ void Guest::dashboard() {
         vector<string> options = {
             "[1] Visualize Algorithm",
             "[2] Visualize Data Structure",
-            "[3] Recursion Visualizer",
+            "[3] Patterns Generator",
             "[4] Logout"
         };
         
@@ -275,7 +316,7 @@ void Guest::dashboard() {
         switch (choice) {
             case 0: visualizeAlgorithm(); break;
             case 1: visualizeDataStructure(); break;
-            case 2: recursionVisualizer(); break;
+            case 2: patternGenerator(); break;
             case 3: std::cout << "Logging out...\n"; break;
         }
 
@@ -378,14 +419,23 @@ void Guest::visualizeDataStructure() {
         _getch();
     }
 }
+void Guest::patternGenerator(){
+        vector<string> patternDifficultyOptions = {
+        "[1] Basic",
+        "[2] Intermediate",
+        "[3] Complex",
+        "[4] Return"
+    };
 
-void Guest::recursionVisualizer() {
-    std::cout << "Enter number for factorial visualization: ";
-    int n;
-    std::cin >> n;
-    visualizeFactorial(n);
+    int difficultyOption = patternDifficultyDashboard(patternDifficultyOptions);
+
+    switch(difficultyOption){
+        case 0: basicPatterns(); break;
+        case 1: intermediatePatterns();break;
+        case 2: complexPatterns();break;
+        case 3: break;
+    }
 }
-
 // ==== Admin Implementation ====
 void Admin::dashboard() {
     clearScreen();
@@ -681,17 +731,8 @@ void visualizeLinkedList(const vector<int>& data){
 
 }
 // ==== Patterns Implementation ====
-void visualizeFactorial(int n, int depth) {
-    for (int i = 0; i < depth; ++i) std::cout << "  ";
-    std::cout << "factorial(" << n << ")\n";
-    if (n == 0 || n == 1) {
-        for (int i = 0; i < depth; ++i) std::cout << "  ";
-        std::cout << "= 1\n";
-    } else {
-        visualizeFactorial(n - 1, depth + 1);
-        for (int i = 0; i < depth; ++i) std::cout << "  ";
-        std::cout << "= " << n << " * factorial(" << n - 1 << ")\n";
-    }
+void patternGenerator() {
+
 }
 
 //==== Helper Functions ====
