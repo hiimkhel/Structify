@@ -23,7 +23,6 @@ struct Node{
 int showMenuVisualize(const string& title, const vector<string>& options){
     int selected = 0;
     while(true){
-        clearScreen();
         system("cls");
     cout << "x───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────x\n";
     cout << "│                                                    ███████╗████████╗██████╗ ██╗   ██╗██████╗ ████████╗██╗███████╗██╗   ██╗                                            │\n";
@@ -32,7 +31,7 @@ int showMenuVisualize(const string& title, const vector<string>& options){
     cout << "│                                                    ╚════██║   ██║   ██╔═ ██╝██║   ██║██║  ██╗   ██║   ██║██╔══╝    ╚██╔╝                                              │\n";
     cout << "│                                                    ███████╗   ██║   ██║  ██╗╚██████╔╝╚██████║   ██║   ██║██║        ██║                                               │\n";
     cout << "|                                                    ╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚═════╝╝   ╚═╝   ╚═╝╚═╝        ╚═╝                                               │\n";
-    cout << "x─────────────────────────────────────────────────────────────────────────────User Dashboard────────────────────────────────────────────────────────────────────────────x\n";
+    cout << "x───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────x\n";
 
     cout <<"\t\t\t\t" << title << "\n\n";    
         for(int i = 0; i < options.size(); i++){
@@ -53,23 +52,22 @@ int showMenuVisualize(const string& title, const vector<string>& options){
 int showMenuAlgorithms(const string& title, const vector<string>& options){
     int selected = 0;
     while(true){
-        clearScreen();
         system("cls");
-    cout << "x───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────x\n";
-    cout << "│                                                    ███████╗████████╗██████╗ ██╗   ██╗██████╗ ████████╗██╗███████╗██╗   ██╗                                            │\n";
-    cout << "│                                                    ██╔════╝╚══██╔══╝██╔══██╗██║   ██║██╔══██╗╚══██╔══╝██║██╔════╝╚██╗ ██╔╝                                            │\n";
-    cout << "│                                                    ███████╗   ██║   ██████╔╝██║   ██║██║        ██║   ██║█████╗   ╚████╔╝                                             │\n";
-    cout << "│                                                    ╚════██║   ██║   ██╔═ ██╝██║   ██║██║  ██╗   ██║   ██║██╔══╝    ╚██╔╝                                              │\n";
-    cout << "│                                                    ███████╗   ██║   ██║  ██╗╚██████╔╝╚██████║   ██║   ██║██║        ██║                                               │\n";
-    cout << "|                                                    ╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚═════╝╝   ╚═╝   ╚═╝╚═╝        ╚═╝                                               │\n";
-    cout << "x────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────x\n";
-    cout << "│                                                                                                                                                                       │\n";
-    cout << "│          [+] WELCOME TO THE SORTING ALGORITHMS VISUALIZER OF STRUCTIFY! LETS UNDERSTAND WHAT'S BENEATH THE HOOD OF SORTING ALGORITHMS THROUGH OUR VISUALIZATION!      │\n";
-    cout << "│                                                                                                                                                                       │\n";
-    cout << "│  >>> This feature provides a step-by-step visualization of common sorting algorithms, helping students understand and grasp the logic, behaviour, and efficiency,       │\n";
-    cout << "│      one iteration at a time. Structify bridges the gap between theory and implementation with its clear graphical representation and time complexity insights.       │\n";
-    cout << "│                                                                                                                                                                       │\n";
-    cout << "x───────────────────────────────────────────────────────────────────────SORTING ALGORITHM MENU──────────────────────────────────────────────────────────────────────────x\n";     
+        cout << "x───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────x\n";
+        cout << "│                                                    ███████╗████████╗██████╗ ██╗   ██╗██████╗ ████████╗██╗███████╗██╗   ██╗                                            │\n";
+        cout << "│                                                    ██╔════╝╚══██╔══╝██╔══██╗██║   ██║██╔══██╗╚══██╔══╝██║██╔════╝╚██╗ ██╔╝                                            │\n";
+        cout << "│                                                    ███████╗   ██║   ██████╔╝██║   ██║██║        ██║   ██║█████╗   ╚████╔╝                                             │\n";
+        cout << "│                                                    ╚════██║   ██║   ██╔═ ██╝██║   ██║██║  ██╗   ██║   ██║██╔══╝    ╚██╔╝                                              │\n";
+        cout << "│                                                    ███████╗   ██║   ██║  ██╗╚██████╔╝╚██████║   ██║   ██║██║        ██║                                               │\n";
+        cout << "|                                                    ╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚═════╝╝   ╚═╝   ╚═╝╚═╝        ╚═╝                                               │\n";
+        cout << "x────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────x\n";
+        cout << "│                                                                                                                                                                       │\n";
+        cout << "│          [+] WELCOME TO THE SORTING ALGORITHMS VISUALIZER OF STRUCTIFY! LETS UNDERSTAND WHAT'S BENEATH THE HOOD OF SORTING ALGORITHMS THROUGH OUR VISUALIZATION!      │\n";
+        cout << "│                                                                                                                                                                       │\n";
+        cout << "│  >>> This feature provides a step-by-step visualization of common sorting algorithms, helping students understand and grasp the logic, behaviour, and efficiency,     │\n";
+        cout << "│      one iteration at a time. Structify bridges the gap between theory and implementation with its clear graphical representation and time complexity insights.       │\n";
+        cout << "│                                                                                                                                                                       │\n";
+        cout << "x───────────────────────────────────────────────────────────────────────SORTING ALGORITHM MENU──────────────────────────────────────────────────────────────────────────x\n";     
         cout << "\t\t\t\t"<< title << "\n\n";    
         for(int i = 0; i < options.size(); i++){
             cout << (i == selected ? "\t\t\t\t>>> " : "\t\t\t\t    ") << options[i] << "\n";
@@ -87,10 +85,10 @@ int showMenuAlgorithms(const string& title, const vector<string>& options){
     }
 }
 
-int showDSAMenu(const string& title, const vector<string>& options){
+
+int showMenuDSA(const string& title, const vector<string>& options){
     int selected = 0;
     while(true){
-        clearScreen();
         system("cls");
     cout << "x───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────x\n";
     cout << "│                                                    ███████╗████████╗██████╗ ██╗   ██╗██████╗ ████████╗██╗███████╗██╗   ██╗                                            │\n";
@@ -127,7 +125,6 @@ int showDSAMenu(const string& title, const vector<string>& options){
 int patternDifficultyDashboard(const vector<string> options){
     int selected = 0;
     while(true){
-        clearScreen();
         system("cls");
     cout << "x───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────x\n";
     cout << "│                                                    ███████╗████████╗██████╗ ██╗   ██╗██████╗ ████████╗██╗███████╗██╗   ██╗                                            │\n";
@@ -159,30 +156,39 @@ int patternDifficultyDashboard(const vector<string> options){
 
     }
 }
+
 //Function for setting color of text
 void setConsoleColor(int color){
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
 }
+// Moves the cursor to (x, y) in the console
+void moveCursorTo(int x, int y) {
+    COORD coord = {(SHORT)x, (SHORT)y};
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+}
 
-void printBarChart(const vector<int> data, int highlight1 = -1, int highlight2 = -1){
-    system("cls");
-    cout <<"Current Array State: \n\n";
-
-    for(int i = 0; i < data.size(); ++i){
-        if(i == highlight1 || i == highlight2)
-            setConsoleColor(6);
-        else{
-            setConsoleColor(7);
-        }
-        cout << setw(2) << data[i] << " | ";
-        for(int j = 0; j < data[i]; ++j){
-            cout<< "█";
-        }
-        cout << endl;
+// Clears only the area where the bar chart is drawn
+void clearBarChartArea(int startLine, int height) {
+    for (int i = 0; i < height; ++i) {
+        moveCursorTo(0, startLine + i);
+        cout << string(150, ' '); // Adjust width as needed
     }
+    moveCursorTo(0, startLine);
+}
+void printBarChart(const vector<int>& data, int highlight1 = -1, int highlight2 = -1, int startLine = 20) {
+    clearBarChartArea(startLine, data.size());
 
+    for (int i = 0; i < data.size(); ++i) {
+        moveCursorTo(0, startLine + i);
+
+        if (i == highlight1 || i == highlight2)
+            setConsoleColor(6); 
+        else
+            setConsoleColor(7); 
+
+        cout << "\t\t"<<setw(2) << data[i] << " | " << string(data[i],'#') << '\n';
+    }
     setConsoleColor(7);
-    cout << endl;
 }
 
 // ==== Helper Functions ====
@@ -379,6 +385,7 @@ void Guest::dashboard() {
 
 
 void Guest::visualizeAlgorithm() {
+    
      while (true) {
         vector<string> algoOptions ={
             "[1] Bubble Sort",
@@ -398,8 +405,8 @@ void Guest::visualizeAlgorithm() {
         };
         int dataChoice = showMenuAlgorithms("Use: ", dataOptions);
 
-        if (dataChoice == 2) continue; 
-
+        if (dataChoice == 2) return; 
+        
         vector<int> data;
         string filename = promptDatasetFile();
         if (dataChoice == 0) {
@@ -412,11 +419,13 @@ void Guest::visualizeAlgorithm() {
 
         switch (algChoice) {
             case 0: bubbleSort(data, true, manualMode); break;
+            /*
             case 1: selectionSort(data, true, manualMode); break;
             case 2: insertionSort(data, true, manualMode); break;
-            case 3: quickSort(data, 0, data.size() - 1, true, manualMode); break;
+            case 3: quickSort(data, 0,  data.size() - 1, true, manualMode); break;
             case 4: mergeSort(data, true, manualMode); break;
             default: std::cout << "Invalid Algorithm Selected\n";
+            */
         }
 
         std::cout << "\nPress any key to choose another algorithm or return...\n";
@@ -432,7 +441,7 @@ void Guest::visualizeDataStructure() {
             "[3] Linked List",
             "[4] Return"
         };
-        int structChoice = showMenuAlgorithms("Choose Data Structure: ", structOptions);
+        int structChoice = showMenuDSA("Choose Data Structure: ", structOptions);
         if (structChoice == 3) return; 
 
         vector<string> dataOptions = {
@@ -440,7 +449,7 @@ void Guest::visualizeDataStructure() {
             "[2] Custom Input",
             "[3] Return"
         };
-        int dataChoice = showMenuAlgorithms("Use: ", dataOptions);
+        int dataChoice = showMenuDSA("Use: ", dataOptions);
         if (dataChoice == 2) continue; 
 
         vector<int> data;
@@ -554,17 +563,34 @@ void printVector(const std::vector<int>& data) {
 
 // ==== Algorithms Implementation ====
 void bubbleSort(std::vector<int>& data, bool showSteps, bool manualSteps) {
+    system("cls");
+    cout << "x───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────x\n";
+    cout << "│                                                    ███████╗████████╗██████╗ ██╗   ██╗██████╗ ████████╗██╗███████╗██╗   ██╗                                            │\n";
+    cout << "│                                                    ██╔════╝╚══██╔══╝██╔══██╗██║   ██║██╔══██╗╚══██╔══╝██║██╔════╝╚██╗ ██╔╝                                            │\n";
+    cout << "│                                                    ███████╗   ██║   ██████╔╝██║   ██║██║        ██║   ██║█████╗   ╚████╔╝                                             │\n";
+    cout << "│                                                    ╚════██║   ██║   ██╔═ ██╝██║   ██║██║  ██╗   ██║   ██║██╔══╝    ╚██╔╝                                              │\n";
+    cout << "│                                                    ███████╗   ██║   ██║  ██╗╚██████╔╝╚██████║   ██║   ██║██║        ██║                                               │\n";
+    cout << "|                                                    ╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚═════╝╝   ╚═╝   ╚═╝╚═╝        ╚═╝                                               │\n";
+    cout << "x───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────x\n";
+    cout << "\n\n  [ ALGORITHM: BUBBLE SORT ]\n\n";
+    cout << "------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n";
+    cout << "      DESCRIPTION: \n";
+    cout << "       [+] Bubble sort is a simple sorting algorithm that works by repeatedly stepping through the list, comparing adjacent elements, and \n";
+    cout << "           swapping them if they are in the wrong order. It's called 'bubble sort' because smaller elements 'bubble' to the top of the list as it progresses. \n";
+    cout << "------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n";
     int n = data.size();
-
     for (int i = 0; i < n - 1; ++i) {
         bool swapped = false;
 
         for(int j = 0; j < n - i - 1; ++j){
             if(showSteps){
-                printBarChart(data, j, j + 1);
-                cout << "Comparing " << data[j] << " and " << data[j + 1] << "\n";
+                printBarChart(data, j, j+1);
+                cout << "------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n\n";
+                cout << "\t\t >>> Comparing " << data[j] << " and " << data[j + 1] << "\n";
+                
                 if(manualSteps){
                     cout << "Press any key to continue...\n";
+                    cout << "========================================================================================================================================================================\n\n";
                     _getch();
                 }else{
                     Sleep(800);
@@ -575,9 +601,9 @@ void bubbleSort(std::vector<int>& data, bool showSteps, bool manualSteps) {
                 swapped = true;
 
                 if(showSteps){
-                    printBarChart(data, j, j + 1);
+                    printBarChart(data, j, j+1);
                     setConsoleColor(4);
-                    cout << "Swapped\n";
+                    cout << "\n\t\tSwapped\n";
                     setConsoleColor(7);
 
                     if(manualSteps){
@@ -594,13 +620,12 @@ void bubbleSort(std::vector<int>& data, bool showSteps, bool manualSteps) {
     setConsoleColor(2); //set color to green
     printBarChart(data);
    
-    cout << "Array is now sorted!\n";
+    cout << "\n\n\t\tArray is now sorted!\n";
 
 }
-
+/*
 void selectionSort(std::vector<int>& data, bool showSteps, bool manualSteps) {
     int n = data.size();
-
     for (int i = 0; i < n - 1; ++i) {
         int minIndex = i;
         for (int j = i + 1; j < n; ++j) {
@@ -690,6 +715,7 @@ void mergeSort(vector<int>& data, bool showSteps, bool manualSteps) {
     std::cout << "\nArray successfully sorted using Merge Sort!\n";
     setConsoleColor(7);  // Reset
 }
+*/
 // ==== Data Structures Visuals ====
 void visualizeQueue(const vector<int>& data){
     vector<int> queueVec;
