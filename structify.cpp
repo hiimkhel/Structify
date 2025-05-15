@@ -49,6 +49,7 @@ int showMenuVisualize(const string& title, const vector<string>& options){
 
     }
 }
+
 int showMenuAlgorithms(const string& title, const vector<string>& options){
     int selected = 0;
     while(true){
@@ -156,6 +157,39 @@ int patternDifficultyDashboard(const vector<string> options){
 
     }
 }
+string wrapText(const string& text, size_t width = 140) {
+    string wrapped;
+    size_t start = 0;
+    while (start < text.length()) {
+        size_t end = start + width;
+        if (end >= text.length()) {
+            wrapped += text.substr(start);
+            break;
+        }
+        size_t spacePos = text.rfind(' ', end);
+        if (spacePos == string::npos || spacePos <= start)
+            spacePos = end;
+        wrapped += text.substr(start, spacePos - start) + "\n";
+        start = spacePos + 1;
+    }
+    return wrapped;
+}
+
+void algorithmHeader(const string& algoName, const string& algoDescription){
+    cout << "x───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────x\n";
+    cout << "│                                                    ███████╗████████╗██████╗ ██╗   ██╗██████╗ ████████╗██╗███████╗██╗   ██╗                                            │\n";
+    cout << "│                                                    ██╔════╝╚══██╔══╝██╔══██╗██║   ██║██╔══██╗╚══██╔══╝██║██╔════╝╚██╗ ██╔╝                                            │\n";
+    cout << "│                                                    ███████╗   ██║   ██████╔╝██║   ██║██║        ██║   ██║█████╗   ╚████╔╝                                             │\n";
+    cout << "│                                                    ╚════██║   ██║   ██╔═ ██╝██║   ██║██║  ██╗   ██║   ██║██╔══╝    ╚██╔╝                                              │\n";
+    cout << "│                                                    ███████╗   ██║   ██║  ██╗╚██████╔╝╚██████║   ██║   ██║██║        ██║                                               │\n";
+    cout << "|                                                    ╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚═════╝╝   ╚═╝   ╚═╝╚═╝        ╚═╝                                               │\n";
+    cout << "x──────────────────────────────────────────────────────────────────────SORTING ALGORITHM VISUALIZER─────────────────────────────────────────────────────────────────────x\n";
+    cout << "\n\n       [ ALGORITHM: "<< algoName << " ]\n\n";
+    cout << "------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n";
+    cout << "      DESCRIPTION: \n";
+    cout << "       [+] " << wrapText(algoDescription) << " \n";
+    cout << "------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n";
+}
 
 //Function for setting color of text
 void setConsoleColor(int color){
@@ -190,8 +224,9 @@ void printBarChart(const vector<int>& data, int highlight1 = -1, int highlight2 
     }
     setConsoleColor(7);
 }
-
 // ==== Helper Functions ====
+// String wrapper
+
 // Dataset Options
 vector<string> getAvailableDatasets() {
     return {
@@ -419,13 +454,12 @@ void Guest::visualizeAlgorithm() {
 
         switch (algChoice) {
             case 0: bubbleSort(data, true, manualMode); break;
-            /*
             case 1: selectionSort(data, true, manualMode); break;
             case 2: insertionSort(data, true, manualMode); break;
             case 3: quickSort(data, 0,  data.size() - 1, true, manualMode); break;
             case 4: mergeSort(data, true, manualMode); break;
             default: std::cout << "Invalid Algorithm Selected\n";
-            */
+            
         }
 
         std::cout << "\nPress any key to choose another algorithm or return...\n";
@@ -564,24 +598,11 @@ void printVector(const std::vector<int>& data) {
 // ==== Algorithms Implementation ====
 void bubbleSort(std::vector<int>& data, bool showSteps, bool manualSteps) {
     system("cls");
-    cout << "x───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────x\n";
-    cout << "│                                                    ███████╗████████╗██████╗ ██╗   ██╗██████╗ ████████╗██╗███████╗██╗   ██╗                                            │\n";
-    cout << "│                                                    ██╔════╝╚══██╔══╝██╔══██╗██║   ██║██╔══██╗╚══██╔══╝██║██╔════╝╚██╗ ██╔╝                                            │\n";
-    cout << "│                                                    ███████╗   ██║   ██████╔╝██║   ██║██║        ██║   ██║█████╗   ╚████╔╝                                             │\n";
-    cout << "│                                                    ╚════██║   ██║   ██╔═ ██╝██║   ██║██║  ██╗   ██║   ██║██╔══╝    ╚██╔╝                                              │\n";
-    cout << "│                                                    ███████╗   ██║   ██║  ██╗╚██████╔╝╚██████║   ██║   ██║██║        ██║                                               │\n";
-    cout << "|                                                    ╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚═════╝╝   ╚═╝   ╚═╝╚═╝        ╚═╝                                               │\n";
-    cout << "x───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────x\n";
-    cout << "\n\n  [ ALGORITHM: BUBBLE SORT ]\n\n";
-    cout << "------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n";
-    cout << "      DESCRIPTION: \n";
-    cout << "       [+] Bubble sort is a simple sorting algorithm that works by repeatedly stepping through the list, comparing adjacent elements, and \n";
-    cout << "           swapping them if they are in the wrong order. It's called 'bubble sort' because smaller elements 'bubble' to the top of the list as it progresses. \n";
-    cout << "------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n";
+    algorithmHeader("BUBBLE SORT", "Bubble sort is a simple sorting algorithm that works by repeatedly stepping through the list, comparing adjacent elements, and swapping them if they are in the wrong order. It's called 'bubble sort' because smaller elements 'bubble' to the top of the list as it progresses. ");
     int n = data.size();
     for (int i = 0; i < n - 1; ++i) {
         bool swapped = false;
-
+        
         for(int j = 0; j < n - i - 1; ++j){
             if(showSteps){
                 printBarChart(data, j, j+1);
@@ -623,8 +644,10 @@ void bubbleSort(std::vector<int>& data, bool showSteps, bool manualSteps) {
     cout << "\n\n\t\tArray is now sorted!\n";
 
 }
-/*
+
 void selectionSort(std::vector<int>& data, bool showSteps, bool manualSteps) {
+    system("cls");
+    algorithmHeader("SELECTION SORT", "Selection sort is a simple comparison-based sorting algorithm that divides the input list into a sorted part at the beginning and an unsorted part at the end.");
     int n = data.size();
     for (int i = 0; i < n - 1; ++i) {
         int minIndex = i;
@@ -654,6 +677,8 @@ void selectionSort(std::vector<int>& data, bool showSteps, bool manualSteps) {
 }
 
 void insertionSort(vector<int>& data, bool showSteps, bool manualSteps) {
+    system("cls");
+    algorithmHeader("INSERTION SORT", "Insertion sort is a simple sorting algorithm that builds the final sorted array one item at a time by comparisons. It is much less efficient on large lists than more advanced algorithms such as quicksort, heapsort, or merge sort.");
     int n = data.size();
     for (int i = 1; i < n; ++i) {
         int key = data[i];
@@ -688,6 +713,8 @@ void insertionSort(vector<int>& data, bool showSteps, bool manualSteps) {
 }
 
 void quickSort(vector<int>& data, int low, int high, bool showSteps, bool manualSteps) {
+    system("cls");
+    algorithmHeader("QUICK SORT", "Quicksort is a divide-and-conquer algorithm. It works by selecting a 'pivot' element from the array and partitioning the other elements into two sub-arrays, according to whether they are less than or greater than the pivot.");
     if (low < high) {
         int pi = partition(data, low, high);  
 
@@ -708,6 +735,8 @@ void quickSort(vector<int>& data, int low, int high, bool showSteps, bool manual
 }
 
 void mergeSort(vector<int>& data, bool showSteps, bool manualSteps) {
+    system("cls");
+    algorithmHeader("MERGE SORT", "Merge Sort divides the list into halves, then iterates through the new halves, continually dividing them down further to their smaller parts.");
     mergeSortHelper(data, 0, data.size() - 1, showSteps, manualSteps);
 
     printBarChart(data, -1, -1); 
@@ -715,7 +744,6 @@ void mergeSort(vector<int>& data, bool showSteps, bool manualSteps) {
     std::cout << "\nArray successfully sorted using Merge Sort!\n";
     setConsoleColor(7);  // Reset
 }
-*/
 // ==== Data Structures Visuals ====
 void visualizeQueue(const vector<int>& data){
     vector<int> queueVec;
