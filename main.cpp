@@ -110,9 +110,6 @@ int main() {
         user = new Guest();
     } else if (userType == 2) {
         user = new Admin();
-    } else {
-        cout << "Invalid user type. Exiting...\n";
-        return 1;
     }
 
     user->setUsername(name);

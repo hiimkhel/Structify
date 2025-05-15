@@ -66,7 +66,7 @@ int showMenuAlgorithms(const string& title, const vector<string>& options){
     cout << "│                                                                                                                                                                       │\n";
     cout << "│          [+] WELCOME TO THE SORTING ALGORITHMS VISUALIZER OF STRUCTIFY! LETS UNDERSTAND WHAT'S BENEATH THE HOOD OF SORTING ALGORITHMS THROUGH OUR VISUALIZATION!      │\n";
     cout << "│                                                                                                                                                                       │\n";
-    cout << "│  >>> This feature provides step-by-step visualizations of common sorting algorithms, helping students understand and grasp the logic, behaviour, and efficiency       │\n";
+    cout << "│  >>> This feature provides a step-by-step visualization of common sorting algorithms, helping students understand and grasp the logic, behaviour, and efficiency,       │\n";
     cout << "│      one iteration at a time. Structify bridges the gap between theory and implementation with its clear graphical representation and time complexity insights.       │\n";
     cout << "│                                                                                                                                                                       │\n";
     cout << "x───────────────────────────────────────────────────────────────────────SORTING ALGORITHM MENU──────────────────────────────────────────────────────────────────────────x\n";     
@@ -176,7 +176,7 @@ void printBarChart(const vector<int> data, int highlight1 = -1, int highlight2 =
         }
         cout << setw(2) << data[i] << " | ";
         for(int j = 0; j < data[i]; ++j){
-            cout<< "#";
+            cout<< "█";
         }
         cout << endl;
     }

@@ -17,6 +17,7 @@ protected:
 public:
     virtual void dashboard() = 0;
     void setUsername(const std::string& name);
+    virtual ~User() {}
 };
 
 // ==== Guest Class ====
@@ -57,6 +58,6 @@ void visualizeLinkedList(const vector<int>& data);
 
 
 // ==== Recursion ====
-void patternGenerator();
+
 
 #endif
