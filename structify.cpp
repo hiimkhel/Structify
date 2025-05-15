@@ -20,13 +20,52 @@ struct Node{
 };
 
 // ==== Menu UI ====
-int showMenu(const string& title, const vector<string>& options){
+int showMenuVisualize(const string& title, const vector<string>& options){
     int selected = 0;
     while(true){
         clearScreen();
-        cout << title << "\n\n";
+        system("cls");
+    cout << "x───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────x\n";
+    cout << "│                                                    ███████╗████████╗██████╗ ██╗   ██╗██████╗ ████████╗██╗███████╗██╗   ██╗                                            │\n";
+    cout << "│                                                    ██╔════╝╚══██╔══╝██╔══██╗██║   ██║██╔══██╗╚══██╔══╝██║██╔════╝╚██╗ ██╔╝                                            │\n";
+    cout << "│                                                    ███████╗   ██║   ██████╔╝██║   ██║██║        ██║   ██║█████╗   ╚████╔╝                                             │\n";
+    cout << "│                                                    ╚════██║   ██║   ██╔═ ██╝██║   ██║██║  ██╗   ██║   ██║██╔══╝    ╚██╔╝                                              │\n";
+    cout << "│                                                    ███████╗   ██║   ██║  ██╗╚██████╔╝╚██████║   ██║   ██║██║        ██║                                               │\n";
+    cout << "|                                                    ╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚═════╝╝   ╚═╝   ╚═╝╚═╝        ╚═╝                                               │\n";
+    cout << "x─────────────────────────────────────────────────────────────────────────────User Dashboard────────────────────────────────────────────────────────────────────────────x\n";
+
+    cout <<"\t\t\t\t" << title << "\n\n";    
         for(int i = 0; i < options.size(); i++){
-            cout << (i == selected ? "  > " : "  ") << options[i] << "\n";
+            cout << (i == selected ? "\t\t\t\t  > " : "\t\t\t\t  ") << options[i] << "\n";
+        }
+
+        int key = _getch();
+        if(key == 224){
+            key = _getch();
+            if(key == 72 && selected > 0) selected --;
+            else if(key == 80 && selected < options.size() - 1) selected++;
+        }else if(key == 13){
+            return selected;
+        }
+
+    }
+}
+int showMenuAlgorithms(const string& title, const vector<string>& options){
+    int selected = 0;
+    while(true){
+        clearScreen();
+        system("cls");
+    cout << "x───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────x\n";
+    cout << "│                                                    ███████╗████████╗██████╗ ██╗   ██╗██████╗ ████████╗██╗███████╗██╗   ██╗                                            │\n";
+    cout << "│                                                    ██╔════╝╚══██╔══╝██╔══██╗██║   ██║██╔══██╗╚══██╔══╝██║██╔════╝╚██╗ ██╔╝                                            │\n";
+    cout << "│                                                    ███████╗   ██║   ██████╔╝██║   ██║██║        ██║   ██║█████╗   ╚████╔╝                                             │\n";
+    cout << "│                                                    ╚════██║   ██║   ██╔═ ██╝██║   ██║██║  ██╗   ██║   ██║██╔══╝    ╚██╔╝                                              │\n";
+    cout << "│                                                    ███████╗   ██║   ██║  ██╗╚██████╔╝╚██████║   ██║   ██║██║        ██║                                               │\n";
+    cout << "|                                                    ╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚═════╝╝   ╚═╝   ╚═╝╚═╝        ╚═╝                                               │\n";
+    cout << "x──────────────────────────────────────────────────────────────────────────Sorting Algorithms Menu──────────────────────────────────────────────────────────────────────x\n";
+        cout << "\t\t\t\t"<< title << "\n\n";    
+        for(int i = 0; i < options.size(); i++){
+            cout << (i == selected ? " \t\t\t\t > " : "\t\t\t\t ") << options[i] << "\n";
         }
 
         int key = _getch();
@@ -77,7 +116,7 @@ vector<string> getAvailableDatasets() {
 }
 string promptDatasetFile() {
     vector<string> datasets = getAvailableDatasets();
-    int choice = showMenu("Choose a dataset to use:", datasets);
+    int choice = showMenuVisualize("Choose a dataset to use:", datasets);
     return datasets[choice];
 }
 //Algorithms
@@ -220,8 +259,8 @@ void User::setUsername(const std::string& name) {
 void Guest::dashboard() {
     clearScreen();
     int choice = 0;
-    do{
-        clearScreen();
+    
+
         vector<string> options = {
             "[1] Visualize Algorithm",
             "[2] Visualize Data Structure",
@@ -229,7 +268,7 @@ void Guest::dashboard() {
             "[4] Logout"
         };
         
-        choice = showMenu("User Dashboard", options);
+        choice = showMenuVisualize("Visualizer Menu:", options);
 
 
         clearScreen();
@@ -240,12 +279,7 @@ void Guest::dashboard() {
             case 3: std::cout << "Logging out...\n"; break;
         }
 
-        if (choice != 3) {
-            std::cout << "\nPress any key to return to the dashboard...";
-            setConsoleColor(7);
-            _getch();
-        }
-    }while(choice != 3);
+    
     
 }
 
@@ -260,7 +294,7 @@ void Guest::visualizeAlgorithm() {
             "[5] Merge Sort",
             "[6] Return" 
         };
-        int algChoice = showMenu("Choose Algorithm: ", algoOptions);
+        int algChoice = showMenuAlgorithms("Choose Algorithm: ", algoOptions);
         if (algChoice == 5) return; 
 
         vector<string> dataOptions = {
@@ -268,7 +302,7 @@ void Guest::visualizeAlgorithm() {
             "[2] Custom Input",
             "[3] Return"
         };
-        int dataChoice = showMenu("Use: ", dataOptions);
+        int dataChoice = showMenuAlgorithms("Use: ", dataOptions);
 
         if (dataChoice == 2) continue; 
 
@@ -280,7 +314,7 @@ void Guest::visualizeAlgorithm() {
             data = getUserInputData();
         }
 
-        bool manualMode = (showMenu("Choose Step Mode:", {"[1] Manual", "[2] Automatic"}) == 0);
+        bool manualMode = (showMenuAlgorithms("Choose Step Mode:", {"[1] Manual", "[2] Automatic"}) == 0);
 
         switch (algChoice) {
             case 0: bubbleSort(data, true, manualMode); break;
@@ -304,7 +338,7 @@ void Guest::visualizeDataStructure() {
             "[3] Linked List",
             "[4] Return"
         };
-        int structChoice = showMenu("Choose Data Structure: ", structOptions);
+        int structChoice = showMenuAlgorithms("Choose Data Structure: ", structOptions);
         if (structChoice == 3) return; 
 
         vector<string> dataOptions = {
@@ -312,7 +346,7 @@ void Guest::visualizeDataStructure() {
             "[2] Custom Input",
             "[3] Return"
         };
-        int dataChoice = showMenu("Use: ", dataOptions);
+        int dataChoice = showMenuAlgorithms("Use: ", dataOptions);
         if (dataChoice == 2) continue; 
 
         vector<int> data;
@@ -362,7 +396,7 @@ void Admin::dashboard() {
         "[3] Logout",
     };
 
-    int choice = showMenu("Admin Dashboard", adminOptions);
+    int choice = showMenuVisualize("Admin Dashboard", adminOptions);
 
     switch (choice) {
         case 0: viewSystemLogs(); break;
