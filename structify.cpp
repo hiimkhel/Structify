@@ -36,7 +36,7 @@ int showMenuVisualize(const string& title, const vector<string>& options){
 
     cout <<"\t\t\t\t" << title << "\n\n";    
         for(int i = 0; i < options.size(); i++){
-            cout << (i == selected ? "\t\t\t\t  > " : "\t\t\t\t  ") << options[i] << "\n";
+            cout << (i == selected ? "\t\t\t\t>>> " : "\t\t\t\t    ") << options[i] << "\n";
         }
 
         int key = _getch();
@@ -62,10 +62,90 @@ int showMenuAlgorithms(const string& title, const vector<string>& options){
     cout << "│                                                    ╚════██║   ██║   ██╔═ ██╝██║   ██║██║  ██╗   ██║   ██║██╔══╝    ╚██╔╝                                              │\n";
     cout << "│                                                    ███████╗   ██║   ██║  ██╗╚██████╔╝╚██████║   ██║   ██║██║        ██║                                               │\n";
     cout << "|                                                    ╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚═════╝╝   ╚═╝   ╚═╝╚═╝        ╚═╝                                               │\n";
-    cout << "x──────────────────────────────────────────────────────────────────────────Sorting Algorithms Menu──────────────────────────────────────────────────────────────────────x\n";
+    cout << "x────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────x\n";
+    cout << "│                                                                                                                                                                       │\n";
+    cout << "│          [+] WELCOME TO THE SORTING ALGORITHMS VISUALIZER OF STRUCTIFY! LETS UNDERSTAND WHAT'S BENEATH THE HOOD OF SORTING ALGORITHMS THROUGH OUR VISUALIZATION!      │\n";
+    cout << "│                                                                                                                                                                       │\n";
+    cout << "│  >>> This feature provides step-by-step visualizations of common sorting algorithms, helping students understand and grasp the logic, behaviour, and efficiency       │\n";
+    cout << "│      one iteration at a time. Structify bridges the gap between theory and implementation with its clear graphical representation and time complexity insights.       │\n";
+    cout << "│                                                                                                                                                                       │\n";
+    cout << "x───────────────────────────────────────────────────────────────────────SORTING ALGORITHM MENU──────────────────────────────────────────────────────────────────────────x\n";     
         cout << "\t\t\t\t"<< title << "\n\n";    
         for(int i = 0; i < options.size(); i++){
-            cout << (i == selected ? " \t\t\t\t > " : "\t\t\t\t ") << options[i] << "\n";
+            cout << (i == selected ? "\t\t\t\t>>> " : "\t\t\t\t    ") << options[i] << "\n";
+        }
+
+        int key = _getch();
+        if(key == 224){
+            key = _getch();
+            if(key == 72 && selected > 0) selected --;
+            else if(key == 80 && selected < options.size() - 1) selected++;
+        }else if(key == 13){
+            return selected;
+        }
+
+    }
+}
+
+int showDSAMenu(const string& title, const vector<string>& options){
+    int selected = 0;
+    while(true){
+        clearScreen();
+        system("cls");
+    cout << "x───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────x\n";
+    cout << "│                                                    ███████╗████████╗██████╗ ██╗   ██╗██████╗ ████████╗██╗███████╗██╗   ██╗                                            │\n";
+    cout << "│                                                    ██╔════╝╚══██╔══╝██╔══██╗██║   ██║██╔══██╗╚══██╔══╝██║██╔════╝╚██╗ ██╔╝                                            │\n";
+    cout << "│                                                    ███████╗   ██║   ██████╔╝██║   ██║██║        ██║   ██║█████╗   ╚████╔╝                                             │\n";
+    cout << "│                                                    ╚════██║   ██║   ██╔═ ██╝██║   ██║██║  ██╗   ██║   ██║██╔══╝    ╚██╔╝                                              │\n";
+    cout << "│                                                    ███████╗   ██║   ██║  ██╗╚██████╔╝╚██████║   ██║   ██║██║        ██║                                               │\n";
+    cout << "|                                                    ╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚═════╝╝   ╚═╝   ╚═╝╚═╝        ╚═╝                                               │\n";
+    cout << "x───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────x\n";
+    cout << "│                                                                                                                                                                       │\n";
+    cout << "│          [+] WELCOME TO THE DATA STUCTURE VISUALIZER OF STRUCTIFY! YOUR INTERACTIVE TOOL FOR EXPLORING HOW FUNDAMENTAL DATA STRUCTURES OPERATE INTERNALLY.            │\n";
+    cout << "│                                                                                                                                                                       │\n";
+    cout << "│  >>> This feature allows students and developers to visualize dynamic changes in common data structures as elements are added, removed, or manipulated. Structify     │\n";
+    cout << "│      makes abstract concepts easily digested and beginner-friendly with its integration of animated operations.                                                       │\n";
+    cout << "│                                                                                                                                                                       │\n";
+    cout << "x──────────────────────────────────────────────────────────────────────DATA STRUCTURE VISUALIZER MENU───────────────────────────────────────────────────────────────────x\n";     
+        cout << "\t\t\t\t"<< title << "\n\n";    
+        for(int i = 0; i < options.size(); i++){
+            cout << (i == selected ? "\t\t\t\t>>> " : "\t\t\t\t    ") << options[i] << "\n";
+        }
+
+        int key = _getch();
+        if(key == 224){
+            key = _getch();
+            if(key == 72 && selected > 0) selected --;
+            else if(key == 80 && selected < options.size() - 1) selected++;
+        }else if(key == 13){
+            return selected;
+        }
+
+    }
+}
+
+int patternDifficultyDashboard(const vector<string> options){
+    int selected = 0;
+    while(true){
+        clearScreen();
+        system("cls");
+    cout << "x───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────x\n";
+    cout << "│                                                    ███████╗████████╗██████╗ ██╗   ██╗██████╗ ████████╗██╗███████╗██╗   ██╗                                            │\n";
+    cout << "│                                                    ██╔════╝╚══██╔══╝██╔══██╗██║   ██║██╔══██╗╚══██╔══╝██║██╔════╝╚██╗ ██╔╝                                            │\n";
+    cout << "│                                                    ███████╗   ██║   ██████╔╝██║   ██║██║        ██║   ██║█████╗   ╚████╔╝                                             │\n";
+    cout << "│                                                    ╚════██║   ██║   ██╔═ ██╝██║   ██║██║  ██╗   ██║   ██║██╔══╝    ╚██╔╝                                              │\n";
+    cout << "│                                                    ███████╗   ██║   ██║  ██╗╚██████╔╝╚██████║   ██║   ██║██║        ██║                                               │\n";
+    cout << "|                                                    ╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚═════╝╝   ╚═╝   ╚═╝╚═╝        ╚═╝                                               │\n";
+    cout << "x───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────x\n"; 
+    cout << "│                                                                                                                                                                       │\n";
+    cout << "│          [+] WELCOME TO THE PATTERNS GENERATOR OF STRUCTIFY! LETS VISUALIZE THE LOGIC BEHIND EACH LOOP AND EXPERIMENT WITH DIFFERENT VARIATIONS!                      │\n";
+    cout << "│                                                                                                                                                                       │\n";
+    cout << "│  >>> This feature is designed to help you understand nested loops and logic building through visual pattern generation. Structify makes pattern creation interactive  │\n";
+    cout << "│      and intuitive whether you are a beginner or someone who wants to strengthen your loop control skill.                                                             |\n";
+    cout << "│                                                                                                                                                                       │\n";
+    cout << "x────────────────────────────────────────────────────────────────────────PATTERNS GENERATOR MENU────────────────────────────────────────────────────────────────────────x\n"; 
+    for(int i = 0; i < options.size(); i++){
+            cout << (i == selected ? "\t\t\t\t>>> " : "\t\t\t\t    ") << options[i] << "\n";
         }
 
         int key = _getch();
@@ -250,34 +330,7 @@ void drawQueue(const vector<int>& queueVec) {
 }
 
 //Patterns Generator
-int patternDifficultyDashboard(const vector<string> options){
-    int selected = 0;
-    while(true){
-        clearScreen();
-        system("cls");
-    cout << "x───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────x\n";
-    cout << "│                                                    ███████╗████████╗██████╗ ██╗   ██╗██████╗ ████████╗██╗███████╗██╗   ██╗                                            │\n";
-    cout << "│                                                    ██╔════╝╚══██╔══╝██╔══██╗██║   ██║██╔══██╗╚══██╔══╝██║██╔════╝╚██╗ ██╔╝                                            │\n";
-    cout << "│                                                    ███████╗   ██║   ██████╔╝██║   ██║██║        ██║   ██║█████╗   ╚████╔╝                                             │\n";
-    cout << "│                                                    ╚════██║   ██║   ██╔═ ██╝██║   ██║██║  ██╗   ██║   ██║██╔══╝    ╚██╔╝                                              │\n";
-    cout << "│                                                    ███████╗   ██║   ██║  ██╗╚██████╔╝╚██████║   ██║   ██║██║        ██║                                               │\n";
-    cout << "|                                                    ╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚═════╝╝   ╚═╝   ╚═╝╚═╝        ╚═╝                                               │\n";
-    cout << "x──────────────────────────────────────────────────────────────────────────Pattern Generator Menu──────────────────────────────────────────────────────────────────────x\n"; 
-        for(int i = 0; i < options.size(); i++){
-            cout << (i == selected ? " \t\t\t\t > " : "\t\t\t\t ") << options[i] << "\n";
-        }
 
-        int key = _getch();
-        if(key == 224){
-            key = _getch();
-            if(key == 72 && selected > 0) selected --;
-            else if(key == 80 && selected < options.size() - 1) selected++;
-        }else if(key == 13){
-            return selected;
-        }
-
-    }
-}
 //Solid Rectangle, Hollow Rectangle, Right Angled Triangle (Left Aligned), Inverted Right Triangle, Right Angled Triangle (Right Aligned)
 void basicPatterns(){
 

@@ -31,18 +31,18 @@ void displayMenu(int highlight){
     cout << "|                                                    ╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚═════╝╝   ╚═╝   ╚═╝╚═╝        ╚═╝                                               │\n";
     cout << "x──────────────────────────────────────────────────────────────────────────────Sytem Overview───────────────────────────────────────────────────────────────────────────x\n";
     cout << "│                                                                                                                                                                       │\n";
-    cout << "│  📘 This system is a console-based C++ application designed to visually demonstrate how sorting algorithms work. It allows users to choose from common algorithms     │\n";
-    cout << "│     and see each step of the sorting process through animated text-based bar charts. The system highlights comparisons and swaps using color, making                  │\n";
-    cout << "│     the sorting logic easier to understand. Users can input their own data or use predefined datasets, and choose between manual or automatic step progression.       │\n";
-    cout << "│     Designed as an educational tool, this system helps students and beginners grasp the inner workings of algorithms in an interactive and intuitive way.             │\n";
+    cout << "│  📘 This system is a console-based C++ application designed to visually demonstrate how sorting algorithms work. Structify is a dual-function educational system      │\n";
+    cout << "│     designed to help students and developers learn Data Structures & Algorithms (DSA) with focus on sorting algorithms through interactive visualizations.            │\n";
+    cout << "│     Users can input their own data or use predefined datasets, and choose between manual or automatic step progression. This system helps students and                │\n";
+    cout << "│     beginners grasp the inner workings of algorithms in an interactive and intuitive way.                                                                             │\n";
     cout << "│                                                                                                                                                                       │\n";
     cout << "x─────────────────────────────────────────────────────────────────────────────────MAIN MENU─────────────────────────────────────────────────────────────────────────────x\n";                                                                                                                                             
     
-    const int menuWidth = 155; 
+    const int menuWidth = 153; 
 
     for(int i = 0; i < optionCount; i++) {
     string item = UserMenuOptions[i];
-    string arrow = (i == highlight) ? ">" : " ";
+    string arrow = (i == highlight) ? ">>>" : "   ";
     
     if (i == highlight) {
         setColor(FOREGROUND_GREEN); // White text on blue bg
