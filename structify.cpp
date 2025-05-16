@@ -32,7 +32,12 @@ int showMenuVisualize(const string& title, const vector<string>& options){
     cout << "│                                                    ███████╗   ██║   ██║  ██╗╚██████╔╝╚██████║   ██║   ██║██║        ██║                                               │\n";
     cout << "|                                                    ╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚═════╝╝   ╚═╝   ╚═╝╚═╝        ╚═╝                                               │\n";
     cout << "x───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────x\n";
-
+    cout << "│                                                                                                                                                                       │\n";
+    cout << "│                                                                                                                                                                       │\n";
+    cout << "│                         [+] Lets explore, learn, and visualize common sorting algorithms, data structures, and pattern logic in a fun and interactive way!!!          │\n";
+    cout << "│                                                                                                                                                                       │\n";
+    cout << "│                                                                                                                                                                       │\n";
+    cout << "x────────────────────────────────────────────────────────────────────────────MAIN MENU──────────────────────────────────────────────────────────────────────────────────x\n";   
     cout <<"\t\t\t\t" << title << "\n\n";    
         for(int i = 0; i < options.size(); i++){
             cout << (i == selected ? "\t\t\t\t>>> " : "\t\t\t\t    ") << options[i] << "\n";
@@ -61,7 +66,7 @@ int showMenuAlgorithms(const string& title, const vector<string>& options){
         cout << "│                                                    ╚════██║   ██║   ██╔═ ██╝██║   ██║██║  ██╗   ██║   ██║██╔══╝    ╚██╔╝                                              │\n";
         cout << "│                                                    ███████╗   ██║   ██║  ██╗╚██████╔╝╚██████║   ██║   ██║██║        ██║                                               │\n";
         cout << "|                                                    ╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚═════╝╝   ╚═╝   ╚═╝╚═╝        ╚═╝                                               │\n";
-        cout << "x────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────x\n";
+        cout << "x───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────x\n";
         cout << "│                                                                                                                                                                       │\n";
         cout << "│          [+] WELCOME TO THE SORTING ALGORITHMS VISUALIZER OF STRUCTIFY! LETS UNDERSTAND WHAT'S BENEATH THE HOOD OF SORTING ALGORITHMS THROUGH OUR VISUALIZATION!      │\n";
         cout << "│                                                                                                                                                                       │\n";
@@ -69,7 +74,7 @@ int showMenuAlgorithms(const string& title, const vector<string>& options){
         cout << "│      one iteration at a time. Structify bridges the gap between theory and implementation with its clear graphical representation and time complexity insights.       │\n";
         cout << "│                                                                                                                                                                       │\n";
         cout << "x───────────────────────────────────────────────────────────────────────SORTING ALGORITHM MENU──────────────────────────────────────────────────────────────────────────x\n";     
-        cout << "\t\t\t\t"<< title << "\n\n";    
+        cout << "\t\t\t\t"<< title << "\n\n\n";    
         for(int i = 0; i < options.size(); i++){
             cout << (i == selected ? "\t\t\t\t>>> " : "\t\t\t\t    ") << options[i] << "\n";
         }
@@ -82,7 +87,7 @@ int showMenuAlgorithms(const string& title, const vector<string>& options){
         }else if(key == 13){
             return selected;
         }
-
+        
     }
 }
 
@@ -175,6 +180,42 @@ string wrapText(const string& text, size_t width = 140) {
     return wrapped;
 }
 
+int showMenuDataset(const string& title, const vector<string>& options){
+    int selected = 0;
+    while(true){
+        system("cls");
+    cout << "x───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────x\n";
+    cout << "│                                                    ███████╗████████╗██████╗ ██╗   ██╗██████╗ ████████╗██╗███████╗██╗   ██╗                                            │\n";
+    cout << "│                                                    ██╔════╝╚══██╔══╝██╔══██╗██║   ██║██╔══██╗╚══██╔══╝██║██╔════╝╚██╗ ██╔╝                                            │\n";
+    cout << "│                                                    ███████╗   ██║   ██████╔╝██║   ██║██║        ██║   ██║█████╗   ╚████╔╝                                             │\n";
+    cout << "│                                                    ╚════██║   ██║   ██╔═ ██╝██║   ██║██║  ██╗   ██║   ██║██╔══╝    ╚██╔╝                                              │\n";
+    cout << "│                                                    ███████╗   ██║   ██║  ██╗╚██████╔╝╚██████║   ██║   ██║██║        ██║                                               │\n";
+    cout << "|                                                    ╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚═════╝╝   ╚═╝   ╚═╝╚═╝        ╚═╝                                               │\n";
+    cout << "x───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────x\n";
+    cout << "│                                                                                                                                                                       │\n";
+    cout << "│                         [+] Before we visualize the algorithm, let's choose your data source.                                                                         │\n";
+    cout << "│                                                                                                                                                                       │\n";
+    cout << "│                              [*] Use a predefined dataset for quick testing and examples.                                                                             │\n";
+    cout << "│                              [*] Enter your own custom input for a personalized experience.                                                                           │\n";
+    cout << "│                                                                                                                                                                       │\n"; 
+    cout << "x─────────────────────────────────────────────────────────────────────────DATASET MENU──────────────────────────────────────────────────────────────────────────────────x\n";   
+    cout <<"\t\t\t\t" << title << "\n\n";    
+        for(int i = 0; i < options.size(); i++){
+            cout << (i == selected ? "\t\t\t\t>>> " : "\t\t\t\t    ") << options[i] << "\n";
+        }
+
+        int key = _getch();
+        if(key == 224){
+            key = _getch();
+            if(key == 72 && selected > 0) selected --;
+            else if(key == 80 && selected < options.size() - 1) selected++;
+        }else if(key == 13){
+            return selected;
+        }
+
+    }
+}
+
 void algorithmHeader(const string& algoName, const string& algoDescription){
     cout << "x───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────x\n";
     cout << "│                                                    ███████╗████████╗██████╗ ██╗   ██╗██████╗ ████████╗██╗███████╗██╗   ██╗                                            │\n";
@@ -184,11 +225,11 @@ void algorithmHeader(const string& algoName, const string& algoDescription){
     cout << "│                                                    ███████╗   ██║   ██║  ██╗╚██████╔╝╚██████║   ██║   ██║██║        ██║                                               │\n";
     cout << "|                                                    ╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚═════╝╝   ╚═╝   ╚═╝╚═╝        ╚═╝                                               │\n";
     cout << "x──────────────────────────────────────────────────────────────────────SORTING ALGORITHM VISUALIZER─────────────────────────────────────────────────────────────────────x\n";
-    cout << "\n\n       [ ALGORITHM: "<< algoName << " ]\n\n";
-    cout << "------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n";
-    cout << "      DESCRIPTION: \n";
+    cout << "\n\n       [ ALGORITHM: "<< algoName << " ]\n";
+    cout << "========================================================================================================================================================================\n";
+    cout << " \n     DESCRIPTION: \n\n";
     cout << "       [+] " << wrapText(algoDescription) << " \n";
-    cout << "------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n";
+    cout << "========================================================================================================================================================================\n";
 }
 
 //Function for setting color of text
@@ -237,7 +278,7 @@ vector<string> getAvailableDatasets() {
 }
 string promptDatasetFile() {
     vector<string> datasets = getAvailableDatasets();
-    int choice = showMenuVisualize("Choose a dataset to use:", datasets);
+    int choice = showMenuDataset("Choose a dataset to use:", datasets);
     return datasets[choice];
 }
 //Algorithms
@@ -438,7 +479,7 @@ void Guest::visualizeAlgorithm() {
             "[2] Custom Input",
             "[3] Return"
         };
-        int dataChoice = showMenuAlgorithms("Use: ", dataOptions);
+        int dataChoice = showMenuDataset("Choose data option: ", dataOptions);
 
         if (dataChoice == 2) return; 
         
@@ -450,7 +491,7 @@ void Guest::visualizeAlgorithm() {
             data = getUserInputData();
         }
 
-        bool manualMode = (showMenuAlgorithms("Choose Step Mode:", {"[1] Manual", "[2] Automatic"}) == 0);
+        bool manualMode = (showMenuDataset("Choose Step Mode:", {"[1] Manual", "[2] Automatic"}) == 0);
 
         switch (algChoice) {
             case 0: bubbleSort(data, true, manualMode); break;
