@@ -232,6 +232,21 @@ void algorithmHeader(const string& algoName, const string& algoDescription){
     cout << "========================================================================================================================================================================\n";
 }
 
+void dataStructHeader(const string& dataStructName, const string& dataStructDescription){
+    cout << "x───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────x\n";
+    cout << "│                                                    ███████╗████████╗██████╗ ██╗   ██╗██████╗ ████████╗██╗███████╗██╗   ██╗                                            │\n";
+    cout << "│                                                    ██╔════╝╚══██╔══╝██╔══██╗██║   ██║██╔══██╗╚══██╔══╝██║██╔════╝╚██╗ ██╔╝                                            │\n";
+    cout << "│                                                    ███████╗   ██║   ██████╔╝██║   ██║██║        ██║   ██║█████╗   ╚████╔╝                                             │\n";
+    cout << "│                                                    ╚════██║   ██║   ██╔═ ██╝██║   ██║██║  ██╗   ██║   ██║██╔══╝    ╚██╔╝                                              │\n";
+    cout << "│                                                    ███████╗   ██║   ██║  ██╗╚██████╔╝╚██████║   ██║   ██║██║        ██║                                               │\n";
+    cout << "|                                                    ╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚═════╝╝   ╚═╝   ╚═╝╚═╝        ╚═╝                                               │\n";
+    cout << "x───────────────────────────────────────────────────────────────────────DATA STRUCTURE VISUALIZER───────────────────────────────────────────────────────────────────────x\n";
+    cout << "\n\n       [ DATA STRUCTURE: "<< dataStructName << " ]\n";
+    cout << "========================================================================================================================================================================\n";
+    cout << " \n     DESCRIPTION: \n\n";
+    cout << "       [+] " << wrapText(dataStructDescription) << " \n";
+    cout << "========================================================================================================================================================================\n";
+}
 //Function for setting color of text
 void setConsoleColor(int color){
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
@@ -284,27 +299,30 @@ string promptDatasetFile() {
 //Algorithms
 void drawStack(const vector<int>& stackVec, bool showTopLabel = true){
     system("cls");
-    cout << " --- Stack Visualization (Top to Bottom) ---\n\n";
+    dataStructHeader("STACK", "A Stack is a linear data structure that holds a linear, ordered sequence of elements. It is an abstract data type. A Stack works on the LIFO process (Last In First Out), i.e., the element that was inserted last will be removed first.");
+    cout << "\t\t --- Stack Visualization (Top to Bottom) ---\n\n";
 
     if(stackVec.empty()){
-        cout << "[Empty Stack]\n";
+        cout << "\t\t[Empty Stack]\n";
         return;
     }
 
     for(int i = stackVec.size() - 1; i >= 0; --i){
-        cout << "    +--------+\n";
-        cout << "    |   " << stackVec[i];
-
+        //Stack top
+        cout << "\t\t\t+--------+\n";
+        cout << "\t\t\t|   " << stackVec[i];
+        //Spacing
         if(stackVec[i] < 10) cout << "    ";
         else if(stackVec[i] < 100 ) cout << "   ";
         else cout << " ";
-
+        //right border
         cout << "|";
 
         if(i == stackVec.size() - 1 && showTopLabel)
+            //Sign
             cout << "  <-- Top";
-        
-        cout << "\n    +--------+\n";
+        //Stack bottom
+        cout << "\n\t\t\t+--------+\n";
     }
 }
 
@@ -372,10 +390,11 @@ void mergeSortHelper(vector<int>& data, int left, int right, bool showSteps, boo
 //DSA
 void drawQueue(const vector<int>& queueVec) {
     system("cls");
-    cout << "   --- Queue Visualization (Front to Rear) ---\n\n";
-
+    dataStructHeader("QUEUE", "A queue in data structures is a linear collection of elements that follows the 'First-In, First-Out' (FIFO) principle. This means elements are added to the rear (or tail) of the queue and removed from the front (or head). Think of it like a line at a store, where the first person in line is the first to be served. ");
+    cout << "\n\n\t\t--- Queue Visualization (Front to Rear) ---\n\n";
+    
     if (queueVec.empty()) {
-        cout << "[Empty Queue]\n";
+        cout << "\t\t[Empty Queue]\n";
         return;
     }
 
@@ -384,7 +403,7 @@ void drawQueue(const vector<int>& queueVec) {
 
     // Top of boxes
     for (size_t i = 0; i < queueVec.size(); ++i)
-        cout << boxTop << " ";
+        cout << boxTop << " ";  
     cout << "\n";
 
     // Contents of boxes
@@ -415,7 +434,25 @@ void drawQueue(const vector<int>& queueVec) {
 
 //Solid Rectangle, Hollow Rectangle, Right Angled Triangle (Left Aligned), Inverted Right Triangle, Right Angled Triangle (Right Aligned)
 void basicPatterns(){
+    vector<string> basicPatternsOption = {
+        "[1] Solid Rectangle",
+        "[2] Hollow Rectangle",
+        "[3] Right Angled Triangle (LEFT ALIGNED)",
+        "[4] Right Angled Triangle (RIGHT ALIGNED)",
+        "[5] Inverted Right Triangle",
+        "[6] Return",
+    };
 
+    int choice = patternDifficultyDashboard(basicPatternsOption);
+
+    switch(choice){
+        case 0: solidRectangle(); break;
+        case 1: hollowRectangle(); break;
+        case 2: rightAngleLeftAlignedTri(); break;
+        case 3: rightAngleRightAlignedTri(); break;
+        case 4: invertAngleTri(); break;
+        case 5: break;
+    }
 }
 // Inverted Star Pyramid, Number Pyramid, Floyd's Triangle, Pascal's Triangle, Diamond Pattern, Binary Triangle
 void intermediatePatterns(){
@@ -524,7 +561,7 @@ void Guest::visualizeDataStructure() {
             "[2] Custom Input",
             "[3] Return"
         };
-        int dataChoice = showMenuDSA("Use: ", dataOptions);
+        int dataChoice = showMenuDataset("Use: ", dataOptions);
         if (dataChoice == 2) continue; 
 
         vector<int> data;
@@ -545,14 +582,11 @@ void Guest::visualizeDataStructure() {
             case 2:
                 visualizeLinkedList(data);
                 break;
-            case 3:
-                visualizeBinaryTree(data);
-                break;
             default:
                 std::cout << "Invalid Data Structure Selected\n";
         }
-
-        std::cout << "\nPress any key to continue...\n";
+        cout << "========================================================================================================================================================================\n";
+        std::cout << "\n\t\tPress any key to continue...\n";
         _getch();
     }
 }
@@ -788,62 +822,59 @@ void mergeSort(vector<int>& data, bool showSteps, bool manualSteps) {
 // ==== Data Structures Visuals ====
 void visualizeQueue(const vector<int>& data){
     vector<int> queueVec;
-
     // Enqueue phase
     for (size_t i = 0; i < data.size(); ++i) {
-        cout << "Press any key to enqueue " << data[i] << "...\n";
+        cout << "\n\n\t\tPress any key to enqueue " << data[i] << "...\n";
         Sleep(500);
         queueVec.push_back(data[i]);
         drawQueue(queueVec);
     }
 
-    cout << "\nAll elements enqueued. Press any key to begin dequeuing...\n";
+    cout << "\n\t\tAll elements enqueued. Press any key to begin dequeuing...\n";
     _getch();
 
     // Dequeue phase
     while (!queueVec.empty()) {
         drawQueue(queueVec);
-        cout << "\nPress any key to dequeue front element (" << queueVec.front() << ")...\n";
+        cout << "\n\n\t\tPress any key to dequeue front element (" << queueVec.front() << ")...\n";
         Sleep(500);
         queueVec.erase(queueVec.begin()); 
     }
 
     drawQueue(queueVec);
-    cout << "\nQueue is now emptied.\n";
-}
-void visualizeBinaryTree(const vector<int>& data) {
-    cout << "visualize binary Tree\n";
+    cout << "\n\t\tQueue is now emptied.\n";
 }
 
 void visualizeStack(const vector<int>& data) {
     vector<int> q;
 
-    cout << "\n --- Stack Visualization ---\n";
+    cout << "\n\t\t --- Stack Visualization ---\n";
      for (size_t i = 0; i < data.size(); ++i) {
-        cout << "Press any key to push " << data[i] << "...\n";
+        cout << "\t\tPress any key to push " << data[i] << "...\n";
         Sleep(500);
         q.push_back(data[i]);
         drawStack(q);
     }
 
-    cout << "\nAll elements pushed. Press any key to begin popping...\n";
+    cout << "\n\t\tAll elements pushed. Press any key to begin popping...\n";
     _getch();
 
     // Pop phase with animation
     while (!q.empty()) {
         drawStack(q);
-        cout << "\nPress any key to pop top element (" << q.back() << ")...\n";
+        cout << "\n\t\tPress any key to pop top element (" << q.back() << ")...\n";
         Sleep(500);
         q.pop_back();
     }
 
     // Final state
     drawStack(q);
-    cout << "\nStack is now emptied.\n";
+    cout << "\n\t\tStack is now emptied.\n";
 }
 void visualizeLinkedList(const vector<int>& data){
     system("cls");
-    cout << "\n--- Linked List Visualization\n";
+    dataStructHeader("LINKED LIST", "A linked list is a fundamental data structure that stores a sequence of elements, where each element (called a node) contains data and a pointer (or reference) to the next node in the sequence.");
+    cout << "\n\t\t--- Linked List Visualization\n";
     
     //Each node will have two pointer; head and tail
     Node* head = nullptr;
@@ -860,7 +891,7 @@ void visualizeLinkedList(const vector<int>& data){
         }
     }
    
-    cout << "\n Traversing Linked List: \n";
+    cout << "\n\t\t Traversing Linked List: \n";
     Node* current = head;
     while(current){
         cout << " [" << current->data << "][]-> ";
@@ -879,10 +910,27 @@ void visualizeLinkedList(const vector<int>& data){
 
 }
 // ==== Patterns Implementation ====
-void patternGenerator() {
-
+void solidRectangle(){
+    int height = 5;
+    for(int i = 0; i < height; i++){
+        for(int j = 0; j < height; j++){
+            cout << "#";
+        }
+        cout << endl;
+    }
 }
-
+void hollowRectangle(){
+    
+}
+void rightAngleLeftAlignedTri(){
+    
+}
+void rightAngleRightAlignedTri(){
+    
+}
+void invertAngleTri(){
+    
+}
 //==== Helper Functions ====
 vector<int> getUserInputData() {
     vector<int> data;

@@ -52,12 +52,14 @@ void mergeSort(vector<int>& data, bool showSteps = true, bool manualSteps = fals
 
 // ==== Data Structures ====
 void visualizeQueue(const vector<int>& data);
-void visualizeBinaryTree(const vector<int>& data);
 void visualizeStack(const vector<int>& data);
 void visualizeLinkedList(const vector<int>& data);
 
 
-// ==== Recursion ====
-
-
+// ==== Patterns ====
+void solidRectangle();
+void hollowRectangle();
+void rightAngleRightAlignedTri();
+void rightAngleLeftAlignedTri();
+void invertAngleTri();
 #endif
