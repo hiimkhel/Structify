@@ -57,9 +57,9 @@ void visualizeLinkedList(const vector<int>& data);
 
 
 // ==== Patterns ====
-void solidRectangle();
-void hollowRectangle();
-void rightAngleRightAlignedTri();
-void rightAngleLeftAlignedTri();
-void invertAngleTri();
+void solidRectangle(const string& level);
+void hollowRectangle(const string& level);
+void rightAngleRightAlignedTri(const string& level);
+void rightAngleLeftAlignedTri(const string& level);
+void invertAngleTri(const string& level);
 #endif

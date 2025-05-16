@@ -146,7 +146,7 @@ int patternDifficultyDashboard(const vector<string> options){
     cout << "│  >>> This feature is designed to help you understand nested loops and logic building through visual pattern generation. Structify makes pattern creation interactive  │\n";
     cout << "│      and intuitive whether you are a beginner or someone who wants to strengthen your loop control skill.                                                             |\n";
     cout << "│                                                                                                                                                                       │\n";
-    cout << "x────────────────────────────────────────────────────────────────────────PATTERNS GENERATOR MENU────────────────────────────────────────────────────────────────────────x\n"; 
+    cout << "x───────────────────────────────────────────────────────────────────────PATTERNS GENERATOR MENU────────────────────────────────────────────────────────────────────────x\n"; 
     for(int i = 0; i < options.size(); i++){
             cout << (i == selected ? "\t\t\t\t>>> " : "\t\t\t\t    ") << options[i] << "\n";
         }
@@ -246,6 +246,22 @@ void dataStructHeader(const string& dataStructName, const string& dataStructDesc
     cout << " \n     DESCRIPTION: \n\n";
     cout << "       [+] " << wrapText(dataStructDescription) << " \n";
     cout << "========================================================================================================================================================================\n";
+}
+
+void patternHeader(const string& patternName, const string& level){
+    cout << "x───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────x\n";
+    cout << "│                                                    ███████╗████████╗██████╗ ██╗   ██╗██████╗ ████████╗██╗███████╗██╗   ██╗                                            │\n";
+    cout << "│                                                    ██╔════╝╚══██╔══╝██╔══██╗██║   ██║██╔══██╗╚══██╔══╝██║██╔════╝╚██╗ ██╔╝                                            │\n";
+    cout << "│                                                    ███████╗   ██║   ██████╔╝██║   ██║██║        ██║   ██║█████╗   ╚████╔╝                                             │\n";
+    cout << "│                                                    ╚════██║   ██║   ██╔═ ██╝██║   ██║██║  ██╗   ██║   ██║██╔══╝    ╚██╔╝                                              │\n";
+    cout << "│                                                    ███████╗   ██║   ██║  ██╗╚██████╔╝╚██████║   ██║   ██║██║        ██║                                               │\n";
+    cout << "|                                                    ╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚═════╝╝   ╚═╝   ╚═╝╚═╝        ╚═╝                                               │\n";
+    cout << "x─────────────────────────────────────────────────────────────────────────────PATTERN GENERATOR─────────────────────────────────────────────────────────────────────────x\n";
+    cout << "                         Level: "<< level << " \n";
+    cout << "                         Pattern: "<< patternName << " \n";
+    cout << "========================================================================================================================================================================\n";
+ 
+
 }
 //Function for setting color of text
 void setConsoleColor(int color){
@@ -434,6 +450,7 @@ void drawQueue(const vector<int>& queueVec) {
 
 //Solid Rectangle, Hollow Rectangle, Right Angled Triangle (Left Aligned), Inverted Right Triangle, Right Angled Triangle (Right Aligned)
 void basicPatterns(){
+    const string& level = "BASIC";
     vector<string> basicPatternsOption = {
         "[1] Solid Rectangle",
         "[2] Hollow Rectangle",
@@ -446,11 +463,11 @@ void basicPatterns(){
     int choice = patternDifficultyDashboard(basicPatternsOption);
 
     switch(choice){
-        case 0: solidRectangle(); break;
-        case 1: hollowRectangle(); break;
-        case 2: rightAngleLeftAlignedTri(); break;
-        case 3: rightAngleRightAlignedTri(); break;
-        case 4: invertAngleTri(); break;
+        case 0: solidRectangle(level); break;
+        case 1: hollowRectangle(level); break;
+        case 2: rightAngleLeftAlignedTri(level); break;
+        case 3: rightAngleRightAlignedTri(level); break;
+        case 4: invertAngleTri(level); break;
         case 5: break;
     }
 }
@@ -910,7 +927,9 @@ void visualizeLinkedList(const vector<int>& data){
 
 }
 // ==== Patterns Implementation ====
-void solidRectangle(){
+void solidRectangle(const string& level){
+    system("cls");
+    patternHeader("Solid Rectangle", level);
     int height = 5;
     for(int i = 0; i < height; i++){
         for(int j = 0; j < height; j++){
@@ -919,16 +938,16 @@ void solidRectangle(){
         cout << endl;
     }
 }
-void hollowRectangle(){
+void hollowRectangle(const string& level){
     
 }
-void rightAngleLeftAlignedTri(){
+void rightAngleLeftAlignedTri(const string& level){
     
 }
-void rightAngleRightAlignedTri(){
+void rightAngleRightAlignedTri(const string& level){
     
 }
-void invertAngleTri(){
+void invertAngleTri(const string& level){
     
 }
 //==== Helper Functions ====
