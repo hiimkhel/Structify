@@ -8,10 +8,11 @@
 #include<vector>
 #include <fstream>
 #include <cmath>
+#include <algorithm>
 #include <iostream>
 
 #undef byte
-
+const int TERMINAL_WIDTH = 168;
 using namespace std;
 struct Node{
     int data;
@@ -249,19 +250,60 @@ void dataStructHeader(const string& dataStructName, const string& dataStructDesc
 }
 
 void patternHeader(const string& patternName, const string& level){
-    cout << "x───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────x\n";
-    cout << "│                                                    ███████╗████████╗██████╗ ██╗   ██╗██████╗ ████████╗██╗███████╗██╗   ██╗                                            │\n";
-    cout << "│                                                    ██╔════╝╚══██╔══╝██╔══██╗██║   ██║██╔══██╗╚══██╔══╝██║██╔════╝╚██╗ ██╔╝                                            │\n";
-    cout << "│                                                    ███████╗   ██║   ██████╔╝██║   ██║██║        ██║   ██║█████╗   ╚████╔╝                                             │\n";
-    cout << "│                                                    ╚════██║   ██║   ██╔═ ██╝██║   ██║██║  ██╗   ██║   ██║██╔══╝    ╚██╔╝                                              │\n";
-    cout << "│                                                    ███████╗   ██║   ██║  ██╗╚██████╔╝╚██████║   ██║   ██║██║        ██║                                               │\n";
-    cout << "|                                                    ╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚═════╝╝   ╚═╝   ╚═╝╚═╝        ╚═╝                                               │\n";
-    cout << "x─────────────────────────────────────────────────────────────────────────────PATTERN GENERATOR─────────────────────────────────────────────────────────────────────────x\n";
-    cout << "                         Level: "<< level << " \n";
-    cout << "                         Pattern: "<< patternName << " \n";
-    cout << "========================================================================================================================================================================\n";
+    cout << "╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗\n";
+    cout << "║                                                    ███████╗████████╗██████╗ ██╗   ██╗██████╗ ████████╗██╗███████╗██╗   ██╗                                            ║\n";
+    cout << "║                                                    ██╔════╝╚══██╔══╝██╔══██╗██║   ██║██╔══██╗╚══██╔══╝██║██╔════╝╚██╗ ██╔╝                                            ║\n";
+    cout << "║                                                    ███████╗   ██║   ██████╔╝██║   ██║██║        ██║   ██║█████╗   ╚████╔╝                                             ║\n";
+    cout << "║                                                    ╚════██║   ██║   ██╔═ ██╝██║   ██║██║  ██╗   ██║   ██║██╔══╝    ╚██╔╝                                              ║\n";
+    cout << "║                                                    ███████╗   ██║   ██║  ██╗╚██████╔╝╚██████║   ██║   ██║██║        ██║                                               ║\n";
+    cout << "║                                                    ╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚═════╝╝   ╚═╝   ╚═╝╚═╝        ╚═╝                                               ║\n";
+    cout << "╠═══════════════════════════════════════════════════════════════════════════PATTERN GENERATOR═══════════════════════════════════════════════════════════════════════════╣\n";
+    cout << "║                                                                                                                                                                       ║\n";
+    cout << "                                                [ LEVEL: "<< level << " ]                             " <<"[ PATTERN: "<< patternName << " ]                               \n";
+    cout << "║                                                                                                                                                                       ║\n";
+    cout << "╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝\n";
  
 
+}
+
+bool patternOptionsMenu(const vector<string>& patternLines, const string& patternName, const string& level) {
+    const string option1 = "Export to TXT";
+    const string option2 = "Return";
+    int selected = 0; 
+
+    while (true) {
+        system("cls");
+
+        patternHeader(patternName, level);
+        cout << "\n\n-----------------------------------------------------------------------GENERATED PATTERN PREVIEW-----------------------------------------------------------------------\n\n";
+        
+        for (const string& line : patternLines) {
+            cout << line << endl;
+        }
+        
+        cout << "Choose an option (Use LEFT/RIGHT arrows and ENTER):\n\n";
+
+        if (selected == 0) {
+            cout << "[ " << option1 << " ]" << "   " << option2 << "\n";
+        } else {
+            cout << option1 << "   " << "[ " << option2 << " ]" << "\n";
+        }
+
+        int ch = _getch();
+
+        if (ch == 224) { // Arrow key prefix
+            int arrow = _getch();
+            if (arrow == 75) { // Left arrow
+                selected = max(0, selected - 1);
+            }
+            else if (arrow == 77) { // Right arrow
+                selected = min(1, selected + 1);
+            }
+        } 
+        else if (ch == 13) { // Enter key
+            return selected == 0; // true if Export, false if Return
+        }
+    }
 }
 //Function for setting color of text
 void setConsoleColor(int color){
@@ -297,7 +339,6 @@ void printBarChart(const vector<int>& data, int highlight1 = -1, int highlight2 
     setConsoleColor(7);
 }
 // ==== Helper Functions ====
-// String wrapper
 
 // Dataset Options
 vector<string> getAvailableDatasets() {
@@ -447,7 +488,44 @@ void drawQueue(const vector<int>& queueVec) {
 }
 
 //Patterns Generator
+int getPatternHeight(){
+    int n;
+    while (true) {
+        cout << "\n\n\t\t\t\t>>> Input desired pattern height: ";
+        cin >> n;
 
+        if (cin.fail()) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "\t\t\t\t[!] Invalid input. Please enter a valid number.";
+            
+        } else if (n < 0) {
+            cout << "\t\t\t\t[!] Pattern height must not be negative.";
+        } else {
+            break; 
+        }
+    }
+
+    return n;
+
+}
+
+char getPatternSymbol(){
+    char symbol;
+    string input;
+
+    do {
+        cout << "\t\t\t\t>>> Input desired symbol: ";
+        cin >> input;
+
+        if (input.length() != 1) {
+            cout << "\t\t\t\t[!] Please enter a single character only.\n";
+        }
+    } while (input.length() != 1);
+
+    symbol = input[0];
+    return symbol;
+}
 //Solid Rectangle, Hollow Rectangle, Right Angled Triangle (Left Aligned), Inverted Right Triangle, Right Angled Triangle (Right Aligned)
 void basicPatterns(){
     const string& level = "BASIC";
@@ -928,14 +1006,47 @@ void visualizeLinkedList(const vector<int>& data){
 }
 // ==== Patterns Implementation ====
 void solidRectangle(const string& level){
+    bool exportToFile;
+    //Initial screen
     system("cls");
-    patternHeader("Solid Rectangle", level);
-    int height = 5;
-    for(int i = 0; i < height; i++){
-        for(int j = 0; j < height; j++){
-            cout << "#";
+    patternHeader("SOLID RECTANGLE", level);
+    // Get pattern input first
+    int height = getPatternHeight();
+    char symbol = getPatternSymbol();
+    int patternWidth = height;
+    int leftPadding = max(0, (TERMINAL_WIDTH - patternWidth) / 2);
+
+    // Generate the pattern once and store in a vector
+    vector<string> patternLines;
+    for (int i = 0; i < height; i++) {
+        patternLines.push_back(string(leftPadding, ' ') + string(patternWidth, symbol));
+    }
+
+    // Loop to display and ask
+    while (true) {
+        system("cls");
+        patternHeader("SOLID RECTANGLE", level);
+        cout << "\n\n-----------------------------------------------------------------------GENERATED PATTERN PREVIEW-----------------------------------------------------------------------\n\n";
+        for (const string& line : patternLines) {
+            cout << line << endl;
         }
-        cout << endl;
+
+        exportToFile = patternOptionsMenu(patternLines, "SOLID RECTANGLE", level );
+        break;
+    }
+
+    if (exportToFile) {
+        ofstream outFile("pattern.txt");
+        if (outFile.is_open()) {
+            for (const string& line : patternLines) {
+                outFile << line << '\n';
+            }
+            cout << "\nPattern exported to pattern.txt\n";
+        } else {
+            cout << "\nFailed to open file for writing.\n";
+        }
+    } else {
+        cout << "\nReturning without exporting...\n";
     }
 }
 void hollowRectangle(const string& level){
