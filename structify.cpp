@@ -10,6 +10,7 @@
 #include <cmath>
 #include <algorithm>
 #include <iostream>
+#include <random>
 
 #undef byte
 const int TERMINAL_WIDTH = 168;
@@ -19,7 +20,6 @@ struct Node{
     Node* next;
     Node(int val) : data(val), next(nullptr) {}
 };
-
 // ==== Menu UI ====
 int showMenuVisualize(const string& title, const vector<string>& options){
     int selected = 0;
@@ -486,6 +486,40 @@ void drawQueue(const vector<int>& queueVec) {
     }
     cout << "\n";
 }
+// ====PATTERN EXPORTER CLASS====
+
+
+
+bool PatternExporter::exportPatternToFile(const std::vector<std::string>& lines, const User* user) {
+    std::string filename = user->getUsername() + "_" + generateRandomCode() + ".txt";
+        std::ofstream outFile(filename);
+        if (!outFile.is_open()) {
+            std::cout << "\nFailed to open file for writing.\n";
+            return false;
+        }
+
+        for (const std::string& line : lines) {
+            outFile << line << '\n';
+        }
+
+        std::cout << "\nPattern exported to: " << filename << "\n";
+        return true;
+}
+std::string PatternExporter::generateRandomCode(int length) {
+    static const char charset[] =
+            "0123456789"
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+            "abcdefghijklmnopqrstuvwxyz";
+
+        static std::mt19937 rng(static_cast<unsigned>(time(nullptr)));
+        static std::uniform_int_distribution<> dist(0, sizeof(charset) - 2);
+
+        std::string result;
+        for (int i = 0; i < length; ++i)
+            result += charset[dist(rng)];
+
+        return result;
+}
 
 //Patterns Generator
 int getPatternHeight(){
@@ -527,7 +561,7 @@ char getPatternSymbol(){
     return symbol;
 }
 //Solid Rectangle, Hollow Rectangle, Right Angled Triangle (Left Aligned), Inverted Right Triangle, Right Angled Triangle (Right Aligned)
-void basicPatterns(){
+void basicPatterns(const string& username){
     const string& level = "BASIC";
     vector<string> basicPatternsOption = {
         "[1] Solid Rectangle",
@@ -541,7 +575,7 @@ void basicPatterns(){
     int choice = patternDifficultyDashboard(basicPatternsOption);
 
     switch(choice){
-        case 0: solidRectangle(level); break;
+        case 0: solidRectangle(level, username); break;
         case 1: hollowRectangle(level); break;
         case 2: rightAngleLeftAlignedTri(level); break;
         case 3: rightAngleRightAlignedTri(level); break;
@@ -563,6 +597,9 @@ void User::setUsername(const std::string& name) {
     username = name;
 }
 
+string User::getUsername() const {
+    return username;
+}
 // ==== Guest Implementation ====
 void Guest::dashboard() {
     clearScreen();
@@ -696,7 +733,7 @@ void Guest::patternGenerator(){
     int difficultyOption = patternDifficultyDashboard(patternDifficultyOptions);
 
     switch(difficultyOption){
-        case 0: basicPatterns(); break;
+        case 0: basicPatterns(username); break;
         case 1: intermediatePatterns();break;
         case 2: complexPatterns();break;
         case 3: break;
@@ -1005,7 +1042,7 @@ void visualizeLinkedList(const vector<int>& data){
 
 }
 // ==== Patterns Implementation ====
-void solidRectangle(const string& level){
+void solidRectangle(const string& level, const string& username){
     bool exportToFile;
     //Initial screen
     system("cls");
@@ -1031,7 +1068,7 @@ void solidRectangle(const string& level){
             cout << line << endl;
         }
 
-        exportToFile = patternOptionsMenu(patternLines, "SOLID RECTANGLE", level );
+        exportToFile = patternOptionsMenu(patternLines, "SOLID RECTANGLE", level);
         break;
     }
 

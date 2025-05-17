@@ -18,6 +18,9 @@ public:
     virtual void dashboard() = 0;
     void setUsername(const std::string& name);
     virtual ~User() {}
+
+    std::string getUsername()const;
+
 };
 
 // ==== Guest Class ====
@@ -38,6 +41,12 @@ public:
 };
 
 // ==== Utilities ====
+class PatternExporter {
+public:
+    static bool exportPatternToFile(const std::vector<std::string>& lines, const User* user);
+private:
+    static std::string generateRandomCode(int length = 6);
+};
 void clearScreen();
 std::vector<int> loadDataFromFile(const string& filename);
 std::vector<int> getUserInputData();
@@ -57,7 +66,7 @@ void visualizeLinkedList(const vector<int>& data);
 
 
 // ==== Patterns ====
-void solidRectangle(const string& level);
+void solidRectangle(const string& level, const std::string& username);
 void hollowRectangle(const string& level);
 void rightAngleRightAlignedTri(const string& level);
 void rightAngleLeftAlignedTri(const string& level);
