@@ -204,7 +204,8 @@ void algorithmHeader(const string& algoName, const string& algoDescription){
     cout << "║                                                    ███████╗   ██║   ██║  ██╗╚██████╔╝╚██████║   ██║   ██║██║        ██║                                               ║\n";
     cout << "║                                                    ╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚═════╝╝   ╚═╝   ╚═╝╚═╝        ╚═╝                                               ║\n";
     cout << "x═══════════════════════════════════════════════════════════════════════SORTING ALGORITHM VISUALIZER════════════════════════════════════════════════════════════════════x\n";
-    cout << "========================================================================================================================================================================\n";
+    cout << "\n\n       [ SORTING ALGORITHM: "<< algoName << " ]\n";
+     cout << "========================================================================================================================================================================\n";
     cout << " \n     DESCRIPTION: \n\n";
     cout << "       [+] " << wrapText(algoDescription) << " \n";
     cout << "========================================================================================================================================================================\n";
@@ -674,7 +675,13 @@ void Guest::visualizeAlgorithm() {
             "[6] Return" 
         };
         int algChoice = showMenuAlgorithms("Choose Algorithm: ", algoOptions);
-        if (algChoice == 5) return; 
+           if (algChoice == 5){
+            cout << "========================================================================================================================================================================\n";
+            cout << "\n\t\tReturning to Main Menu...\n";
+            _getch();
+            dashboard();
+            return;
+        }
 
         vector<string> dataOptions = {
             "[1] Predefined Data",
@@ -683,7 +690,7 @@ void Guest::visualizeAlgorithm() {
         };
         int dataChoice = showMenuDataset("Choose data option: ", dataOptions);
 
-        if (dataChoice == 2) return; 
+        if (dataChoice == 2) visualizeAlgorithm(); 
         
         vector<int> data;
         string filename = promptDatasetFile();
@@ -719,7 +726,13 @@ void Guest::visualizeDataStructure() {
             "[4] Return"
         };
         int structChoice = showMenuDSA("Choose Data Structure: ", structOptions);
-        if (structChoice == 3) return; 
+        if (structChoice == 3){
+            cout << "========================================================================================================================================================================\n";
+            cout << "\n\t\tReturning to Main Menu...\n";
+            _getch();
+            dashboard();
+            return;
+        }
 
         vector<string> dataOptions = {
             "[1] Predefined Data",
@@ -727,7 +740,7 @@ void Guest::visualizeDataStructure() {
             "[3] Return"
         };
         int dataChoice = showMenuDataset("Use: ", dataOptions);
-        if (dataChoice == 2) continue; 
+        if (dataChoice == 2) visualizeDataStructure(); 
 
         vector<int> data;
         string filename = promptDatasetFile();
@@ -769,7 +782,7 @@ void Guest::patternGenerator(){
         case 0: basicPatterns(username); break;
         case 1: intermediatePatterns(username);break;
         case 2: complexPatterns();break;
-        case 3: break;
+        case 3: dashboard(); break;
     }
 }
 // ==== Admin Implementation ====
