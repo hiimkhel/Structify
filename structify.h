@@ -49,7 +49,6 @@ public:
 private:
     static std::string generateRandomCode(int length = 6);
 };
-void clearScreen();
 std::vector<int> loadDataFromFile(const string& filename);
 std::vector<int> getUserInputData();
 void printVector(const vector<int>& data);

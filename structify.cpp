@@ -13,6 +13,7 @@
 #include <regex>
 #include <algorithm>
 #include <iostream>
+#include <unordered_map>
 #include <random>
 
 #undef byte
@@ -22,6 +23,11 @@ struct Node{
     int data;
     Node* next;
     Node(int val) : data(val), next(nullptr) {}
+};
+struct Complexity {
+    string best;
+    string average;
+    string worst;
 };
 // ==== Menu UI ====
 //Function for setting color of text
@@ -199,7 +205,18 @@ int showMenuDataset(const string& title, const vector<string>& options){
     }
 }
 
-void algorithmHeader(const string& algoName, const string& algoDescription){
+void algorithmHeader(const string& algoName, const string& algoDescription) {
+    unordered_map<string, Complexity> complexityMap = {
+        { "BUBBLE SORT", { "O(n)", "O(n^2)", "O(n^2)" } },
+        { "SELECTION SORT", { "O(n^2)", "O(n^2)", "O(n^2)" } },
+        { "INSERTION SORT", { "O(n)", "O(n^2)", "O(n^2)" } },
+        { "MERGE SORT", { "O(n log n)", "O(n log n)", "O(n log n)" } },
+        { "QUICK SORT", { "O(n log n)", "O(n log n)", "O(n^2)" } },
+        // Add more algorithms as needed
+    };
+    
+    Complexity comp = complexityMap[algoName];
+    
     cout << "╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗\n";
     cout << "║                                                    ███████╗████████╗██████╗ ██╗   ██╗██████╗ ████████╗██╗███████╗██╗   ██╗                                            ║\n";
     cout << "║                                                    ██╔════╝╚══██╔══╝██╔══██╗██║   ██║██╔══██╗╚══██╔══╝██║██╔════╝╚██╗ ██╔╝                                            ║\n";
@@ -207,11 +224,16 @@ void algorithmHeader(const string& algoName, const string& algoDescription){
     cout << "║                                                    ╚════██║   ██║   ██╔═ ██╝██║   ██║██║  ██╗   ██║   ██║██╔══╝    ╚██╔╝                                              ║\n";
     cout << "║                                                    ███████╗   ██║   ██║  ██╗╚██████╔╝╚██████║   ██║   ██║██║        ██║                                               ║\n";
     cout << "║                                                    ╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚═════╝╝   ╚═╝   ╚═╝╚═╝        ╚═╝                                               ║\n";
-    cout << "x═══════════════════════════════════════════════════════════════════════SORTING ALGORITHM VISUALIZER════════════════════════════════════════════════════════════════════x\n";
-    cout << "\n\n       [ SORTING ALGORITHM: "<< algoName << " ]\n";
-     cout << "========================================================================================================================================================================\n";
-    cout << " \n     DESCRIPTION: \n\n";
-    cout << "       [+] " << wrapText(algoDescription) << " \n";
+    cout << "x═══════════════════════════════════════════════════════════════════════SORTING ALGORITHM VISUALIZER════════════════════════════════════════════════════════════════════x\n\n";
+    cout << "           [ SORTING ALGORITHM: " << algoName << " ]\n";
+    cout << "========================================================================================================================================================================\n";
+    cout << " \n  [*] DESCRIPTION: \n\n";
+    cout << "       " << wrapText(algoDescription) << " \n";
+cout << "========================================================================================================================================================================\n";
+    cout << "\n  [*] TIME COMPLEXITY:\n\n";
+    cout << "      [O] Best Case:    " << comp.best << "\n";
+    cout << "      [Θ] Average Case: " << comp.average << "\n";
+    cout << "      [Ω] Worst Case:   " << comp.worst << "\n";
     cout << "========================================================================================================================================================================\n";
 }
 
@@ -307,7 +329,7 @@ void clearBarChartArea(int startLine, int height) {
     }
     moveCursorTo(0, startLine);
 }
-void printBarChart(const vector<int>& data, int highlight1 = -1, int highlight2 = -1, int startLine = 20) {
+void printBarChart(const vector<int>& data, int highlight1 = -1, int highlight2 = -1, int startLine = 26) {
     clearBarChartArea(startLine, data.size());
 
     for (int i = 0; i < data.size(); ++i) {
@@ -345,7 +367,7 @@ string User::getUsername() const {
 }
 // ==== Guest Implementation ====
 void Guest::dashboard() {
-    clearScreen();
+    system("cls");
     int choice = 0;
     
 
@@ -359,7 +381,7 @@ void Guest::dashboard() {
         choice = showMenuVisualize("Visualizer Menu:", options);
 
 
-        clearScreen();
+        system("cls");
         switch (choice) {
             case 0: visualizeAlgorithm(); break;
             case 1: visualizeDataStructure(); break;
@@ -496,7 +518,7 @@ void Guest::patternGenerator(){
 }
 // ==== Admin Implementation ====
 void Admin::dashboard() {
-    clearScreen();
+    system("cls");
     std::cout << "\nWelcome Admin, " << username << "!" << std::endl;
     vector<string> adminOptions = {
         "[1] View System Logs",
