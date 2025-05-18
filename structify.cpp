@@ -264,7 +264,7 @@ bool patternOptionsMenu(const vector<string>& patternLines, const string& patter
         }
 
         cout << "\n\n======================================================================================================================================================================\n\n";
-        cout << "                                                                                                                   (←)/(→)=Move           ENTER=Select\n\n";
+       
 
         // Options Row
         cout << "\t\t\t\t";
@@ -278,8 +278,8 @@ bool patternOptionsMenu(const vector<string>& patternLines, const string& patter
         if (selected == 1) setConsoleColor(240); // Highlight option 2
         cout << "[ " << option2 << " ]";
         setConsoleColor(7);
-
-        cout << "\n\n═════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════\n\n";
+         cout << "\n                                                                                                                   (←)/(→)=Move           ENTER=Select";
+        cout << "\n═════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════\n\n";
 
         int ch = _getch();
 
@@ -489,8 +489,8 @@ void Guest::patternGenerator(){
 
     switch(difficultyOption){
         case 0: basicPatterns(); break;
-        case 1: intermediatePatterns(username);break;
-        case 2: complexPatterns(username);break;
+        case 1: intermediatePatterns();break;
+        case 2: complexPatterns();break;
         case 3: dashboard(); break;
     }
 }
@@ -791,7 +791,7 @@ void Guest::basicPatterns(){
     }
 }
 // Inverted Star Pyramid, Number Pyramid, Floyd's Triangle, Pascal's Triangle, Diamond Pattern
-void Guest::intermediatePatterns(const string& username){
+void Guest::intermediatePatterns(){
     const string& level = "INTERMEDIATE";
     vector<string> basicPatternsOption = {
         "[1] Inverted Pyramid", //WITH SYMBOL
@@ -808,23 +808,18 @@ void Guest::intermediatePatterns(const string& username){
         case 0: invertPyramid(level, username, *this); break;
         case 1: numPyramid(level, username, *this); break;
         case 2: floydTri(level, username, *this); break;
-        /*
-        case 3: pascalTri(level, username); break;
-        case 4: diamondPattern(level, username); break;*/
+        case 3: pascalTri(level, username, *this); break;
+        case 4: diamondPattern(level, username, *this); break;
         case 5: break;
     }
 }
 //Palindromic Number Triangle, Hourglass Pattern, Spiral Pattern, Heart Pattern, Box with Diagonals
-void Guest::complexPatterns(const string& username){
+void Guest::complexPatterns(){
 
 }
 
 
 // ==== Utilities Implementation ====
-void clearScreen() {
-    std::cout << "\033[2J\033[1;1H";
-}
-
 vector<int> loadDataFromFile(const std::string& filename) {
     vector<int> data;
     ifstream file(filename);
@@ -1137,8 +1132,10 @@ void solidSquare(const string& level, const string& username, Guest& guest){
         }
     } else {
         cout << "\nReturning without exporting...\n";
-        _getch();
+        
     }
+    cout << "Press any key to continue...\n";
+    _getch();
     guest.basicPatterns();
 }
 void hollowSquare(const string& level, const string& username, Guest& guest){
@@ -1194,8 +1191,10 @@ void hollowSquare(const string& level, const string& username, Guest& guest){
         }
     } else {
         cout << "\nReturning without exporting...\n";
-        _getch();
+       
     }
+    cout << "Press any key to continue...\n";
+    _getch();
     guest.basicPatterns();
 }
 void rightAngleLeftAlignedTri(const string& level, const string& username, Guest& guest){
@@ -1245,8 +1244,10 @@ void rightAngleLeftAlignedTri(const string& level, const string& username, Guest
         }
     } else {
         cout << "\nReturning without exporting...\n";
-        _getch();
+        
     }
+    cout << "Press any key to continue...\n";
+    _getch();
     guest.basicPatterns();
 }
 void rightAngleRightAlignedTri(const string& level, const string& username, Guest& guest){
@@ -1300,8 +1301,10 @@ void rightAngleRightAlignedTri(const string& level, const string& username, Gues
         }
     } else {
         cout << "\nReturning without exporting...\n";
-        _getch();
+        
     }
+    cout << "Press any key to continue...\n";
+    _getch();
     guest.basicPatterns();
 }
 void invertAngleTri(const string& level, const string& username, Guest& guest){
@@ -1353,6 +1356,9 @@ void invertAngleTri(const string& level, const string& username, Guest& guest){
     } else {
         cout << "\nReturning without exporting...\n";
     }
+    cout << "Press any key to continue...\n";
+    _getch();
+    guest.basicPatterns();
 }
 //INTERMEDIATE PATTERNS
 void invertPyramid(const string& level, const string& username, Guest& guest){
@@ -1402,9 +1408,11 @@ void invertPyramid(const string& level, const string& username, Guest& guest){
         }
     } else {
         cout << "\nReturning without exporting...\n";
-        _getch();
+        
     }
-    guest.basicPatterns();
+    cout << "Press any key to continue...\n";
+    _getch();
+    guest.intermediatePatterns();
 }
 
 void numPyramid(const string& level, const string& username, Guest& guest){
@@ -1460,9 +1468,11 @@ void numPyramid(const string& level, const string& username, Guest& guest){
         }
     } else {
         cout << "\nReturning without exporting...\n";
-        _getch();
+        
     }
-    guest.basicPatterns();
+    cout << "Press any key to continue...\n";
+    _getch();
+    guest.intermediatePatterns();
 }
 
 void floydTri(const string& level, const string& username, Guest& guest){
@@ -1514,17 +1524,156 @@ void floydTri(const string& level, const string& username, Guest& guest){
         }
     } else {
         cout << "\nReturning without exporting...\n";
-        _getch();
+       
     }
+    cout << "Press any key to continue...\n";
+    _getch();
+    guest.intermediatePatterns();
+}
+
+void pascalTri(const string& level, const string& username, Guest& guest){
+    bool exportToFile;
+    string pattern = "PASCAL'S TRIANGLE";
+    //Initial Screen
+    system("cls");
+    patternHeader(pattern, level);
+
+    //Get pattern input 
+    int height = getPatternHeight();
+
+    // Prepare triangle structure and output lines
+    vector<vector<int>> triangle(height);
+    vector<string> patternLines;
+
+    //Pattern logic
+    for(int i = 0; i < height; ++i){
+        triangle[i].resize(i + 1); //Each row would have the number of columns number of current row plus because it start i starts with 0
+        triangle[i][0] = triangle[i][i] = 1;
+        for(int j = 1; j < i; ++j){
+            triangle[i][j] = triangle[i - 1][j - 1] + triangle[i-1][j];
+        }
+    }
+    //Conversion to centered strings for UI
+    const int fieldWidth = 6;
+
+    for (int i = 0; i < height; ++i) {
+        stringstream lineStream;
+
+        for (int num : triangle[i]) {
+            lineStream << setw(fieldWidth) << num;
+        }
+
+        string line = lineStream.str();
+        int padding = max(0, (TERMINAL_WIDTH - static_cast<int>(line.length())) / 2);
+        string centeredLine = string(padding, ' ') + line;
+
+        patternLines.push_back(centeredLine);
+    }
+
+    //Menu loop
+    while(true){
+        system("cls");
+        patternHeader(pattern, level);
+         cout << "\n\n-----------------------------------------------------------------------GENERATED PATTERN PREVIEW-----------------------------------------------------------------------\n\n";
+        for (const string& line : patternLines) {
+            cout << line << endl;
+        }
+
+        exportToFile = patternOptionsMenu(patternLines, pattern, level);
+        break;
+    }
+        //Export Logic
+      if (exportToFile) {
+        Guest tempGuest;
+        tempGuest.setUsername(username);
+        if (PatternExporter::exportPatternToFile(patternLines, &tempGuest, pattern, level)) {
+            cout << "\nPattern successfully exported to a text file.\n";
+        } else {
+            cout << "\nFailed to export pattern to file.\n";
+        }
+    } else {
+        cout << "\nReturning without exporting...\n";
+    }
+    cout << "Press any key to continue...\n";
+    _getch();
     guest.basicPatterns();
 }
-/*
-void pascalTri(const string& level, const string& username){
+void diamondPattern(const string& level, const string& username, Guest& guest){
+    bool exportToFile;
+    string pattern = "DIAMOND PATTERN";
+    //Initial Screen
+    system("cls");
+    patternHeader(pattern, level);
 
+    //Get pattern input 
+    int height;
+    //Height must be odd for perfect symmetry eme2
+    while (true) {
+        cout << "\n\n\t\t\t\t>>> Input desired pattern height (odd number): ";
+        cin >> height;
+
+        if (cin.fail()) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "\t\t\t\t[!] Invalid input. Please enter a valid number.";
+            
+        } else if (height < 0) {
+            cout << "\t\t\t\t[!] Pattern height must not be negative.";
+        } else if (height % 2 == 0) {
+            cout << "\t\t\t\t[!] Pattern height must be odd.";
+        }else {
+            break; 
+        }
+    }
+    char symbol = getPatternSymbol();
+
+    //For aligning center of pattern
+    int patternWidth = height;
+    int leftPadding = max(0, (TERMINAL_WIDTH - patternWidth) / 2);
+
+    //Storing of pattern output for each line
+    vector<string> patternLines;
+    //Pattern logic
+   for (int i = 1; i <= 2 * height - 1; ++i) {
+        int totalColsInRow = i <= height ? i : 2 * height - i; //create a variable for total colums in rows, conditional to track if rows is less than or exceeds the given height 
+        int spaces = (TERMINAL_WIDTH - (2 * totalColsInRow - 1)) / 2; //printing spaces
+
+        string line = string(spaces, ' ');
+        for (int j = 0; j < 2 * totalColsInRow - 1; ++j) {
+            line += symbol;
+        }
+
+        patternLines.push_back(line);
+    }
+
+    while(true){
+        system("cls");
+        patternHeader(pattern, level);
+         cout << "\n\n-----------------------------------------------------------------------GENERATED PATTERN PREVIEW-----------------------------------------------------------------------\n\n";
+        for (const string& line : patternLines) {
+            cout << line << endl;
+        }
+
+        exportToFile = patternOptionsMenu(patternLines, pattern, level);
+        break;
+    }
+
+      if (exportToFile) {
+        Guest tempGuest;
+        tempGuest.setUsername(username);
+        if (PatternExporter::exportPatternToFile(patternLines, &tempGuest, pattern, level)) {
+            cout << "\nPattern successfully exported to a text file.\n";
+        } else {
+            cout << "\nFailed to export pattern to file.\n";
+        }
+    } else {
+        cout << "\nReturning without exporting...\n";
+        
+    }
+    cout << "Press any key to continue...\n";
+    _getch();
+    guest.intermediatePatterns();
 }
-void diamondPattern(const string& level, const string& username){
-
-}*/
 //==== Helper Functions ====
 vector<int> getUserInputData() {
     vector<int> data;

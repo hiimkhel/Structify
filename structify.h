@@ -30,8 +30,8 @@ public:
     void visualizeDataStructure();
     void patternGenerator();
     void basicPatterns();
-    void intermediatePatterns(const string& username);
-    void complexPatterns(const string& username);
+    void intermediatePatterns();
+    void complexPatterns();
 };
 
 // ==== Admin Class ====
@@ -78,5 +78,6 @@ void invertAngleTri(const string& level, const std::string& username, Guest& gue
 void invertPyramid(const string& level, const string& username, Guest& guest);
 void numPyramid(const string& level, const string& username, Guest& guest);
 void floydTri(const string& level, const string& username, Guest& guest);
-
+void pascalTri(const string& level, const string& username, Guest& guest);
+void diamondPattern(const string& level, const string& username, Guest& guest);
 #endif
