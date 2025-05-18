@@ -8,7 +8,6 @@
 
 using namespace std;
 //==== Menu UI ====
-int showMenu(const string& title, const vector<string>& options);
 void structifyHeader();
 // ==== Base Class ====
 class User {
@@ -30,6 +29,9 @@ public:
     void visualizeAlgorithm();
     void visualizeDataStructure();
     void patternGenerator();
+    void basicPatterns();
+    void intermediatePatterns(const string& username);
+    void complexPatterns(const string& username);
 };
 
 // ==== Admin Class ====
@@ -67,14 +69,14 @@ void visualizeLinkedList(const vector<int>& data);
 
 // ==== Patterns ====
 //BASIC PATTERNS
-void solidSquare(const string& level, const std::string& username);
-void hollowSquare(const string& level, const std::string& username);
-void rightAngleRightAlignedTri(const string& level, const std::string& username);
-void rightAngleLeftAlignedTri(const string& level, const std::string& username);
-void invertAngleTri(const string& level, const std::string& username);
+void solidSquare(const string& level, const std::string& username, Guest& guest);
+void hollowSquare(const string& level, const std::string& username, Guest& guest);
+void rightAngleRightAlignedTri(const string& level, const std::string& username, Guest& guest);
+void rightAngleLeftAlignedTri(const string& level, const std::string& username, Guest& guest);
+void invertAngleTri(const string& level, const std::string& username, Guest& guest);
 //INTERMEDIATE PATTERNS
-void invertPyramid(const string& level, const string& username);
-void numPyramid(const string& level, const string& username);
-void floydTri(const string& level, const string& username);
+void invertPyramid(const string& level, const string& username, Guest& guest);
+void numPyramid(const string& level, const string& username, Guest& guest);
+void floydTri(const string& level, const string& username, Guest& guest);
 
 #endif

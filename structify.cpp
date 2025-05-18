@@ -322,8 +322,6 @@ void printBarChart(const vector<int>& data, int highlight1 = -1, int highlight2 
     }
     setConsoleColor(7);
 }
-// ==== Helper Functions ====
-
 // Dataset Options
 vector<string> getAvailableDatasets() {
     return {
@@ -337,6 +335,198 @@ string promptDatasetFile() {
     int choice = showMenuDataset("Choose a dataset to use:", datasets);
     return datasets[choice];
 }
+// ==== User Base Class ====
+void User::setUsername(const std::string& name) {
+    username = name;
+}
+
+string User::getUsername() const {
+    return username;
+}
+// ==== Guest Implementation ====
+void Guest::dashboard() {
+    clearScreen();
+    int choice = 0;
+    
+
+        vector<string> options = {
+            "[1] Visualize Algorithm",
+            "[2] Visualize Data Structure",
+            "[3] Patterns Generator",
+            "[4] Logout"
+        };
+        
+        choice = showMenuVisualize("Visualizer Menu:", options);
+
+
+        clearScreen();
+        switch (choice) {
+            case 0: visualizeAlgorithm(); break;
+            case 1: visualizeDataStructure(); break;
+            case 2: patternGenerator(); break;
+            case 3: std::cout << "Logging out...\n"; break;
+        }
+
+    
+    
+}
+
+
+void Guest::visualizeAlgorithm() {
+    
+     while (true) {
+        vector<string> algoOptions ={
+            "[1] Bubble Sort",
+            "[2] Selection Sort",
+            "[3] Insertion Sort",
+            "[4] Quick Sort",
+            "[5] Merge Sort",
+            "[6] Return" 
+        };
+        int algChoice = showMenuAlgorithms("Choose Algorithm: ", algoOptions);
+           if (algChoice == 5){
+            cout << "========================================================================================================================================================================\n";
+            cout << "\n\t\tReturning to Main Menu...\n";
+            _getch();
+            dashboard();
+            return;
+        }
+
+        vector<string> dataOptions = {
+            "[1] Predefined Data",
+            "[2] Custom Input",
+            "[3] Return"
+        };
+        int dataChoice = showMenuDataset("Choose data option: ", dataOptions);
+
+        if (dataChoice == 2) visualizeAlgorithm(); 
+        
+        vector<int> data;
+        string filename = promptDatasetFile();
+        if (dataChoice == 0) {
+            data = loadDataFromFile(filename);
+        } else if (dataChoice == 1) {
+            data = getUserInputData();
+        }
+
+        bool manualMode = (showMenuDataset("Choose Step Mode:", {"[1] Manual", "[2] Automatic"}) == 0);
+
+        switch (algChoice) {
+            case 0: bubbleSort(data, true, manualMode); break;
+            case 1: selectionSort(data, true, manualMode); break;
+            case 2: insertionSort(data, true, manualMode); break;
+            case 3: quickSort(data, 0,  data.size() - 1, true, manualMode); break;
+            case 4: mergeSort(data, true, manualMode); break;
+            default: std::cout << "Invalid Algorithm Selected\n";
+            
+        }
+
+        std::cout << "\nPress any key to choose another algorithm or return...\n";
+        _getch();
+    }
+}
+
+void Guest::visualizeDataStructure() {
+    while (true) {
+        vector<string> structOptions = {
+            "[1] Stack",
+            "[2] Queue",
+            "[3] Linked List",
+            "[4] Return"
+        };
+        int structChoice = showMenuDSA("Choose Data Structure: ", structOptions);
+        if (structChoice == 3){
+            cout << "========================================================================================================================================================================\n";
+            cout << "\n\t\tReturning to Main Menu...\n";
+            _getch();
+            dashboard();
+            return;
+        }
+
+        vector<string> dataOptions = {
+            "[1] Predefined Data",
+            "[2] Custom Input",
+            "[3] Return"
+        };
+        int dataChoice = showMenuDataset("Use: ", dataOptions);
+        if (dataChoice == 2) visualizeDataStructure(); 
+
+        vector<int> data;
+        string filename = promptDatasetFile();
+        if (dataChoice == 0) {
+            data = loadDataFromFile(filename);
+        } else if (dataChoice == 1) {
+            data = getUserInputData();
+        }
+
+        switch (structChoice) {
+            case 0:
+                visualizeStack(data);
+                break;
+            case 1:
+                visualizeQueue(data);
+                break;
+            case 2:
+                visualizeLinkedList(data);
+                break;
+            default:
+                std::cout << "Invalid Data Structure Selected\n";
+        }
+        cout << "========================================================================================================================================================================\n";
+        std::cout << "\n\t\tPress any key to continue...\n";
+        _getch();
+    }
+}
+void Guest::patternGenerator(){
+        vector<string> patternDifficultyOptions = {
+        "[1] Basic",
+        "[2] Intermediate",
+        "[3] Complex",
+        "[4] Return"
+    };
+
+    int difficultyOption = patternDifficultyDashboard(patternDifficultyOptions);
+
+    switch(difficultyOption){
+        case 0: basicPatterns(); break;
+        case 1: intermediatePatterns(username);break;
+        case 2: complexPatterns(username);break;
+        case 3: dashboard(); break;
+    }
+}
+// ==== Admin Implementation ====
+void Admin::dashboard() {
+    clearScreen();
+    std::cout << "\nWelcome Admin, " << username << "!" << std::endl;
+    vector<string> adminOptions = {
+        "[1] View System Logs",
+        "[2] Manage Datasets",
+        "[3] Logout",
+    };
+
+    int choice = showMenuVisualize("Admin Dashboard", adminOptions);
+
+    switch (choice) {
+        case 0: viewSystemLogs(); break;
+        case 1: manageDatasets(); break;
+        default: std::cout << "Logging out...\n"; break;
+    }
+}
+
+void Admin::viewSystemLogs() {
+    std::cout << "Viewing system logs (simulated)...\n";
+    // Add log viewing logic here
+}
+
+void Admin::manageDatasets() {
+    std::cout << "Managing datasets (simulated)...\n";
+    // Add dataset management logic here
+}
+
+
+// ==== Helper Functions ====
+
+
 //Algorithms
 void drawStack(const vector<int>& stackVec, bool showTopLabel = true){
     system("cls");
@@ -578,7 +768,7 @@ char getPatternSymbol(){
     return symbol;
 }
 //Solid Square, Hollow Square, Right Angled Triangle (Left Aligned), Inverted Right Triangle, Right Angled Triangle (Right Aligned)
-void basicPatterns(const string& username){
+void Guest::basicPatterns(){
     const string& level = "BASIC";
     vector<string> basicPatternsOption = {
         "[1] Solid Square",
@@ -592,16 +782,16 @@ void basicPatterns(const string& username){
     int choice = patternDifficultyDashboard(basicPatternsOption);
 
     switch(choice){
-        case 0: solidSquare(level, username); break;
-        case 1: hollowSquare(level, username); break;
-        case 2: rightAngleLeftAlignedTri(level, username); break;
-        case 3: rightAngleRightAlignedTri(level, username); break;
-        case 4: invertAngleTri(level, username); break;
-        case 5: break;
+        case 0: solidSquare(level, username, *this); break;
+        case 1: hollowSquare(level, username, *this); break;
+        case 2: rightAngleLeftAlignedTri(level, username, *this); break;
+        case 3: rightAngleRightAlignedTri(level, username, *this); break;
+        case 4: invertAngleTri(level, username, *this); break;
+        case 5: patternGenerator(); return;
     }
 }
 // Inverted Star Pyramid, Number Pyramid, Floyd's Triangle, Pascal's Triangle, Diamond Pattern
-void intermediatePatterns(const string& username){
+void Guest::intermediatePatterns(const string& username){
     const string& level = "INTERMEDIATE";
     vector<string> basicPatternsOption = {
         "[1] Inverted Pyramid", //WITH SYMBOL
@@ -615,9 +805,9 @@ void intermediatePatterns(const string& username){
     int choice = patternDifficultyDashboard(basicPatternsOption);
 
     switch(choice){
-        case 0: invertPyramid(level, username); break;
-        case 1: numPyramid(level, username); break;
-        case 2: floydTri(level, username); break;
+        case 0: invertPyramid(level, username, *this); break;
+        case 1: numPyramid(level, username, *this); break;
+        case 2: floydTri(level, username, *this); break;
         /*
         case 3: pascalTri(level, username); break;
         case 4: diamondPattern(level, username); break;*/
@@ -625,197 +815,10 @@ void intermediatePatterns(const string& username){
     }
 }
 //Palindromic Number Triangle, Hourglass Pattern, Spiral Pattern, Heart Pattern, Box with Diagonals
-void complexPatterns(){
+void Guest::complexPatterns(const string& username){
 
 }
 
-// ==== User Base Class ====
-void User::setUsername(const std::string& name) {
-    username = name;
-}
-
-string User::getUsername() const {
-    return username;
-}
-// ==== Guest Implementation ====
-void Guest::dashboard() {
-    clearScreen();
-    int choice = 0;
-    
-
-        vector<string> options = {
-            "[1] Visualize Algorithm",
-            "[2] Visualize Data Structure",
-            "[3] Patterns Generator",
-            "[4] Logout"
-        };
-        
-        choice = showMenuVisualize("Visualizer Menu:", options);
-
-
-        clearScreen();
-        switch (choice) {
-            case 0: visualizeAlgorithm(); break;
-            case 1: visualizeDataStructure(); break;
-            case 2: patternGenerator(); break;
-            case 3: std::cout << "Logging out...\n"; break;
-        }
-
-    
-    
-}
-
-
-void Guest::visualizeAlgorithm() {
-    
-     while (true) {
-        vector<string> algoOptions ={
-            "[1] Bubble Sort",
-            "[2] Selection Sort",
-            "[3] Insertion Sort",
-            "[4] Quick Sort",
-            "[5] Merge Sort",
-            "[6] Return" 
-        };
-        int algChoice = showMenuAlgorithms("Choose Algorithm: ", algoOptions);
-           if (algChoice == 5){
-            cout << "========================================================================================================================================================================\n";
-            cout << "\n\t\tReturning to Main Menu...\n";
-            _getch();
-            dashboard();
-            return;
-        }
-
-        vector<string> dataOptions = {
-            "[1] Predefined Data",
-            "[2] Custom Input",
-            "[3] Return"
-        };
-        int dataChoice = showMenuDataset("Choose data option: ", dataOptions);
-
-        if (dataChoice == 2) visualizeAlgorithm(); 
-        
-        vector<int> data;
-        string filename = promptDatasetFile();
-        if (dataChoice == 0) {
-            data = loadDataFromFile(filename);
-        } else if (dataChoice == 1) {
-            data = getUserInputData();
-        }
-
-        bool manualMode = (showMenuDataset("Choose Step Mode:", {"[1] Manual", "[2] Automatic"}) == 0);
-
-        switch (algChoice) {
-            case 0: bubbleSort(data, true, manualMode); break;
-            case 1: selectionSort(data, true, manualMode); break;
-            case 2: insertionSort(data, true, manualMode); break;
-            case 3: quickSort(data, 0,  data.size() - 1, true, manualMode); break;
-            case 4: mergeSort(data, true, manualMode); break;
-            default: std::cout << "Invalid Algorithm Selected\n";
-            
-        }
-
-        std::cout << "\nPress any key to choose another algorithm or return...\n";
-        _getch();
-    }
-}
-
-void Guest::visualizeDataStructure() {
-    while (true) {
-        vector<string> structOptions = {
-            "[1] Stack",
-            "[2] Queue",
-            "[3] Linked List",
-            "[4] Return"
-        };
-        int structChoice = showMenuDSA("Choose Data Structure: ", structOptions);
-        if (structChoice == 3){
-            cout << "========================================================================================================================================================================\n";
-            cout << "\n\t\tReturning to Main Menu...\n";
-            _getch();
-            dashboard();
-            return;
-        }
-
-        vector<string> dataOptions = {
-            "[1] Predefined Data",
-            "[2] Custom Input",
-            "[3] Return"
-        };
-        int dataChoice = showMenuDataset("Use: ", dataOptions);
-        if (dataChoice == 2) visualizeDataStructure(); 
-
-        vector<int> data;
-        string filename = promptDatasetFile();
-        if (dataChoice == 0) {
-            data = loadDataFromFile(filename);
-        } else if (dataChoice == 1) {
-            data = getUserInputData();
-        }
-
-        switch (structChoice) {
-            case 0:
-                visualizeStack(data);
-                break;
-            case 1:
-                visualizeQueue(data);
-                break;
-            case 2:
-                visualizeLinkedList(data);
-                break;
-            default:
-                std::cout << "Invalid Data Structure Selected\n";
-        }
-        cout << "========================================================================================================================================================================\n";
-        std::cout << "\n\t\tPress any key to continue...\n";
-        _getch();
-    }
-}
-void Guest::patternGenerator(){
-        vector<string> patternDifficultyOptions = {
-        "[1] Basic",
-        "[2] Intermediate",
-        "[3] Complex",
-        "[4] Return"
-    };
-
-    int difficultyOption = patternDifficultyDashboard(patternDifficultyOptions);
-
-    switch(difficultyOption){
-        case 0: basicPatterns(username); break;
-        case 1: intermediatePatterns(username);break;
-        case 2: complexPatterns();break;
-        case 3: dashboard(); break;
-    }
-}
-// ==== Admin Implementation ====
-void Admin::dashboard() {
-    clearScreen();
-    std::cout << "\nWelcome Admin, " << username << "!" << std::endl;
-    vector<string> adminOptions = {
-        "[1] View System Logs",
-        "[2] Manage Datasets",
-        "[3] Logout",
-    };
-
-    int choice = showMenuVisualize("Admin Dashboard", adminOptions);
-
-    switch (choice) {
-        case 0: viewSystemLogs(); break;
-        case 1: manageDatasets(); break;
-        default: std::cout << "Logging out...\n"; break;
-    }
-}
-
-void Admin::viewSystemLogs() {
-    std::cout << "Viewing system logs (simulated)...\n";
-    // Add log viewing logic here
-}
-
-void Admin::manageDatasets() {
-    std::cout << "Managing datasets (simulated)...\n";
-    // Add dataset management logic here
-}
 
 // ==== Utilities Implementation ====
 void clearScreen() {
@@ -1092,7 +1095,7 @@ void visualizeLinkedList(const vector<int>& data){
 }
 // ==== Patterns Implementation ====
 //BASIC PATTERNS
-void solidSquare(const string& level, const string& username){
+void solidSquare(const string& level, const string& username, Guest& guest){
     bool exportToFile;
     //Initial screen
     system("cls");
@@ -1134,9 +1137,11 @@ void solidSquare(const string& level, const string& username){
         }
     } else {
         cout << "\nReturning without exporting...\n";
+        _getch();
     }
+    guest.basicPatterns();
 }
-void hollowSquare(const string& level, const string& username){
+void hollowSquare(const string& level, const string& username, Guest& guest){
     bool exportToFile;
     system("cls");
     patternHeader("HOLLOW SQUARE", level);
@@ -1189,9 +1194,11 @@ void hollowSquare(const string& level, const string& username){
         }
     } else {
         cout << "\nReturning without exporting...\n";
+        _getch();
     }
+    guest.basicPatterns();
 }
-void rightAngleLeftAlignedTri(const string& level, const string& username){
+void rightAngleLeftAlignedTri(const string& level, const string& username, Guest& guest){
     bool exportToFile;
     //Initial Screen
     system("cls");
@@ -1238,9 +1245,11 @@ void rightAngleLeftAlignedTri(const string& level, const string& username){
         }
     } else {
         cout << "\nReturning without exporting...\n";
+        _getch();
     }
+    guest.basicPatterns();
 }
-void rightAngleRightAlignedTri(const string& level, const string& username){
+void rightAngleRightAlignedTri(const string& level, const string& username, Guest& guest){
     bool exportToFile;
     //Initial Screen
     system("cls");
@@ -1291,9 +1300,11 @@ void rightAngleRightAlignedTri(const string& level, const string& username){
         }
     } else {
         cout << "\nReturning without exporting...\n";
+        _getch();
     }
+    guest.basicPatterns();
 }
-void invertAngleTri(const string& level, const string& username){
+void invertAngleTri(const string& level, const string& username, Guest& guest){
     bool exportToFile;
     //Initial Screen
     system("cls");
@@ -1344,7 +1355,7 @@ void invertAngleTri(const string& level, const string& username){
     }
 }
 //INTERMEDIATE PATTERNS
-void invertPyramid(const string& level, const string& username){
+void invertPyramid(const string& level, const string& username, Guest& guest){
     bool exportToFile;
     string pattern = "INVERTED PYRAMID";
     //Initial Screen
@@ -1391,10 +1402,12 @@ void invertPyramid(const string& level, const string& username){
         }
     } else {
         cout << "\nReturning without exporting...\n";
+        _getch();
     }
+    guest.basicPatterns();
 }
 
-void numPyramid(const string& level, const string& username){
+void numPyramid(const string& level, const string& username, Guest& guest){
     bool exportToFile;
     string pattern = "NUMBER PYRAMID";
     //Initial Screen
@@ -1447,10 +1460,12 @@ void numPyramid(const string& level, const string& username){
         }
     } else {
         cout << "\nReturning without exporting...\n";
+        _getch();
     }
+    guest.basicPatterns();
 }
 
-void floydTri(const string& level, const string& username){
+void floydTri(const string& level, const string& username, Guest& guest){
     bool exportToFile;
     string pattern = "FLOYD'S TRIANGLE";
     //Initial Screen
@@ -1499,7 +1514,9 @@ void floydTri(const string& level, const string& username){
         }
     } else {
         cout << "\nReturning without exporting...\n";
+        _getch();
     }
+    guest.basicPatterns();
 }
 /*
 void pascalTri(const string& level, const string& username){
