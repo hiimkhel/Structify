@@ -9,7 +9,7 @@
 using namespace std;
 //==== Menu UI ====
 int showMenu(const string& title, const vector<string>& options);
-
+void structifyHeader();
 // ==== Base Class ====
 class User {
 protected:
