@@ -50,7 +50,7 @@ private:
     static std::string generateRandomCode(int length = 6);
 };
 std::vector<int> loadDataFromFile(const string& filename);
-std::vector<int> getUserInputData();
+std::vector<int> getUserInputData(bool isDataStructure);
 void printVector(const vector<int>& data);
 
 // ==== Algorithms ====

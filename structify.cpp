@@ -12,6 +12,7 @@
 #include <ctime>
 #include <regex>
 #include <algorithm>
+#include <filesystem>
 #include <iostream>
 #include <unordered_map>
 #include <random>
@@ -19,6 +20,7 @@
 #undef byte
 const int TERMINAL_WIDTH = 168;
 using namespace std;
+namespace fs = filesystem;
 struct Node{
     int data;
     Node* next;
@@ -345,17 +347,27 @@ void printBarChart(const vector<int>& data, int highlight1 = -1, int highlight2 
     setConsoleColor(7);
 }
 // Dataset Options
-vector<string> getAvailableDatasets() {
-    return {
-        "unsorted10.txt",
-        "unsorted20.txt",
-        "unsorted50.txt"
-    };
+vector<string> getAvailableDatasets(const string& subFolderName) {
+   vector<string> datasets;
+    string folderPath = "datasets/" + subFolderName;
+
+    for (const auto& entry : fs::directory_iterator(folderPath)) {
+        if (entry.is_regular_file() && entry.path().extension() == ".txt") {
+            datasets.push_back(entry.path().filename().string());
+        }
+    }
+
+    return datasets;
 }
-string promptDatasetFile() {
-    vector<string> datasets = getAvailableDatasets();
+string promptDatasetFile(const string& foldername) {
+    vector<string> datasets = getAvailableDatasets(foldername);
+
+    if(datasets.empty()){
+        cout << "[!] No datasets found in the folder.\n";
+        return "";
+    }
     int choice = showMenuDataset("Choose a dataset to use:", datasets);
-    return datasets[choice];
+    return "datasets/" + foldername + "/" + datasets[choice];
 }
 // ==== User Base Class ====
 void User::setUsername(const std::string& name) {
@@ -424,11 +436,11 @@ void Guest::visualizeAlgorithm() {
         if (dataChoice == 2) visualizeAlgorithm(); 
         
         vector<int> data;
-        string filename = promptDatasetFile();
         if (dataChoice == 0) {
+            string filename = promptDatasetFile("algorithms");
             data = loadDataFromFile(filename);
         } else if (dataChoice == 1) {
-            data = getUserInputData();
+            data = getUserInputData(false);
         }
 
         bool manualMode = (showMenuDataset("Choose Step Mode:", {"[1] Manual", "[2] Automatic"}) == 0);
@@ -474,11 +486,11 @@ void Guest::visualizeDataStructure() {
         if (dataChoice == 2) visualizeDataStructure(); 
 
         vector<int> data;
-        string filename = promptDatasetFile();
         if (dataChoice == 0) {
+            string filename = promptDatasetFile("data-structure");
             data = loadDataFromFile(filename);
         } else if (dataChoice == 1) {
-            data = getUserInputData();
+            data = getUserInputData(true);
         }
 
         switch (structChoice) {
@@ -547,8 +559,6 @@ void Admin::manageDatasets() {
 
 
 // ==== Helper Functions ====
-
-
 //Algorithms
 void drawStack(const vector<int>& stackVec, bool showTopLabel = true){
     system("cls");
@@ -1697,28 +1707,32 @@ void diamondPattern(const string& level, const string& username, Guest& guest){
     guest.intermediatePatterns();
 }
 //==== Helper Functions ====
-vector<int> getUserInputData() {
+vector<int> getUserInputData(bool isDataStructure = false) {
     vector<int> data;
     int n;
-    cout << "Enter number of elements: ";
+    cout << "Enter number of elements";
+    if (isDataStructure) cout << " (max 10 for better visualization)";
+    cout << ": ";
 
-    while(!(cin >> n) || n <= 0){
+    while (!(cin >> n) || n <= 0 || (isDataStructure && n > 10)) {
         cin.clear();
-        cin.ignore(10000, '\n'); //discard invalid input
-        cout << "Invalid input. Enter a positive number of elements: ";
+        cin.ignore(10000, '\n');
+        cout << "[!] Invalid input. Enter a positive number";
+        if (isDataStructure) cout << " up to 10";
+        cout << ": ";
     }
 
-    cout << "Enter " << n << " integers: ";
+    cout << "Enter " << n << " integer" << (n > 1 ? "s" : "") << ": ";
     for (int i = 0; i < n; ++i) {
         int val;
-        while(!(cin >> val)){
+        while (!(cin >> val)) {
             cin.clear();
             cin.ignore(10000, '\n');
-            cout << "Invalid input. Please enter an integer: ";
+            cout << "[!] Invalid input. Please enter an integer: ";
         }
-
         data.push_back(val);
     }
+
     return data;
 }
 
