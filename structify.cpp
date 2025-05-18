@@ -24,6 +24,10 @@ struct Node{
     Node(int val) : data(val), next(nullptr) {}
 };
 // ==== Menu UI ====
+//Function for setting color of text
+void setConsoleColor(int color){
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
+}
 void structifyHeader(){
     cout << "╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗\n";
     cout << "║                                                    ███████╗████████╗██████╗ ██╗   ██╗██████╗ ████████╗██╗███████╗██╗   ██╗                                            ║\n";
@@ -258,13 +262,15 @@ bool patternOptionsMenu(const vector<string>& patternLines, const string& patter
         for (const string& line : patternLines) {
             cout << line << endl;
         }
-        
-        cout << "Choose an option (Use LEFT/RIGHT arrows and ENTER):\n\n";
+         cout << "\n\n======================================================================================================================================================================\n\n";
+        cout << "                                                                                                                   (←)/(→)=Move           ENTER=Select\n\n";
 
         if (selected == 0) {
             cout << "[ " << option1 << " ]" << "   " << option2 << "\n";
+            setConsoleColor(7);
         } else {
             cout << option1 << "   " << "[ " << option2 << " ]" << "\n";
+            setConsoleColor(7);
         }
 
         int ch = _getch();
@@ -282,10 +288,6 @@ bool patternOptionsMenu(const vector<string>& patternLines, const string& patter
             return selected == 0; // true if Export, false if Return
         }
     }
-}
-//Function for setting color of text
-void setConsoleColor(int color){
-    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
 }
 // Moves the cursor to (x, y) in the console
 void moveCursorTo(int x, int y) {
@@ -465,9 +467,6 @@ void drawQueue(const vector<int>& queueVec) {
     cout << "\n";
 }
 // ====PATTERN EXPORTER CLASS====
-
-
-
 bool PatternExporter::exportPatternToFile(const std::vector<std::string>& lines, const User* user, const string& patternName, const string& level) {
     const string TEMPLATE = R"(╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
                                                                        {{PATTERN_NAME}} PATTERN                                                                                                           
@@ -614,8 +613,8 @@ void intermediatePatterns(const string& username){
     switch(choice){
         case 0: invertPyramid(level, username); break;
         case 1: numPyramid(level, username); break;
-        /*
         case 2: floydTri(level, username); break;
+        /*
         case 3: pascalTri(level, username); break;
         case 4: diamondPattern(level, username); break;*/
         case 5: break;
@@ -1446,10 +1445,59 @@ void numPyramid(const string& level, const string& username){
         cout << "\nReturning without exporting...\n";
     }
 }
-/*
-void floydTri(const string& level, const string& username){
 
+void floydTri(const string& level, const string& username){
+    bool exportToFile;
+    string pattern = "FLOYD'S TRIANGLE";
+    //Initial Screen
+    system("cls");
+    patternHeader(pattern, level);
+
+    //Get pattern input 
+    int height = getPatternHeight();
+
+    //For aligning center of pattern
+    int patternWidth = height;
+    int leftPadding = max(0, (TERMINAL_WIDTH - patternWidth) / 2);
+
+    //Storing of pattern output for each line
+    vector<string> patternLines;
+    //Pattern logic
+    int num = 0; //element to print tracker
+    for(int i = 0; i < height; i++){
+        string line = string(leftPadding, ' ');
+        for(int j = 0; j <= i; j++){
+            num++;
+            line += to_string(num) + " ";
+        }
+        patternLines.push_back(line);
+    }
+
+    while(true){
+        system("cls");
+        patternHeader(pattern, level);
+         cout << "\n\n-----------------------------------------------------------------------GENERATED PATTERN PREVIEW-----------------------------------------------------------------------\n\n";
+        for (const string& line : patternLines) {
+            cout << line << endl;
+        }
+
+        exportToFile = patternOptionsMenu(patternLines, pattern, level);
+        break;
+    }
+
+      if (exportToFile) {
+        Guest tempGuest;
+        tempGuest.setUsername(username);
+        if (PatternExporter::exportPatternToFile(patternLines, &tempGuest, pattern, level)) {
+            cout << "\nPattern successfully exported to a text file.\n";
+        } else {
+            cout << "\nFailed to export pattern to file.\n";
+        }
+    } else {
+        cout << "\nReturning without exporting...\n";
+    }
 }
+/*
 void pascalTri(const string& level, const string& username){
 
 }

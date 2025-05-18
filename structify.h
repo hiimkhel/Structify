@@ -75,5 +75,6 @@ void invertAngleTri(const string& level, const std::string& username);
 //INTERMEDIATE PATTERNS
 void invertPyramid(const string& level, const string& username);
 void numPyramid(const string& level, const string& username);
+void floydTri(const string& level, const string& username);
 
 #endif
