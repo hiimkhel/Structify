@@ -249,43 +249,47 @@ void patternHeader(const string& patternName, const string& level){
 }
 
 bool patternOptionsMenu(const vector<string>& patternLines, const string& patternName, const string& level) {
-    const string option1 = "Export to TXT";
+    const string option1 = "Export to text file";
     const string option2 = "Return";
-    int selected = 0; 
+    int selected = 0;
 
     while (true) {
         system("cls");
-
         patternHeader(patternName, level);
+
         cout << "\n\n-----------------------------------------------------------------------GENERATED PATTERN PREVIEW-----------------------------------------------------------------------\n\n";
-        
+
         for (const string& line : patternLines) {
             cout << line << endl;
         }
-         cout << "\n\n======================================================================================================================================================================\n\n";
+
+        cout << "\n\n======================================================================================================================================================================\n\n";
         cout << "                                                                                                                   (←)/(→)=Move           ENTER=Select\n\n";
 
-        if (selected == 0) {
-            cout << "[ " << option1 << " ]" << "   " << option2 << "\n";
-            setConsoleColor(7);
-        } else {
-            cout << option1 << "   " << "[ " << option2 << " ]" << "\n";
-            setConsoleColor(7);
-        }
+        // Options Row
+        cout << "\t\t\t\t";
+
+        if (selected == 0) setConsoleColor(240); // Highlight option 1 (black bg, white text)
+        cout << "[ " << option1 << " ]";
+        setConsoleColor(7); // Reset color
+
+        cout << "    ";
+
+        if (selected == 1) setConsoleColor(240); // Highlight option 2
+        cout << "[ " << option2 << " ]";
+        setConsoleColor(7);
+
+        cout << "\n\n═════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════\n\n";
 
         int ch = _getch();
 
-        if (ch == 224) { // Arrow key prefix
+        if (ch == 224) {
             int arrow = _getch();
-            if (arrow == 75) { // Left arrow
-                selected = max(0, selected - 1);
-            }
-            else if (arrow == 77) { // Right arrow
-                selected = min(1, selected + 1);
-            }
-        } 
-        else if (ch == 13) { // Enter key
-            return selected == 0; // true if Export, false if Return
+            if (arrow == 75) selected = max(0, selected - 1);      // Left
+            else if (arrow == 77) selected = min(1, selected + 1); // Right
+        }
+        else if (ch == 13) {
+            return selected == 0;
         }
     }
 }
