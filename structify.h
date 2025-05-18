@@ -68,7 +68,7 @@ void visualizeLinkedList(const vector<int>& data);
 // ==== Patterns ====
 void solidSquare(const string& level, const std::string& username);
 void hollowSquare(const string& level, const std::string& username);
-void rightAngleRightAlignedTri(const string& level);
-void rightAngleLeftAlignedTri(const string& level);
-void invertAngleTri(const string& level);
+void rightAngleRightAlignedTri(const string& level, const std::string& username);
+void rightAngleLeftAlignedTri(const string& level, const std::string& username);
+void invertAngleTri(const string& level, const std::string& username);
 #endif
