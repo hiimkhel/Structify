@@ -1710,9 +1710,13 @@ void diamondPattern(const string& level, const string& username, Guest& guest){
 vector<int> getUserInputData(bool isDataStructure = false) {
     vector<int> data;
     int n;
-    cout << "Enter number of elements";
-    if (isDataStructure) cout << " (max 10 for better visualization)";
-    cout << ": ";
+    if (isDataStructure) {
+        cout << "\n-----[WARNING]: Data Structure Visualization is limited to 10 elements to avoid negative user experience-----\n";
+    }
+    else{
+        cout << "\n[NOTE]: You can add data in a .txt file inside the (datasets/algorithms/) file path for easier data input.\n";
+    }
+    cout << "Enter number of elements: ";
 
     while (!(cin >> n) || n <= 0 || (isDataStructure && n > 10)) {
         cin.clear();
@@ -1725,10 +1729,11 @@ vector<int> getUserInputData(bool isDataStructure = false) {
     cout << "Enter " << n << " integer" << (n > 1 ? "s" : "") << ": ";
     for (int i = 0; i < n; ++i) {
         int val;
+        cout << "  > Element [" << i + 1<< "]: ";
         while (!(cin >> val)) {
             cin.clear();
             cin.ignore(10000, '\n');
-            cout << "[!] Invalid input. Please enter an integer: ";
+            cout << "    [!] Invalid input. Please enter an integer: ";
         }
         data.push_back(val);
     }
