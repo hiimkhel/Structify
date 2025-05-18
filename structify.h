@@ -43,7 +43,7 @@ public:
 // ==== Utilities ====
 class PatternExporter {
 public:
-    static bool exportPatternToFile(const std::vector<std::string>& lines, const User* user);
+    static bool exportPatternToFile(const std::vector<std::string>& lines, const User* user, const string& patternName, const string& level);
 private:
     static std::string generateRandomCode(int length = 6);
 };
