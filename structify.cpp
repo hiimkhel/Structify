@@ -622,6 +622,8 @@ void Admin::viewExportedLogs() {
     logFile.close();
 
     // Display as table
+    cout << "\n\n═════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════\n";
+    cout << "Enter new dataset name (without extension): ";
     cout << left << setw(25) << "Timestamp"
          << setw(15) << "Username"
          << "Action\n";
@@ -637,43 +639,79 @@ void Admin::viewExportedLogs() {
 }
 
 void Admin::addNewDataset() {
+    system("cls");
+    cout << "+-------------------------------------------------+\n";
+    cout << "|               Add New Dataset                  |\n";
+    cout << "+-------------------------------------------------+\n\n";
+
     vector<string> categories = {"algorithms", "data-structure"};
     int choice = showMenuDataset("Choose category for the new dataset:", categories);
     string category = categories[choice];
 
     string datasetName;
+    cout << "═════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════\n";
     cout << "Enter new dataset name (without extension): ";
     cin >> datasetName;
 
     string fullPath = "datasets/" + category + "/" + datasetName + ".txt";
 
     if (fs::exists(fullPath)) {
-        cout << "[!] Dataset already exists.\n";
-        return;
+        cout << "\n[!] Dataset already exists.\n";
+    } else {
+        ofstream file(fullPath);
+        if (!file) {
+            cout << "\n[!] Failed to create dataset.\n";
+        } else {
+            cout << "\n[NOTE]: Enter only positive integers. Type 'END' to finish.\n";
+            cout << "Input value:\n\n";
+            cin.ignore();
+            string line;
+            while (true) {
+                cout << "  > ";
+                getline(cin, line);
+                if (line == "END") break;
+
+                istringstream iss(line);
+                string token;
+                bool invalid = false;
+
+                while (iss >> token) {
+                    try {
+                        int num = stoi(token);
+                        if (num < 0) {
+                            invalid = true;
+                            break;
+                        }
+                    } catch (...) {
+                        invalid = true;
+                        break;
+                    }
+                }
+
+                if (invalid) {
+                    cout << "  [!] Invalid input. Please enter only positive integers.\n";
+                } else {
+                    file << line << '\n';
+                }
+            }
+
+            file.close();
+            cout << "\n[+] Dataset '" << datasetName << "' created in '" << category << "' folder.\n";
+        }
     }
 
-    ofstream file(fullPath);
-    if (!file) {
-        cout << "[!] Failed to create dataset.\n";
-        return;
-    }
-    cout << "\n[!]: Dataset content must not have a negative integers and characters\n";
-    cout << "Enter dataset content (type 'END' on a new line to finish):\n";
-    cin.ignore();
-    string line;
-    while (getline(cin, line)) {
-        if (line == "END") break;
-        file << line << '\n';
-    }
-
-    file.close();
-    cout << "[+] Dataset '" << datasetName << "' created in '" << category << "' folder.\n";
+    cout << "\n+-------------------------------------------------+\n";
     cout << "Press any key to return...\n";
     _getch();
     manageDatasets();
 }
 
 void Admin::removeDataset() {
+    system("cls");
+    cout << "+-------------------------------------------------+\n";
+    cout << "|               Remove Dataset                   |\n";
+    cout << "+-------------------------------------------------+\n\n";
+
     vector<string> categories = {"algorithms", "data-structure"};
     int choice = showMenuDataset("Choose category to remove a dataset from:", categories);
     string category = categories[choice];
@@ -681,71 +719,76 @@ void Admin::removeDataset() {
     vector<string> datasets = getAvailableDatasets(category);
 
     if (datasets.empty()) {
-        cout << "[!] No datasets available in '" << category << "' folder.\n";
-        return;
-    }
-
-    int datasetChoice = showMenuDataset("Select a dataset to delete:", datasets);
-    string selected = datasets[datasetChoice];
-
-    string path = "datasets/" + category + "/" + selected;
-
-    char confirm;
-    cout << "Are you sure you want to delete '" << selected << "'? (y/n): ";
-    cin >> confirm;
-
-    if (tolower(confirm) == 'y') {
-        if (fs::remove(path)) {
-            cout << "[+] Dataset deleted successfully.\n";
-        } else {
-            cout << "[!] Failed to delete dataset.\n";
-        }
+        cout << "\n[!] No datasets available in '" << category << "' folder.\n";
     } else {
-        cout << "Deletion cancelled.\n";
+        int datasetChoice = showMenuDataset("Select a dataset to delete:", datasets);
+        string selected = datasets[datasetChoice];
+        string path = "datasets/" + category + "/" + selected;
+
+        char confirm;
+        cout << "═════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════\n";
+        cout << "\nAre you sure you want to delete '" << selected << "'? (y/n): ";
+        cin >> confirm;
+
+        if (tolower(confirm) == 'y') {
+            if (fs::remove(path)) {
+                cout << "\n[+] Dataset deleted successfully.\n";
+            } else {
+                cout << "\n[!] Failed to delete dataset.\n";
+            }
+        } else {
+            cout << "\n[-] Deletion cancelled.\n";
+        }
     }
+
+    cout << "\n+-------------------------------------------------+\n";
     cout << "Press any key to return...\n";
     _getch();
     manageDatasets();
 }
 
 void Admin::viewAllDatasets() {
+    system("cls");
     vector<string> categories = {"algorithms", "data-structure"};
     bool hasAny = false;
 
-    cout << "\n=== All Available Datasets ===\n";
-    cout << left << setw(20) << "CATEGORY" << "| " << setw(30) << "DATASET NAME" << '\n';
-    cout << string(55, '-') << '\n';
+    cout << "+-------------------------------------------------------------+\n";
+    cout << "|                   All Available Datasets                    |\n";
+    cout << "+----------------------+--------------------------------------+\n";
+    cout << "| CATEGORY             | DATASET NAME                         |\n";
+    cout << "+----------------------+--------------------------------------+\n";
 
     for (const string& category : categories) {
         vector<string> datasets = getAvailableDatasets(category);
         if (!datasets.empty()) {
             hasAny = true;
             for (const string& dataset : datasets) {
-                cout << left << setw(20) << category << "| " << setw(30) << dataset << '\n';
+                cout << "| " << left << setw(20) << category
+                     << " | " << left << setw(36) << dataset << " |\n";
             }
         }
     }
 
     if (!hasAny) {
-        cout << "[!] No datasets found in both folders.\n";
+        cout << "| " << left << setw(58) << "[!] No datasets found in both folders." << "|\n";
     }
 
+    cout << "+-------------------------------------------------------------+\n";
     cout << "Press any key to return...\n";
     _getch();
     manageDatasets();
 }
-//Helper Functions
 
+//Helper Functions
 bool Admin::authenticate(std::string& username) {
     const string validUsername = "admin";
     const string validPassword = "123";
 
     adminHeader();
-    cout << "\t\t\t\t======[ ADMIN LOGIN ]======\n";
-    cout << "\n\t\t\t\t >>> Username: ";
+    cout << "\n\t\t\t\t\t >>> Username: ";
     cin >> username;
 
-    cout << "\t\t\t\t >>> Password: ";
+    cout << "\t\t\t\t\t >>> Password: ";
     string password;
     char ch;
 
@@ -2341,8 +2384,3 @@ vector<int> randomDataGenerator(int n, int max = 50){
     for(int& x: data) x = rand() % max + 1;
     return data;
 }
-
-
-
-
-
