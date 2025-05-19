@@ -46,6 +46,16 @@ void structifyHeader(){
     cout << "║                                                    ╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚═════╝╝   ╚═╝   ╚═╝╚═╝        ╚═╝                                               ║\n";
     cout << "x═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════x\n";
 };
+void adminHeader(){
+    cout << "╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗\n";
+    cout << "║                                                    ███████╗████████╗██████╗ ██╗   ██╗██████╗ ████████╗██╗███████╗██╗   ██╗                                            ║\n";
+    cout << "║                                                    ██╔════╝╚══██╔══╝██╔══██╗██║   ██║██╔══██╗╚══██╔══╝██║██╔════╝╚██╗ ██╔╝                                            ║\n";
+    cout << "║                                                    ███████╗   ██║   ██████╔╝██║   ██║██║        ██║   ██║█████╗   ╚████╔╝                                             ║\n";
+    cout << "║                                                    ╚════██║   ██║   ██╔═ ██╝██║   ██║██║  ██╗   ██║   ██║██╔══╝    ╚██╔╝                                              ║\n";
+    cout << "║                                                    ███████╗   ██║   ██║  ██╗╚██████╔╝╚██████║   ██║   ██║██║        ██║                                               ║\n";
+    cout << "║                                                    ╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚═════╝╝   ╚═╝   ╚═╝╚═╝        ╚═╝                                               ║\n";
+    cout << "x════════════════════════════════════════════════════════════════════════════════ADMIN MENU═════════════════════════════════════════════════════════════════════════════x\n";
+};
 int showMenuVisualize(const string& title, const vector<string>& options){
     int selected = 0;
     while(true){
@@ -533,7 +543,7 @@ void Admin::dashboard() {
     system("cls");
     std::cout << "\nWelcome Admin, " << username << "!" << std::endl;
     vector<string> adminOptions = {
-        "[1] View System Logs",
+        "[1] View Export Logs",
         "[2] Manage Datasets",
         "[3] Logout",
     };
@@ -541,15 +551,10 @@ void Admin::dashboard() {
     int choice = showMenuVisualize("Admin Dashboard", adminOptions);
 
     switch (choice) {
-        case 0: viewSystemLogs(); break;
+        case 0: viewExportedLogs(); break;
         case 1: manageDatasets(); break;
         default: std::cout << "Logging out...\n"; break;
     }
-}
-
-void Admin::viewSystemLogs() {
-    std::cout << "Viewing system logs (simulated)...\n";
-    // Add log viewing logic here
 }
 
 void Admin::manageDatasets() {
@@ -557,6 +562,62 @@ void Admin::manageDatasets() {
     // Add dataset management logic here
 }
 
+//==== ADMIN FUNCTIONS ====
+void Admin::viewExportedLogs() {
+    std::ifstream logFile("logs.txt");
+    if (!logFile) {
+        std::cout << "[!] No logs found.\n";
+        return;
+    }
+
+    std::string line;
+    std::cout << "\n=== Exported Logs ===\n";
+    while (std::getline(logFile, line)) {
+        std::cout << line << '\n';
+    }
+    std::cout << "=====================\n";
+}
+
+//EHelper Functions
+
+bool Admin::authenticate(std::string& username) {
+    const string validUsername = "admin";
+    const string validPassword = "123";
+
+    adminHeader();
+    cout << "\t\t\t\t======[ ADMIN LOGIN ]======\n";
+    cout << "\n\t\t\t\t >>> Username: ";
+    cin >> username;
+
+    cout << "\t\t\t\t >>> Password: ";
+    string password;
+    char ch;
+
+    while ((ch = _getch()) != 13) { // 13 is Enter key
+        if (ch == 8 && !password.empty()) { // Handle backspace
+            password.pop_back();
+            cout << "\b \b";
+        } else if (isprint(ch)) {
+            password.push_back(ch);
+            cout << '*';
+        }
+    }
+    cout << "\n";
+
+    return (username == validUsername && password == validPassword);
+}
+void exportLog(const std::string& username, const std::string& action) {
+    std::ofstream logFile("logs.txt", std::ios::app);
+    if (!logFile) return;
+
+    std::time_t now = std::time(nullptr);
+    std::tm* tmNow = std::localtime(&now);
+
+    logFile << "[" << std::put_time(tmNow, "%Y-%m-%d %H:%M:%S") << "] ";
+    logFile << "[" << username << "] " << action << '\n';
+
+    logFile.close();
+};
 
 // ==== Helper Functions ====
 //Algorithms
@@ -740,6 +801,10 @@ bool PatternExporter::exportPatternToFile(const std::vector<std::string>& lines,
 
     outFile << content;
     outFile.close();
+     // Automatically log the export
+    if (user)
+    exportLog(user->getUsername(), "Exported pattern '" + patternName + "' (Level: " + level + ") to file: " + filename);
+
 
     cout << "\n✅ Pattern successfully exported to: " << filename << "\n";
     return true;
@@ -2117,5 +2182,8 @@ vector<int> randomDataGenerator(int n, int max = 50){
     for(int& x: data) x = rand() % max + 1;
     return data;
 }
-    
+
+
+
+
 

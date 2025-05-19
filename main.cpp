@@ -101,25 +101,54 @@ int main() {
     };
     system("cls");
     structifyHeader();
-    string name;
-    cout << "\t\tEnter your name: ";
-    cin >> name;
 
     User* user = nullptr;
-
+    string name;
     if (userType == 1) {
+        cout << "\t\tEnter your name: ";
+        cin >> name;
         user = new Guest();
+        user->setUsername(name);
+        user->dashboard();
     } else if (userType == 2) {
-        user = new Admin();
+        string adminName;
+        bool authenticated = false;
+
+        for (int attempts = 0; attempts < 3; ++attempts) {
+            system("cls");
+            if (Admin::authenticate(adminName)) {
+                authenticated = true;
+                break;
+            } else {
+                cout << "\n\t\t\t\t[!] Authentication failed. Attempt " << (attempts + 1) << " of 3.\n";
+                cout << "\t\t\t\tPress any key to reattempt.\n";
+                _getch();
+            }
+        }
+
+        if (authenticated) {
+            user = new Admin();
+            user->setUsername(adminName);
+            user->dashboard();
+        } else {
+            char choice;
+            cout << "\n\t\t\t\t[!] Too many failed attempts.\n";
+            cout << "\t\t\t\tDo you want to return to main menu? (y/n): ";
+            cin >> choice;
+
+            if (tolower(choice) == 'y') {
+                main(); 
+            } else {
+                cout << "\t\t\t\tExiting program...\n";
+                return 0;
+            }
+        }
     }
-
-    user->setUsername(name);
-    user->dashboard();
-
+    cout << "Thank you for using Structify!\n"; 
     cout << "\nPress any key to exit...\n";
     _getch();
 
     delete user;
-    cout << "Thank you for using Structify!\n"; 
+    
     return 0;
 }

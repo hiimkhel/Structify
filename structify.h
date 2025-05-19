@@ -37,9 +37,24 @@ public:
 // ==== Admin Class ====
 class Admin : public User {
 public:
-    void dashboard() override;
-    void viewSystemLogs();
+    void dashboard() override; //authentication
+    static bool authenticate(std::string& username);
+    //CRUD Datasets
     void manageDatasets();
+    void viewAllDatasets();
+    void addNewDatasets();
+    void editNewDatasets();
+    void removeNewDatasets();
+    void toggleDatasetAvailability();
+
+    //Logs
+    void viewExportedLogs();
+    void exportLog(const std::string& username, const std::string& action);
+    struct LogEntry {
+    std::string timestamp;
+    std::string username;
+    std::string action;
+    };
 };
 
 // ==== Utilities ====
