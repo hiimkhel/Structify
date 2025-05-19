@@ -1730,7 +1730,72 @@ void diamondPattern(const string& level, const string& username, Guest& guest){
 //COMPLEX PATTERNS
 //Palindromic Number Triangle, Hourglass Pattern, Spiral Pattern, Heart Pattern, Box with Diagonals
 void palindromicNumTri(const string& level, const string& username, Guest& guest){
-    cout << "this is palindromic tri...\n";
+    bool exportToFile;
+    string pattern = "PALINDROMIC NUMBER TRIANGLE";
+    //Initial Screen
+    system("cls");
+    patternHeader(pattern, level);
+
+   //Get pattern input 
+    int height = getPatternHeight();
+
+    //For aligning center of pattern
+    int patternWidth = 2 * height - 2;
+    int leftPadding = max(0, (TERMINAL_WIDTH - patternWidth) / 2);
+
+    //Storing of pattern output for each line
+    vector<string> patternLines;
+    //Pattern logic
+    for (int i = 1; i <= height; i++) {
+        ostringstream oss;
+
+        // Each number will be 3 characters wide, so leftPadding must consider that
+        int totalCharsInLine = (2 * i - 1); 
+        int lineWidth = totalCharsInLine * 2;
+        int spaces = max(0, (TERMINAL_WIDTH - lineWidth) / 2);
+        oss << string(spaces, ' ');
+
+        // Ascending
+        for (int j = 1; j <= i; ++j) {
+            oss << to_string(j) << " ";
+        }
+
+        // Descending
+        for (int j = i - 1; j >= 1; --j) {
+            oss << to_string(j) << " ";
+        }
+
+        
+
+        patternLines.push_back(oss.str());
+    }
+
+    while(true){
+        system("cls");
+        patternHeader(pattern, level);
+         cout << "\n\n-----------------------------------------------------------------------GENERATED PATTERN PREVIEW-----------------------------------------------------------------------\n\n";
+        for (const string& line : patternLines) {
+            cout << line << endl;
+        }
+
+        exportToFile = patternOptionsMenu(patternLines, pattern, level);
+        break;
+    }
+
+      if (exportToFile) {
+        Guest tempGuest;
+        if (PatternExporter::exportPatternToFile(patternLines, &tempGuest, pattern, level)) {
+            cout << "\nPattern successfully exported to a text file.\n";
+        } else {
+            cout << "\nFailed to export pattern to file.\n";
+        }
+    } else {
+        cout << "\nReturning without exporting...\n";
+        
+    }
+    cout << "Press any key to continue...\n";
+    _getch();
+    guest.complexPatterns();
 }
 void hourglassPattern(const string& level, const string& username, Guest& guest){
     cout << "this is hourglass pattern...\n";
@@ -1785,5 +1850,5 @@ vector<int> randomDataGenerator(int n, int max = 50){
     for(int& x: data) x = rand() % max + 1;
     return data;
 }
-
+    
 
