@@ -2043,7 +2043,65 @@ void heartPattern(const string& level, const string& username, Guest& guest){
     guest.complexPatterns();
 }
 void boxWithDiagonals(const string& level, const string& username, Guest& guest){
-    cout << "this is box with diagonals pattern...\n";
+        bool exportToFile;
+    string pattern = "BOX WITH DIAGONALS";
+
+    // Initial screen
+    system("cls");
+    patternHeader(pattern, level);
+
+    // Get pattern input
+    int size = getPatternHeight(); // Square size
+    char symbol = getPatternSymbol();
+
+    // For centering
+    int patternWidth = size;
+    int leftPadding = max(0, (TERMINAL_WIDTH - patternWidth * 2) / 2);
+
+    vector<string> patternLines;
+
+    // Pattern logic
+    for (int row = 0; row < size; ++row) {
+        string line(leftPadding, ' ');
+        for (int col = 0; col < size; ++col) {
+            if (row == 0 || row == size - 1 || col == 0 || col == size - 1 || row == col || col == size - row - 1) {
+                line += symbol;
+                line += ' ';
+            } else {
+                line += "  ";
+            }
+        }
+        patternLines.push_back(line);
+    }
+
+    // Display and export options
+    while (true) {
+        system("cls");
+        patternHeader(pattern, level);
+        cout << "\n\n-----------------------------------------------------------------------GENERATED PATTERN PREVIEW-----------------------------------------------------------------------\n\n";
+        for (const string& line : patternLines) {
+            cout << line << endl;
+        }
+
+        exportToFile = patternOptionsMenu(patternLines, pattern, level);
+        break;
+    }
+
+    if (exportToFile) {
+        Guest tempGuest;
+        tempGuest.setUsername(username);
+        if (PatternExporter::exportPatternToFile(patternLines, &tempGuest, pattern, level)) {
+            cout << "\nPattern successfully exported to a text file.\n";
+        } else {
+            cout << "\nFailed to export pattern to file.\n";
+        }
+    } else {
+        cout << "\nReturning without exporting...\n";
+    }
+
+    cout << "Press any key to continue...\n";
+    _getch();
+    guest.complexPatterns();
 }
 
 //==== Helper Functions ====
