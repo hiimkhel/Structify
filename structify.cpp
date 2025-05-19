@@ -868,6 +868,7 @@ int partition(vector<int>& data, int low, int high) {
 void merge(vector<int>& data, int left, int mid, int right, bool showSteps, bool manualSteps) {
     int n1 = mid - left + 1;
     int n2 = right - mid;
+    const string desc = "Merge Sort divides the list into halves, then iterates through the new halves, continually dividing them down further to their smaller parts.";
     vector<int> leftArr(n1), rightArr(n2);
     
     for (int i = 0; i < n1; ++i) leftArr[i] = data[left + i];
@@ -884,7 +885,13 @@ void merge(vector<int>& data, int left, int mid, int right, bool showSteps, bool
         }
         ++k;
         if (showSteps) {
-            printBarChart(data);
+            system("cls");
+            algorithmHeader("MERGE SORT", desc);
+            setConsoleColor(11); 
+            printBarChart(data, left, right); 
+            setConsoleColor(14); 
+            std::cout << "Merging at index: " << k << std::endl;
+            setConsoleColor(7); // Reset
             if (manualSteps) {
                 cout << "Press any key to continue...\n";
                 _getch();
@@ -897,11 +904,23 @@ void merge(vector<int>& data, int left, int mid, int right, bool showSteps, bool
         data[k] = leftArr[i];
         ++i;
         ++k;
+         if (showSteps) {
+            system("cls");
+            algorithmHeader("MERGE SORT", desc);
+            printBarChart(data, left, right);
+            if (manualSteps) _getch(); else Sleep(500);
+        }
     }
     while (j < n2) {
         data[k] = rightArr[j];
         ++j;
         ++k;
+        if (showSteps) {
+            system("cls");
+            algorithmHeader("MERGE SORT", desc);
+            printBarChart(data, left, right);
+            if (manualSteps) _getch(); else Sleep(500);
+        }
     }
 }
 
@@ -1305,6 +1324,7 @@ void quickSort(vector<int>& data, int low, int high, bool showSteps, bool manual
         quickSort(data, low, pi - 1, showSteps, manualSteps);
         quickSort(data, pi + 1, high, showSteps, manualSteps);
     }
+    printBarChart(data);
 }
 
 void mergeSort(vector<int>& data, bool showSteps, bool manualSteps) {
