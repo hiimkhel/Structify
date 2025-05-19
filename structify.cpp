@@ -845,13 +845,13 @@ void Guest::intermediatePatterns(){
         case 5: patternGenerator(); return;
     }
 }
-//Palindromic Number Triangle, Hourglass Pattern, Spiral Pattern, Heart Pattern, Box with Diagonals
+//Palindromic Number Triangle, Hourglass Pattern, Multiplication Table Grid, Heart Pattern, Box with Diagonals
 void Guest::complexPatterns(){
     const string& level = "COMPLEX";
     vector<string> basicPatternsOption = {
         "[1] Palindormic Number Triangle", //NON SYMBOL
         "[2] Hourglass Pattern",   //WITH SYMBOL
-        "[3] Spiral Pattern", //WITH SYMBOL
+        "[3] Multiplication Table Grid", //NON SYMBOL
         "[4] Heart Pattern", //WITH SYMBOL
         "[5] Box with Diagonals",   //WITH SYMBOL
         "[6] Return",
@@ -862,7 +862,7 @@ void Guest::complexPatterns(){
     switch(choice){
         case 0: palindromicNumTri(level, username, *this); break;
         case 1: hourglassPattern(level, username, *this); break;
-        case 2: spiralPattern(level, username, *this); break;
+        case 2: multiplicationGrid(level, username, *this); break;
         case 3: heartPattern(level, username, *this); break;
         case 4: boxWithDiagonals(level, username, *this); break;
         case 5: patternGenerator(); return;
@@ -1862,71 +1862,43 @@ void hourglassPattern(const string& level, const string& username, Guest& guest)
     guest.complexPatterns();
 }
 
-void spiralPattern(const string& level, const string& username, Guest& guest) {
-     bool exportToFile;
-    string pattern = "SPIRAL PATTERN";
+void multiplicationGrid(const string& level, const string& username, Guest& guest) {
+    bool exportToFile;
+    string pattern = "MULTIPLICATION TABLE GRID";
 
     // Initial screen
     system("cls");
     patternHeader(pattern, level);
 
-    // Get pattern input
-    int size = getPatternHeight(); // Get matrix size
-    char symbol = getPatternSymbol();
+    // Get pattern input 
+    int height = getPatternHeight(); 
 
-    // Minimum valid spiral size
-    if (size < 3) size = 3;
 
-    // Determine width for centering
-    int patternWidth = size * 2; // Because of space between symbols
+    // For aligning center of pattern
+    int cellWidth = 4; 
+    int patternWidth = height * 2 - 1;
     int leftPadding = max(0, (TERMINAL_WIDTH - patternWidth) / 2);
 
-    // Initialize matrix with spaces
-    vector<vector<char>> matrix(size, vector<char>(size, ' '));
-
-    // Spiral logic
-    int top = 0, bottom = size - 1, left = 0, right = size - 1;
-
-    while (top <= bottom && left <= right) {
-        // Top row
-        for (int i = left; i <= right; ++i) matrix[top][i] = symbol;
-        ++top;
-
-        // Right column
-        for (int i = top; i <= bottom; ++i) matrix[i][right] = symbol;
-        --right;
-
-        // Bottom row
-        if (top <= bottom) {
-            for (int i = right; i >= left; --i) matrix[bottom][i] = symbol;
-            --bottom;
-        }
-
-        // Left column
-        if (left <= right) {
-            for (int i = bottom; i >= top; --i) matrix[i][left] = symbol;
-            ++left;
-        }
-    }
-
-    // Convert to printable strings
+    // Prepare pattern lines
     vector<string> patternLines;
-    for (int i = 0; i < size; ++i) {
-        string line(leftPadding, ' ');
-        for (int j = 0; j < size; ++j) {
-            line += matrix[i][j];
-            line += ' ';
+
+    for (int i = 1; i <= height; i++) {
+        string line(leftPadding - height, ' ');
+        for (int j = 1; j <= height; j++) {
+            line += to_string(i * j);
+            int space = cellWidth - to_string(i * j).length();
+            line += string(space, ' ');
         }
         patternLines.push_back(line);
     }
 
-    // Display and optionally export
     while (true) {
         system("cls");
         patternHeader(pattern, level);
         cout << "\n\n-----------------------------------------------------------------------GENERATED PATTERN PREVIEW-----------------------------------------------------------------------\n\n";
+
         for (const string& line : patternLines) {
-            cout << line << endl;
+            cout << string(leftPadding, ' ') << line << '\n';
         }
 
         exportToFile = patternOptionsMenu(patternLines, pattern, level);
@@ -1949,6 +1921,7 @@ void spiralPattern(const string& level, const string& username, Guest& guest) {
     _getch();
     guest.complexPatterns();
 }
+
 void heartPattern(const string& level, const string& username, Guest& guest){
     bool exportToFile;
     string pattern = "HEART PATTERN";

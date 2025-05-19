@@ -82,7 +82,7 @@ void diamondPattern(const string& level, const string& username, Guest& guest);
 //COMPLEX PATTERNS
 void palindromicNumTri(const string& level, const string& username, Guest& guest);
 void hourglassPattern(const string& level, const string& username, Guest& guest);
-void spiralPattern(const string& level, const string& username, Guest& guest);
+void multiplicationGrid(const string& level, const string& username, Guest& guest);
 void heartPattern(const string& level, const string& username, Guest& guest);
 void boxWithDiagonals(const string& level, const string& username, Guest& guest);
 #endif
