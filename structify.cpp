@@ -842,11 +842,31 @@ void Guest::intermediatePatterns(){
         case 2: floydTri(level, username, *this); break;
         case 3: pascalTri(level, username, *this); break;
         case 4: diamondPattern(level, username, *this); break;
-        case 5: break;
+        case 5: patternGenerator(); return;
     }
 }
 //Palindromic Number Triangle, Hourglass Pattern, Spiral Pattern, Heart Pattern, Box with Diagonals
 void Guest::complexPatterns(){
+    const string& level = "COMPLEX";
+    vector<string> basicPatternsOption = {
+        "[1] Palindormic Number Triangle", //NON SYMBOL
+        "[2] Hourglass Pattern",   //WITH SYMBOL
+        "[3] Spiral Pattern", //WITH SYMBOL
+        "[4] Heart Pattern", //WITH SYMBOL
+        "[5] Box with Diagonals",   //WITH SYMBOL
+        "[6] Return",
+    };
+
+    int choice = patternDifficultyDashboard(basicPatternsOption);
+
+    switch(choice){
+        case 0: palindromicNumTri(level, username, *this); break;
+        case 1: hourglassPattern(level, username, *this); break;
+        case 2: spiralPattern(level, username, *this); break;
+        case 3: heartPattern(level, username, *this); break;
+        case 4: boxWithDiagonals(level, username, *this); break;
+        case 5: patternGenerator(); return;
+    }
 
 }
 
@@ -1706,6 +1726,25 @@ void diamondPattern(const string& level, const string& username, Guest& guest){
     _getch();
     guest.intermediatePatterns();
 }
+
+//COMPLEX PATTERNS
+//Palindromic Number Triangle, Hourglass Pattern, Spiral Pattern, Heart Pattern, Box with Diagonals
+void palindromicNumTri(const string& level, const string& username, Guest& guest){
+    cout << "this is palindromic tri...\n";
+}
+void hourglassPattern(const string& level, const string& username, Guest& guest){
+    cout << "this is hourglass pattern...\n";
+}
+void spiralPattern(const string& level, const string& username, Guest& guest){
+    cout << "this is spiral pattern...\n";
+}
+void heartPattern(const string& level, const string& username, Guest& guest){
+    cout << "this is heart pattern...\n";
+}
+void boxWithDiagonals(const string& level, const string& username, Guest& guest){
+    cout << "this is box with diagonals pattern...\n";
+}
+
 //==== Helper Functions ====
 vector<int> getUserInputData(bool isDataStructure = false) {
     vector<int> data;
