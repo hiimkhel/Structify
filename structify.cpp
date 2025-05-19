@@ -573,7 +573,7 @@ void Admin::dashboard() {
     switch (choice) {
         case 0: viewExportedLogs(); break;
         case 1: manageDatasets(); break;
-        default: std::cout << "Logging out...\n"; break;
+        case 2: return;
     }
 }
 

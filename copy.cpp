@@ -61,3 +61,10 @@ void basicPatterns(const string& username){
         case 3: dashboard(); break;
     }
 }
+
+██╗  ██╗
+██╚══██║
+███████║
+██╔══██║
+██║  ██║
+╚═╝  ╚═╝

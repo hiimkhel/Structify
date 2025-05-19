@@ -61,94 +61,97 @@ void displayMenu(int highlight){
     cout << "=========================================================================================================================================================================\n";
 }
 int main() {
-    system("chcp 65001 > nul"); //To enable UTF-8 on Windows CMD
-    int userType;
+   system("chcp 65001 > nul"); // UTF-8 support
 
-    int key;
+    while (true) {
+        int userType;
+        int key;
 
-    while(true){
-        displayMenu(selected);
-        key = _getch();
-
-        if(key == 224){
+        selected = 0; // Reset highlight
+        while (true) {
+            displayMenu(selected);
             key = _getch();
-            if(key == 72 && selected > 0)
-                selected--;
-            else if(key == 80 && selected < optionCount - 1)
-                selected++;
-        }
-        else if( key == 13){
-            system("cls");
-            setColor(7); 
-            if (UserMenuOptions[selected] == "Guest (Student)"){
-                userType = 1;
-                break;
-            }else if(UserMenuOptions[selected] == "Admin (Instructor)"){
-                userType = 2;
-                break;
-            }
-            else{
-                userType = 3;
-                break;
-            }
-        }
-    }
-    
-    if(userType == 3){
-        cout << "Thank you for using Structify!\n"; 
-        system("pause");
-        return 1;
-    };
-    system("cls");
-    structifyHeader();
 
-    User* user = nullptr;
-    string name;
-    if (userType == 1) {
-        cout << "\t\tEnter your name: ";
-        cin >> name;
-        user = new Guest();
-        user->setUsername(name);
-        user->dashboard();
-    } else if (userType == 2) {
-        string adminName;
-        bool authenticated = false;
-
-        for (int attempts = 0; attempts < 3; ++attempts) {
-            system("cls");
-            if (Admin::authenticate(adminName)) {
-                authenticated = true;
-                break;
-            } else {
-                cout << "\n\t\t\t\t[!] Authentication failed. Attempt " << (attempts + 1) << " of 3.\n";
-                cout << "\t\t\t\tPress any key to reattempt.\n";
-                _getch();
+            if (key == 224) {
+                key = _getch();
+                if (key == 72 && selected > 0) selected--;
+                else if (key == 80 && selected < optionCount - 1) selected++;
+            } else if (key == 13) {
+                system("cls");
+                setColor(7);
+                if (UserMenuOptions[selected] == "Guest (Student)") {
+                    userType = 1;
+                    break;
+                } else if (UserMenuOptions[selected] == "Admin (Instructor)") {
+                    userType = 2;
+                    break;
+                } else {
+                    userType = 3;
+                    break;
+                }
             }
         }
 
-        if (authenticated) {
-            user = new Admin();
-            user->setUsername(adminName);
+        if (userType == 3) {
+            cout << "╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗\n";
+            cout << "║  ████████╗ ██╗  ██╗ ██╗ ███████╗       ██╗  ██║   ██║ ██████╗ ███████╗       ███████╗████████╗██████╗ ██╗   ██╗██████╗ ████████╗██╗███████╗██╗   ██╗                  ║\n";
+            cout << "║  ╚══██╔══╝ ██╚══██║ ██║ ██╔════╝       ██║  ██║   ██║ ██╔═██║ ██╔════╝       ██╔════╝╚══██╔══╝██╔══██╗██║   ██║██╔══██╗╚══██╔══╝██║██╔════╝╚██╗ ██╔╝                  ║\n";
+            cout << "║     ██║    ███████║ ██║ ███████╗       ██║  ██║   ██║ ██████║ ███████╗       ███████╗   ██║   ██████╔╝██║   ██║██║        ██║   ██║█████╗   ╚████╔╝                   ║\n";
+            cout << "║     ██║    ██╔══██║ ██║ ╚════██║       ██   ██║   ██║ ██╔═██║ ╚════██║       ╚════██║   ██║   ██╔═ ██╝██║   ██║██║  ██╗   ██║   ██║██╔══╝    ╚██╔╝                    ║\n";
+            cout << "║     ██║    ██║  ██║ ██║ ███████╗       ╚████╔╝╚████╔╝ ██║ ██║ ███████╗       ███████╗   ██║   ██║  ██╗╚██████╔╝╚██████║   ██║   ██║██║        ██║                     ║\n";
+            cout << "║     ╚═╝    ╚═╝  ╚═╝ ╚═╝ ╚══════╝        ╚═══╝  ╚═══╝  ╚═╝ ╚═╝ ╚══════╝       ╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚═════╝╝   ╚═╝   ╚═╝╚═╝        ╚═╝                     ║\n";
+            cout << "x═════════════════════════════════════════════Thank you for learning with StructiFy - the future of CS!═════════════════════════════════════════════════════════════════x\n";
+            system("pause");
+            break; // Exit the outer loop
+        }
+
+        system("cls");
+        structifyHeader();
+
+        User* user = nullptr;
+        string name;
+
+        if (userType == 1) {
+            cout << "\t\tEnter your name: ";
+            cin >> name;
+            user = new Guest();
+            user->setUsername(name);
             user->dashboard();
-        } else {
-            char choice;
-            cout << "\n\t\t\t\t[!] Too many failed attempts.\n";
-            cout << "\t\t\t\tDo you want to return to main menu? (y/n): ";
-            cin >> choice;
+        } else if (userType == 2) {
+            string adminName;
+            bool authenticated = false;
 
-            if (tolower(choice) == 'y') {
-                main(); 
+            for (int attempts = 0; attempts < 3; ++attempts) {
+                system("cls");
+                if (Admin::authenticate(adminName)) {
+                    authenticated = true;
+                    break;
+                } else {
+                    cout << "\n\t\t\t\t[!] Authentication failed. Attempt " << (attempts + 1) << " of 3.\n";
+                    cout << "\t\t\t\tPress any key to reattempt.\n";
+                    _getch();
+                }
+            }
+
+            if (authenticated) {
+                user = new Admin();
+                user->setUsername(adminName);
+                user->dashboard(); // Will return control here after logout
             } else {
-                cout << "\t\t\t\tExiting program...\n";
-                return 0;
+                char choice;
+                cout << "\n\t\t\t\t[!] Too many failed attempts.\n";
+                cout << "\t\t\t\tDo you want to return to main menu? (y/n): ";
+                cin >> choice;
+
+                if (tolower(choice) != 'y') {
+                    cout << "\t\t\t\tExiting program...\n";
+                    break;
+                }
             }
         }
-    }
-    cout << "Thank you for using Structify!\n"; 
-    cout << "\nPress any key to exit...\n";
-    _getch();
 
-    delete user;
+        delete user;
+    }
     
     return 0;
 }
