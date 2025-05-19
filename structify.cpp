@@ -1073,7 +1073,7 @@ void Guest::intermediatePatterns(){
 void Guest::complexPatterns(){
     const string& level = "COMPLEX";
     vector<string> basicPatternsOption = {
-        "[1] Palindormic Number Triangle", //NON SYMBOL
+        "[1] Palindromic Number Triangle", //NON SYMBOL
         "[2] Hourglass Pattern",   //WITH SYMBOL
         "[3] Multiplication Table Grid", //NON SYMBOL
         "[4] Heart Pattern", //WITH SYMBOL
