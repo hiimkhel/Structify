@@ -170,6 +170,26 @@ int patternDifficultyDashboard(const vector<string> options){
 
     }
 }
+int showMenuManageDataset( const vector<string>& options){
+    int selected = 0;
+    while(true){
+        system("cls");
+        adminHeader();   
+        for(int i = 0; i < options.size(); i++){
+            cout << (i == selected ? "\t\t\t\t>>> " : "\t\t\t\t    ") << options[i] << "\n";
+        }
+
+        int key = _getch();
+        if(key == 224){
+            key = _getch();
+            if(key == 72 && selected > 0) selected --;
+            else if(key == 80 && selected < options.size() - 1) selected++;
+        }else if(key == 13){
+            return selected;
+        }
+
+    }
+}
 string wrapText(const string& text, size_t width = 140) {
     string wrapped;
     size_t start = 0;
@@ -558,27 +578,163 @@ void Admin::dashboard() {
 }
 
 void Admin::manageDatasets() {
-    std::cout << "Managing datasets (simulated)...\n";
-    // Add dataset management logic here
+    system("cls");
+    vector<string> datasetOptions = {
+        "[1] Add Dataset",
+        "[2] Remove Dataset",
+        "[3] View All Dataset",
+        "[4] Return"
+    };
+
+    int choice = showMenuManageDataset( datasetOptions);
+
+    switch(choice){
+        case 0: addNewDataset(); break;
+        case 1: removeDataset(); break;
+        case 2: viewAllDatasets(); break;
+        case 3: dashboard(); return;
+    }
+    
 }
 
 //==== ADMIN FUNCTIONS ====
 void Admin::viewExportedLogs() {
-    std::ifstream logFile("logs.txt");
+    ifstream logFile("logs.txt");
     if (!logFile) {
-        std::cout << "[!] No logs found.\n";
+        cerr << "[!] Failed to open log file.\n";
         return;
     }
 
-    std::string line;
-    std::cout << "\n=== Exported Logs ===\n";
-    while (std::getline(logFile, line)) {
-        std::cout << line << '\n';
+    string line;
+    vector<LogEntry> logs;
+
+    while (getline(logFile, line)) {
+        stringstream ss(line);
+        string timestamp, username, action;
+
+        getline(ss, timestamp, '|');
+        getline(ss, username, '|');
+        getline(ss, action);
+
+        logs.push_back({ timestamp, username, action });
     }
-    std::cout << "=====================\n";
+
+    logFile.close();
+
+    // Display as table
+    cout << left << setw(25) << "Timestamp"
+         << setw(15) << "Username"
+         << "Action\n";
+    cout << string(TERMINAL_WIDTH, '-') << "\n";
+
+    for (const auto& log : logs) {
+        cout << left << setw(25) << log.timestamp
+             << setw(15) << log.username
+             << log.action << "\n";
+    }
+
+    cout << string(TERMINAL_WIDTH, '-') << "\n";
 }
 
-//EHelper Functions
+void Admin::addNewDataset() {
+    vector<string> categories = {"algorithms", "data-structure"};
+    int choice = showMenuDataset("Choose category for the new dataset:", categories);
+    string category = categories[choice];
+
+    string datasetName;
+    cout << "Enter new dataset name (without extension): ";
+    cin >> datasetName;
+
+    string fullPath = "datasets/" + category + "/" + datasetName + ".txt";
+
+    if (fs::exists(fullPath)) {
+        cout << "[!] Dataset already exists.\n";
+        return;
+    }
+
+    ofstream file(fullPath);
+    if (!file) {
+        cout << "[!] Failed to create dataset.\n";
+        return;
+    }
+    cout << "\n[!]: Dataset content must not have a negative integers and characters\n";
+    cout << "Enter dataset content (type 'END' on a new line to finish):\n";
+    cin.ignore();
+    string line;
+    while (getline(cin, line)) {
+        if (line == "END") break;
+        file << line << '\n';
+    }
+
+    file.close();
+    cout << "[+] Dataset '" << datasetName << "' created in '" << category << "' folder.\n";
+    cout << "Press any key to return...\n";
+    _getch();
+    manageDatasets();
+}
+
+void Admin::removeDataset() {
+    vector<string> categories = {"algorithms", "data-structure"};
+    int choice = showMenuDataset("Choose category to remove a dataset from:", categories);
+    string category = categories[choice];
+
+    vector<string> datasets = getAvailableDatasets(category);
+
+    if (datasets.empty()) {
+        cout << "[!] No datasets available in '" << category << "' folder.\n";
+        return;
+    }
+
+    int datasetChoice = showMenuDataset("Select a dataset to delete:", datasets);
+    string selected = datasets[datasetChoice];
+
+    string path = "datasets/" + category + "/" + selected;
+
+    char confirm;
+    cout << "Are you sure you want to delete '" << selected << "'? (y/n): ";
+    cin >> confirm;
+
+    if (tolower(confirm) == 'y') {
+        if (fs::remove(path)) {
+            cout << "[+] Dataset deleted successfully.\n";
+        } else {
+            cout << "[!] Failed to delete dataset.\n";
+        }
+    } else {
+        cout << "Deletion cancelled.\n";
+    }
+    cout << "Press any key to return...\n";
+    _getch();
+    manageDatasets();
+}
+
+void Admin::viewAllDatasets() {
+    vector<string> categories = {"algorithms", "data-structure"};
+    bool hasAny = false;
+
+    cout << "\n=== All Available Datasets ===\n";
+    cout << left << setw(20) << "CATEGORY" << "| " << setw(30) << "DATASET NAME" << '\n';
+    cout << string(55, '-') << '\n';
+
+    for (const string& category : categories) {
+        vector<string> datasets = getAvailableDatasets(category);
+        if (!datasets.empty()) {
+            hasAny = true;
+            for (const string& dataset : datasets) {
+                cout << left << setw(20) << category << "| " << setw(30) << dataset << '\n';
+            }
+        }
+    }
+
+    if (!hasAny) {
+        cout << "[!] No datasets found in both folders.\n";
+    }
+
+    cout << "Press any key to return...\n";
+    _getch();
+    manageDatasets();
+}
+//Helper Functions
 
 bool Admin::authenticate(std::string& username) {
     const string validUsername = "admin";
@@ -607,15 +763,18 @@ bool Admin::authenticate(std::string& username) {
     return (username == validUsername && password == validPassword);
 }
 void exportLog(const std::string& username, const std::string& action) {
-    std::ofstream logFile("logs.txt", std::ios::app);
-    if (!logFile) return;
+     ofstream logFile("logs.txt", ios::app);
+    if (!logFile) {
+        cerr << "[!] Failed to open log file.\n";
+        return;
+    }
 
-    std::time_t now = std::time(nullptr);
-    std::tm* tmNow = std::localtime(&now);
+    // Get current time
+    time_t now = time(0);
+    char* dt = ctime(&now);
+    dt[strlen(dt)-1] = '\0'; // remove newline
 
-    logFile << "[" << std::put_time(tmNow, "%Y-%m-%d %H:%M:%S") << "] ";
-    logFile << "[" << username << "] " << action << '\n';
-
+    logFile << dt << "|" << username << "|" << action << "\n";
     logFile.close();
 };
 

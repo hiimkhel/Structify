@@ -42,21 +42,19 @@ public:
     //CRUD Datasets
     void manageDatasets();
     void viewAllDatasets();
-    void addNewDatasets();
-    void editNewDatasets();
-    void removeNewDatasets();
-    void toggleDatasetAvailability();
+    void addNewDataset();
+    void removeDataset();
 
     //Logs
     void viewExportedLogs();
-    void exportLog(const std::string& username, const std::string& action);
+    
     struct LogEntry {
     std::string timestamp;
     std::string username;
     std::string action;
     };
 };
-
+void exportLog(const std::string& username, const std::string& action);
 // ==== Utilities ====
 class PatternExporter {
 public:
