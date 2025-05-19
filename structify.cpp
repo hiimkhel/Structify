@@ -1863,45 +1863,53 @@ void hourglassPattern(const string& level, const string& username, Guest& guest)
 }
 
 void spiralPattern(const string& level, const string& username, Guest& guest) {
-    bool exportToFile;
+     bool exportToFile;
     string pattern = "SPIRAL PATTERN";
 
-    // Initial Screen
+    // Initial screen
     system("cls");
     patternHeader(pattern, level);
 
     // Get pattern input
-    int size = getPatternHeight();  // Using getPatternHeight() to get square matrix size
+    int size = getPatternHeight(); // Get matrix size
     char symbol = getPatternSymbol();
 
-    // Ensure the matrix is at least 3x3 to be visually meaningful
+    // Minimum valid spiral size
     if (size < 3) size = 3;
 
-    // For aligning center of pattern
-    int patternWidth = size * 2; // Each symbol with space
+    // Determine width for centering
+    int patternWidth = size * 2; // Because of space between symbols
     int leftPadding = max(0, (TERMINAL_WIDTH - patternWidth) / 2);
 
-    // Create square matrix initialized with spaces
+    // Initialize matrix with spaces
     vector<vector<char>> matrix(size, vector<char>(size, ' '));
 
-    // Spiral filling logic
+    // Spiral logic
     int top = 0, bottom = size - 1, left = 0, right = size - 1;
+
     while (top <= bottom && left <= right) {
+        // Top row
         for (int i = left; i <= right; ++i) matrix[top][i] = symbol;
-        top++;
+        ++top;
+
+        // Right column
         for (int i = top; i <= bottom; ++i) matrix[i][right] = symbol;
-        right--;
+        --right;
+
+        // Bottom row
         if (top <= bottom) {
             for (int i = right; i >= left; --i) matrix[bottom][i] = symbol;
-            bottom--;
+            --bottom;
         }
+
+        // Left column
         if (left <= right) {
             for (int i = bottom; i >= top; --i) matrix[i][left] = symbol;
-            left++;
+            ++left;
         }
     }
 
-    // Convert matrix rows to strings with spacing and padding
+    // Convert to printable strings
     vector<string> patternLines;
     for (int i = 0; i < size; ++i) {
         string line(leftPadding, ' ');
@@ -1912,7 +1920,7 @@ void spiralPattern(const string& level, const string& username, Guest& guest) {
         patternLines.push_back(line);
     }
 
-    // Preview and export logic
+    // Display and optionally export
     while (true) {
         system("cls");
         patternHeader(pattern, level);
@@ -1942,7 +1950,97 @@ void spiralPattern(const string& level, const string& username, Guest& guest) {
     guest.complexPatterns();
 }
 void heartPattern(const string& level, const string& username, Guest& guest){
-    cout << "this is heart pattern...\n";
+    bool exportToFile;
+    string pattern = "HEART PATTERN";
+
+    // Initial screen
+    system("cls");
+    patternHeader(pattern, level);
+
+    // Get pattern input
+    int size;
+    while (true) {
+        cout << "\n\n\t\t\t\t>>> Input desired pattern size (odd number): ";
+        cin >> size;
+
+        if (cin.fail()) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "\t\t\t\t[!] Invalid input. Please enter a valid number.";
+            
+        } else if (size < 0) {
+            cout << "\t\t\t\t[!] Pattern height must not be negative.";
+        } else if (size % 2 == 0) {
+            cout << "\t\t\t\t[!] Pattern height must be odd.";
+        }else if (size < 5) {
+            cout << "\t\t\t\t[!] Heart pattern size must be more than 5.";
+        }
+        else {
+            break; 
+        }
+    }
+    char symbol = getPatternSymbol();
+
+    int width = size * 2;
+    int leftPadding = max(0, (TERMINAL_WIDTH - width) / 2);
+
+    vector<string> patternLines;
+
+    // Top arcs of the heart
+    for (int i = size / 2; i <= size; i += 2) {
+        string line(leftPadding, ' ');
+
+        for (int j = 1; j < size - i; j += 2)
+            line += " ";
+
+        for (int j = 1; j <= i; ++j)
+            line += symbol;
+
+        for (int j = 1; j <= size - i; ++j)
+            line += " ";
+
+        for (int j = 1; j <= i; ++j)
+            line += symbol;
+
+        patternLines.push_back(line);
+    }
+
+    // Inverted triangle bottom of the heart
+    for (int i = size; i >= 1; --i) {
+        string line(leftPadding + size - i, ' ');
+        for (int j = 1; j <= (i * 2) - 1; ++j)
+            line += symbol;
+        patternLines.push_back(line);
+    }
+
+    // Display and export
+    while (true) {
+        system("cls");
+        patternHeader(pattern, level);
+        cout << "\n\n-----------------------------------------------------------------------GENERATED PATTERN PREVIEW-----------------------------------------------------------------------\n\n";
+        for (const string& line : patternLines) {
+            cout << line << endl;
+        }
+
+        exportToFile = patternOptionsMenu(patternLines, pattern, level);
+        break;
+    }
+
+    if (exportToFile) {
+        Guest tempGuest;
+        tempGuest.setUsername(username);
+        if (PatternExporter::exportPatternToFile(patternLines, &tempGuest, pattern, level)) {
+            cout << "\nPattern successfully exported to a text file.\n";
+        } else {
+            cout << "\nFailed to export pattern to file.\n";
+        }
+    } else {
+        cout << "\nReturning without exporting...\n";
+    }
+
+    cout << "Press any key to continue...\n";
+    _getch();
+    guest.complexPatterns();
 }
 void boxWithDiagonals(const string& level, const string& username, Guest& guest){
     cout << "this is box with diagonals pattern...\n";
