@@ -1797,11 +1797,149 @@ void palindromicNumTri(const string& level, const string& username, Guest& guest
     _getch();
     guest.complexPatterns();
 }
-void hourglassPattern(const string& level, const string& username, Guest& guest){
-    cout << "this is hourglass pattern...\n";
+void hourglassPattern(const string& level, const string& username, Guest& guest) {
+    bool exportToFile;
+    string pattern = "HOURGLASS PATTERN";
+
+    // Initial Screen
+    system("cls");
+    patternHeader(pattern, level);
+
+    // Get pattern input 
+    int height = getPatternHeight();
+    char symbol = getPatternSymbol();
+
+    // For aligning center of pattern
+    int patternWidth = height;
+    int leftPadding = max(0, (TERMINAL_WIDTH - patternWidth * 2) / 2);
+
+    // Storing of pattern output for each line
+    vector<string> patternLines;
+
+    // Pattern logic
+    for (int i = 0; i < 2 * height - 1; ++i) {
+        string line;
+
+        int current = (i < height) ? i : (2 * height - 2 - i); // Mirror around middle row
+        int spaces = current;
+        int stars = height - current;
+
+        line += string(leftPadding + spaces, ' ');
+        for (int j = 0; j < stars; ++j) {
+            line += symbol;
+            if (j < stars - 1) line += ' ';
+        }
+
+        patternLines.push_back(line);
+    }
+
+    while (true) {
+        system("cls");
+        patternHeader(pattern, level);
+        cout << "\n\n-----------------------------------------------------------------------GENERATED PATTERN PREVIEW-----------------------------------------------------------------------\n\n";
+        for (const string& line : patternLines) {
+            cout << line << endl;
+        }
+
+        exportToFile = patternOptionsMenu(patternLines, pattern, level);
+        break;
+    }
+
+    if (exportToFile) {
+        Guest tempGuest;
+        tempGuest.setUsername(username);
+        if (PatternExporter::exportPatternToFile(patternLines, &tempGuest, pattern, level)) {
+            cout << "\nPattern successfully exported to a text file.\n";
+        } else {
+            cout << "\nFailed to export pattern to file.\n";
+        }
+    } else {
+        cout << "\nReturning without exporting...\n";
+    }
+
+    cout << "Press any key to continue...\n";
+    _getch();
+    guest.complexPatterns();
 }
-void spiralPattern(const string& level, const string& username, Guest& guest){
-    cout << "this is spiral pattern...\n";
+
+void spiralPattern(const string& level, const string& username, Guest& guest) {
+    bool exportToFile;
+    string pattern = "SPIRAL PATTERN";
+
+    // Initial Screen
+    system("cls");
+    patternHeader(pattern, level);
+
+    // Get pattern input
+    int size = getPatternHeight();  // Using getPatternHeight() to get square matrix size
+    char symbol = getPatternSymbol();
+
+    // Ensure the matrix is at least 3x3 to be visually meaningful
+    if (size < 3) size = 3;
+
+    // For aligning center of pattern
+    int patternWidth = size * 2; // Each symbol with space
+    int leftPadding = max(0, (TERMINAL_WIDTH - patternWidth) / 2);
+
+    // Create square matrix initialized with spaces
+    vector<vector<char>> matrix(size, vector<char>(size, ' '));
+
+    // Spiral filling logic
+    int top = 0, bottom = size - 1, left = 0, right = size - 1;
+    while (top <= bottom && left <= right) {
+        for (int i = left; i <= right; ++i) matrix[top][i] = symbol;
+        top++;
+        for (int i = top; i <= bottom; ++i) matrix[i][right] = symbol;
+        right--;
+        if (top <= bottom) {
+            for (int i = right; i >= left; --i) matrix[bottom][i] = symbol;
+            bottom--;
+        }
+        if (left <= right) {
+            for (int i = bottom; i >= top; --i) matrix[i][left] = symbol;
+            left++;
+        }
+    }
+
+    // Convert matrix rows to strings with spacing and padding
+    vector<string> patternLines;
+    for (int i = 0; i < size; ++i) {
+        string line(leftPadding, ' ');
+        for (int j = 0; j < size; ++j) {
+            line += matrix[i][j];
+            line += ' ';
+        }
+        patternLines.push_back(line);
+    }
+
+    // Preview and export logic
+    while (true) {
+        system("cls");
+        patternHeader(pattern, level);
+        cout << "\n\n-----------------------------------------------------------------------GENERATED PATTERN PREVIEW-----------------------------------------------------------------------\n\n";
+        for (const string& line : patternLines) {
+            cout << line << endl;
+        }
+
+        exportToFile = patternOptionsMenu(patternLines, pattern, level);
+        break;
+    }
+
+    if (exportToFile) {
+        Guest tempGuest;
+        tempGuest.setUsername(username);
+        if (PatternExporter::exportPatternToFile(patternLines, &tempGuest, pattern, level)) {
+            cout << "\nPattern successfully exported to a text file.\n";
+        } else {
+            cout << "\nFailed to export pattern to file.\n";
+        }
+    } else {
+        cout << "\nReturning without exporting...\n";
+    }
+
+    cout << "Press any key to continue...\n";
+    _getch();
+    guest.complexPatterns();
 }
 void heartPattern(const string& level, const string& username, Guest& guest){
     cout << "this is heart pattern...\n";
@@ -1833,7 +1971,7 @@ vector<int> getUserInputData(bool isDataStructure = false) {
     cout << "Enter " << n << " integer" << (n > 1 ? "s" : "") << ": ";
     for (int i = 0; i < n; ++i) {
         int val;
-        cout << "  > Element [" << i + 1<< "]: ";
+        cout << "\n  > Element [" << i + 1<< "]: ";
         while (!(cin >> val)) {
             cin.clear();
             cin.ignore(10000, '\n');
