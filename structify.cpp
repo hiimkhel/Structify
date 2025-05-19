@@ -1406,7 +1406,7 @@ void invertPyramid(const string& level, const string& username, Guest& guest){
 
     //For aligning center of pattern
     int patternWidth = height;
-    int leftPadding = max(0, (TERMINAL_WIDTH - patternWidth) / 2);
+    int leftPadding = max(0, (TERMINAL_WIDTH - patternWidth * 2) / 2);
 
     //Storing of pattern output for each line
     vector<string> patternLines;
@@ -1519,7 +1519,7 @@ void floydTri(const string& level, const string& username, Guest& guest){
 
     //For aligning center of pattern
     int patternWidth = height;
-    int leftPadding = max(0, (TERMINAL_WIDTH - patternWidth) / 2);
+    int leftPadding = max(0, (TERMINAL_WIDTH - patternWidth * 2) / 2);
 
     //Storing of pattern output for each line
     vector<string> patternLines;
@@ -1596,8 +1596,8 @@ void pascalTri(const string& level, const string& username, Guest& guest){
         }
 
         string line = lineStream.str();
-        int padding = max(0, (TERMINAL_WIDTH - static_cast<int>(line.length())) / 2);
-        string centeredLine = string(padding, ' ') + line;
+        int padding = max(0, ((TERMINAL_WIDTH - static_cast<int>(line.length())) / 2));
+        string centeredLine = string(padding - 3, ' ') + line;
 
         patternLines.push_back(centeredLine);
     }
@@ -1628,7 +1628,7 @@ void pascalTri(const string& level, const string& username, Guest& guest){
     }
     cout << "Press any key to continue...\n";
     _getch();
-    guest.basicPatterns();
+    guest.intermediatePatterns();
 }
 void diamondPattern(const string& level, const string& username, Guest& guest){
     bool exportToFile;
