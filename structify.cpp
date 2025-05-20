@@ -623,7 +623,6 @@ void Admin::viewExportedLogs() {
 
     // Display as table
     cout << "\n\n═════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════\n";
-    cout << "Enter new dataset name (without extension): ";
     cout << left << setw(25) << "Timestamp"
          << setw(15) << "Username"
          << "Action\n";
@@ -636,6 +635,7 @@ void Admin::viewExportedLogs() {
     }
 
     cout << string(TERMINAL_WIDTH, '-') << "\n";
+    system("pause");
 }
 
 void Admin::addNewDataset() {
