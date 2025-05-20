@@ -31,7 +31,7 @@ void displayMenu(int highlight){
     cout << "║                                                    ╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚═════╝╝   ╚═╝   ╚═╝╚═╝        ╚═╝                                               ║\n";
     cout << "x══════════════════════════════════════════════════════════════════════════════System Overview══════════════════════════════════════════════════════════════════════════x\n";
     cout << "│                                                                                                                                                                       │\n";
-    cout << "│  📘 StructiFy is a terminal-based interactive educational toolkit designed to enhance computer science learning, , particularly in the areas of Data Structures       │\n";
+    cout << "│  📘 StructiFy is a terminal-based interactive educational toolkit designed to enhance computer science learning, particularly in the areas of Data Structures       │\n";
     cout << "│     and Algorithms (DSA), Pattern Generation, and Visualization. It provides a unified and engaging experience tailored for beginners and intermediate learners,      │\n";
     cout << "│     making abstract concepts more tangible through structured interaction and visual representation.                                                                  │\n";
     cout << "│                                                                                                                                                                       │\n";

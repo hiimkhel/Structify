@@ -1199,10 +1199,9 @@ void bubbleSort(std::vector<int>& data, bool showSteps, bool manualSteps) {
             if(showSteps){
                 printBarChart(data, j, j+1);
                 cout << "------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n\n";
-                cout << "\t\t >>> Comparing " << data[j] << " and " << data[j + 1] << "\n";
+                cout << "\t\t\n >>> Comparing " << data[j] << " and " << data[j + 1] << "\n";
                 
                 if(manualSteps){
-                    cout << "Press any key to continue...\n";
                     cout << "========================================================================================================================================================================\n\n";
                     _getch();
                 }else{
@@ -1256,8 +1255,10 @@ void selectionSort(std::vector<int>& data, bool showSteps, bool manualSteps) {
             setConsoleColor(7);
             if(manualSteps){
                 cout << "Press any key to continue...\n";
+                cout << "========================================================================================================================================================================\n\n";
+                _getch();
             }else{
-                Sleep(800);
+                 Sleep(800);
             }
         }
     }
